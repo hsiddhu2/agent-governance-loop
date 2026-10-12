@@ -1,0 +1,6 @@
+strands-agents
+bedrock-agentcore
+mcp
+requests
+boto3
+aws-opentelemetry-distro>=0.18.0

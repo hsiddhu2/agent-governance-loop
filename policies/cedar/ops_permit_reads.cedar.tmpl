@@ -1,0 +1,9 @@
+// Read-only ops tools are allowed. Everything not permitted is denied by default.
+permit(
+  principal,
+  action in [
+    AgentCore::Action::"{{TOOL:list_env}}",
+    AgentCore::Action::"{{TOOL:get_store}}"
+  ],
+  resource
+);

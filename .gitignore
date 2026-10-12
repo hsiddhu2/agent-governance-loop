@@ -1,0 +1,14 @@
+.venv/
+cdk.out/
+__pycache__/
+*.pyc
+evidence/*
+!evidence/examples/
+.env
+*.pem
+*.zip
+*.png
+*.jpg
+.DS_Store
+node_modules/
+build/

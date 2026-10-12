@@ -1,0 +1,9 @@
+// Deleting a data store is never allowed through this Gateway, in any environment.
+// The rule keys on the tool alone. It does not trust anything the agent says
+// about which environment it is acting on.
+// Explicit, so a denied call names this policy instead of falling to default deny.
+forbid(
+  principal,
+  action == AgentCore::Action::"{{TOOL:delete_store}}",
+  resource
+);

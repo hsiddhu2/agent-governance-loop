@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use or build on this pattern, please cite it as below."
+type: software
+title: "agent-governance-loop"
+abstract: >-
+  A deployable governance pattern for AI agents on Amazon Bedrock AgentCore:
+  Cedar policy at the Gateway, Bedrock Guardrails in policy, OpenTelemetry
+  tracing to CloudWatch, and an evidence loop that turns a trace into a
+  regression test.
+authors:
+  - family-names: "Siddhu"
+    given-names: "Harpreet S."
+    orcid: "https://orcid.org/0009-0008-5397-7495"
+repository-code: "https://github.com/hsiddhu2/agent-governance-loop"
+license: Apache-2.0
+keywords:
+  - ai-agents
+  - agent-governance
+  - amazon-bedrock-agentcore
+  - cedar
+  - guardrails
+  - opentelemetry
