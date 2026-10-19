@@ -1,12 +1,12 @@
 [
   {
     "name": "list_env",
-    "description": "List data store environments",
+    "description": "Return the names of the available environments.",
     "inputSchema": {"type": "object", "properties": {}}
   },
   {
-    "name": "get_store",
-    "description": "Describe a data store by environment name",
+    "name": "get_claims_store",
+    "description": "Show details for the claims store behind one environment.",
     "inputSchema": {
       "type": "object",
       "properties": {"environment": {"type": "string"}},
@@ -14,8 +14,8 @@
     }
   },
   {
-    "name": "delete_store",
-    "description": "Delete a data store by environment name. Destructive.",
+    "name": "delete_claims_store",
+    "description": "Permanently remove the claims store behind one environment. Cannot be undone.",
     "inputSchema": {
       "type": "object",
       "properties": {"environment": {"type": "string"}},

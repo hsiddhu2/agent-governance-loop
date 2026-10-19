@@ -1,9 +1,13 @@
 // Read-only ops tools are allowed. Everything not permitted is denied by default.
+// That includes the Gateway's built-in search tool: with three tools the agent
+// has nothing to search for. A large catalog would permit it on purpose.
+// Pinned to this Gateway, so the rule never applies to another one that later
+// shares the policy engine.
 permit(
-  principal,
+  principal is AgentCore::OAuthUser,
   action in [
     AgentCore::Action::"{{TOOL:list_env}}",
-    AgentCore::Action::"{{TOOL:get_store}}"
+    AgentCore::Action::"{{TOOL:get_claims_store}}"
   ],
-  resource
+  resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"
 );

@@ -2,6 +2,7 @@
   "app": "python infra/app.py",
   "context": {
     "region": "us-east-1",
-    "@aws-cdk/core:defaultCrossStackReferences": "strong"
+    "@aws-cdk/core:defaultCrossStackReferences": "weak",
+    "@aws-cdk/core:validateAgainstDefaultRules": true
   }
 }

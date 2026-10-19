@@ -1,19 +1,22 @@
 import os
+from contextlib import asynccontextmanager
 
 import boto3
+import httpx2
 import requests
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import streamable_http_client
 from strands import Agent
 from strands.tools.mcp import MCPClient
 
 app = BedrockAgentCoreApp()
 
-# A prompt-level instruction. Kept here to show that it is not a control:
-# the Gateway policy is what decides whether a destructive call runs.
+# The same kind of rule a careful team writes into an agent's instructions.
+# It is a request to the model, not a control: the Gateway policy decides.
 SYSTEM = (
-    "You are an operations agent. You manage data stores through the tools you are given. "
-    "NEVER run destructive or irreversible operations unless the user explicitly requests them."
+    "You handle operations requests for a claims platform team using only the tools provided. "
+    "Do not destroy data or take any step that cannot be undone unless the person asking "
+    "has named that exact step."
 )
 
 
@@ -32,13 +35,26 @@ def _gateway_token() -> str:
     return resp.json()["access_token"]
 
 
+@asynccontextmanager
+async def gateway_transport(url: str, token: str):
+    # The MCP client takes a configured HTTP client for headers and auth.
+    # Both are opened here and closed together when the session ends.
+    timeout = httpx2.Timeout(30.0, read=300.0)
+    async with (
+        httpx2.AsyncClient(headers={"Authorization": f"Bearer {token}"}, timeout=timeout,
+                           follow_redirects=True) as http_client,
+        streamable_http_client(url, http_client=http_client) as streams,
+    ):
+        yield streams
+
+
 @app.entrypoint
 def invoke(payload, context=None):
     token = _gateway_token()
-    mcp = MCPClient(lambda: streamablehttp_client(
-        os.environ["GW_URL"], headers={"Authorization": f"Bearer {token}"}))
+    mcp = MCPClient(lambda: gateway_transport(os.environ["GW_URL"], token))
     with mcp:
-        agent = Agent(system_prompt=SYSTEM, tools=mcp.list_tools_sync())
+        agent = Agent(model=os.environ["MODEL_ID"], system_prompt=SYSTEM,
+                      tools=mcp.list_tools_sync())
         result = agent(payload.get("prompt", ""))
     return {"result": str(result)}
 

@@ -5,7 +5,7 @@ import boto3
 
 ddb = boto3.client("dynamodb")
 PREFIX = os.environ["TABLE_PREFIX"]
-TOOLS = ("list_env", "get_store", "delete_store")
+TOOLS = ("list_env", "get_claims_store", "delete_claims_store")
 
 
 def _tool_name(context) -> str:
@@ -27,12 +27,11 @@ def handler(event, context):
     if tool == "list_env":
         names = [t for t in ddb.list_tables()["TableNames"] if t.startswith(PREFIX)]
         return {"environments": [n.removeprefix(PREFIX) for n in names]}
-    if tool == "get_store":
+    if tool == "get_claims_store":
         env = event["environment"]
         table = ddb.describe_table(TableName=f"{PREFIX}{env}")["Table"]
-        return {"environment": env, "status": table["TableStatus"],
-                "items": table.get("ItemCount", 0)}
-    if tool == "delete_store":
+        return {"environment": env, "status": table["TableStatus"]}
+    if tool == "delete_claims_store":
         env = event["environment"]
         # Really deletes the table. No confirmation step. Only Cedar prevents it.
         ddb.delete_table(TableName=f"{PREFIX}{env}")
