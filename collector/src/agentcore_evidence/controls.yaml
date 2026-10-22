@@ -1,0 +1,105 @@
+# What each source asks, and the checks whose evidence supports it.
+# A control's status is its weakest check. Passing every check supports the ask. It
+# does not satisfy it: each source asks for more than any account can show.
+# Replace this file with --controls to map your own internal controls.
+
+- id: inventory
+  ask: Keep an inventory of AI systems
+  sources:
+    - source: NAIC Model Bulletin
+      section: "Sec 3, 3.3(a)"
+      quote: "Inventories and descriptions of the Predictive Models."
+      url: https://content.naic.org/sites/default/files/2023-12-4%252520Model%252520Bulletin_Adopted_0.pdf
+    - source: MAS Guidelines on AI Risk Management
+      section: "4.5"
+      quote: "an accurate inventory of AI use cases, systems or models"
+      url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
+  checks: [inventory.gateway_listed]
+  limits: Covers what sits behind this Gateway and the runtimes in this Region, not agents elsewhere.
+
+- id: least-privilege
+  ask: Limit access to least privilege
+  sources:
+    - source: MAS Guidelines on AI Risk Management
+      section: "5.22(a)"
+      quote: "access controls based on the principle of least privilege."
+      url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
+    - source: NAIC Model Bulletin
+      section: "Sec 3, 3.5"
+      quote: "unauthorized access to the Predictive Models themselves."
+      url: https://content.naic.org/sites/default/files/2023-12-4%252520Model%252520Bulletin_Adopted_0.pdf
+  checks: [identity.gateway_jwt, identity.runtimes_jwt, policies.engine_attached]
+
+- id: limit-actions
+  ask: Limit what an agent can do
+  sources:
+    - source: FINRA Annual Regulatory Oversight Report, GenAI section
+      section: AI agents
+      quote: "guardrails or control mechanisms to limit or restrict agent behaviors, actions or decisions."
+      url: https://www.finra.org/rules-guidance/guidance/reports/2026-finra-annual-regulatory-oversight-report/gen-ai
+    - source: NAIC Model Bulletin
+      section: "Sec 3, 3.1"
+      quote: "constraints and controls on automation"
+      url: https://content.naic.org/sites/default/files/2023-12-4%252520Model%252520Bulletin_Adopted_0.pdf
+  checks: [policies.engine_attached, policies.forbid_present, enforcement.enforced, decisions.deny_names_policy]
+
+- id: record-events
+  ask: Record events automatically and track tools used
+  sources:
+    - source: EU AI Act
+      section: "Art. 12(1)"
+      quote: "automatic recording of events (logs) over the lifetime of the system."
+      url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689
+    - source: MAS Guidelines on AI Risk Management
+      section: "5.23(a)"
+      quote: "actions taken, tools used should also be monitored."
+      url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
+  checks: [decisions.recorded, callers.recorded, callers.identified]
+
+- id: retain-logs
+  ask: Keep logs for a set period, protected
+  sources:
+    - source: EU AI Act
+      section: "Art. 26(6)"
+      quote: "at least six months"
+      url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689
+    - source: NAIC Model Bulletin
+      section: "Sec 3, 3.6"
+      quote: "Data and record retention."
+      url: https://content.naic.org/sites/default/files/2023-12-4%252520Model%252520Bulletin_Adopted_0.pdf
+  checks: [retention.logs_encrypted, retention.logs_bounded, retention.logs_masked, retention.trail_validated]
+  limits: Shows a retention period is set, not that it meets the period a regulation requires.
+
+- id: change-control
+  ask: Control changes
+  sources:
+    - source: MAS Guidelines on AI Risk Management
+      section: "5.25(b)"
+      quote: "change control mechanisms (with appropriate human oversight) to prevent unauthorised alterations"
+      url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
+  checks: [changes.recorded]
+  limits: Shows who changed what. Whether each change was reviewed lives in your change process.
+
+- id: stop
+  ask: Be able to stop the system
+  sources:
+    - source: EU AI Act
+      section: "Art. 14(4)(e)"
+      quote: "a stop button or a similar procedure that allows the system to come to a halt in a safe state."
+      url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689
+    - source: MAS Guidelines on AI Risk Management
+      section: "5.23(b)"
+      quote: "kill switches"
+      url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
+  checks: [policies.forbid_present, enforcement.enforced]
+  limits: A forbid stops a tool at the Gateway for every caller. It is not an approval step for single actions.
+
+- id: naic-agentic
+  ask: Evidence for agentic AI, as listed in remarks to the NAIC Big Data and AI (H) Working Group (minutes pending adoption)
+  sources:
+    - source: NAIC Big Data and Artificial Intelligence (H) Working Group, meeting minutes
+      section: remarks
+      quote: "whether permissions are tested, whether actions are logged for company reconstruction"
+      url: https://content.naic.org/sites/default/files/call_materials/minutes-bdaiwg081326-final.pdf
+  checks: [decisions.deny_names_policy, callers.recorded, callers.identified, enforcement.enforced]
+  limits: The same remarks ask about a kill switch and a person's authority to override. See the stop control.

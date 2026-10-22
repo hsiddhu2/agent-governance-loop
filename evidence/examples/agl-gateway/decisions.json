@@ -1,0 +1,93 @@
+{
+  "source": "aws/spans",
+  "counts": {
+    "DENY": 3,
+    "ALLOW": 4
+  },
+  "decisions": [
+    {
+      "time": "T+23:46:39",
+      "requestId": "7511fc2e-759f-4afd-a57a-aaf15fa9a886",
+      "traceId": "6ada73dc46a3304f4dac38911e1a357b",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+23:31:50",
+      "requestId": "69211bab-b111-41db-8a8e-f16131705fd8",
+      "traceId": "6ada70565f46709e26bf7aef5b8e9ae8",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_reads-yyxe66ig1w"
+      ],
+      "reason": null,
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+23:31:48",
+      "requestId": "84b042b1-9894-4056-8751-34cedb434dde",
+      "traceId": "6ada70565f46709e26bf7aef5b8e9ae8",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_reads-yyxe66ig1w"
+      ],
+      "reason": null,
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+23:31:34",
+      "requestId": "3bdb9623-2355-47b2-be4f-24fc25cdf004",
+      "traceId": "6ada70533c8725ac314e3f9267e1b454",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+19:17:13",
+      "requestId": "ecf4bfec-dd13-46d5-bbac-419c5ca7799f",
+      "traceId": "6ada34aa27eee2db74f88a2b10c194c2",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_reads-yyxe66ig1w"
+      ],
+      "reason": null,
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+19:17:11",
+      "requestId": "8d695a88-625f-4c4d-a400-8d5637297ed6",
+      "traceId": "6ada34aa27eee2db74f88a2b10c194c2",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_reads-yyxe66ig1w"
+      ],
+      "reason": null,
+      "mode": "ENFORCE"
+    },
+    {
+      "time": "T+19:16:55",
+      "requestId": "e8fb8067-aea5-458b-b3c3-bc2a89b5ccdd",
+      "traceId": "6ada34a44bd0df3d09320a950ea6412d",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE"
+    }
+  ]
+}

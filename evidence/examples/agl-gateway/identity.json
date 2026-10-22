@@ -1,0 +1,32 @@
+{
+  "gateway": {
+    "authorizerType": "CUSTOM_JWT",
+    "jwt": {
+      "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/<user-pool-2>/.well-known/openid-configuration",
+      "allowedClients": [
+        "<client-2>"
+      ],
+      "allowedAudience": [],
+      "allowedScopes": []
+    },
+    "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-hxhwh522lk"
+  },
+  "runtimes": [
+    {
+      "name": "agl_ops_agent",
+      "inbound": "CUSTOM_JWT",
+      "jwt": {
+        "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/<user-pool-1>/.well-known/openid-configuration",
+        "allowedClients": [
+          "<client-1>"
+        ],
+        "allowedAudience": [],
+        "allowedScopes": [
+          "agl-ops-agent/invoke"
+        ]
+      },
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-iDLqPykYJvYU"
+    }
+  ]
+}

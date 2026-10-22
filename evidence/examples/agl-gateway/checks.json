@@ -1,0 +1,62 @@
+{
+  "inventory.gateway_listed": {
+    "status": "PASS",
+    "finding": "1 target(s) on the Gateway, 1 runtime(s)"
+  },
+  "identity.gateway_jwt": {
+    "status": "PASS",
+    "finding": "JWT inbound, 1 allowed client(s)"
+  },
+  "identity.runtimes_jwt": {
+    "status": "PASS",
+    "finding": "1 runtime(s), each accepting named clients only"
+  },
+  "policies.engine_attached": {
+    "status": "PASS",
+    "finding": "engine agl_engine-mmk18ak0rd"
+  },
+  "policies.forbid_present": {
+    "status": "PASS",
+    "finding": "active forbid: ops_forbid_purge"
+  },
+  "enforcement.enforced": {
+    "status": "PASS",
+    "finding": "Gateway mode ENFORCE, 2 policies ACTIVE"
+  },
+  "decisions.recorded": {
+    "status": "PASS",
+    "finding": "ALLOW 4, DENY 3"
+  },
+  "decisions.deny_names_policy": {
+    "status": "PASS",
+    "finding": "3 deny(s) naming ops_forbid_purge-zlncpdalfy"
+  },
+  "callers.recorded": {
+    "status": "PASS",
+    "finding": "1 call(s) in trail agl-gateway-tool-calls"
+  },
+  "callers.identified": {
+    "status": "PASS",
+    "finding": "every call names its token subject (1 distinct)"
+  },
+  "changes.recorded": {
+    "status": "PASS",
+    "finding": "6 control-plane write(s) in the window"
+  },
+  "retention.logs_encrypted": {
+    "status": "FAIL",
+    "finding": "no customer managed key: aws/spans"
+  },
+  "retention.logs_bounded": {
+    "status": "PASS",
+    "finding": "3 log group(s)"
+  },
+  "retention.logs_masked": {
+    "status": "FAIL",
+    "finding": "no data masking: aws/spans"
+  },
+  "retention.trail_validated": {
+    "status": "PASS",
+    "finding": "log file validation on"
+  }
+}

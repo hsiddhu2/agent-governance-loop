@@ -1,0 +1,25 @@
+[project]
+name = "agentcore-evidence"
+version = "0.1.0"
+description = "Read-only evidence pack for agents behind an Amazon Bedrock AgentCore Gateway"
+requires-python = ">=3.12"
+dependencies = [
+  "boto3>=1.40",
+  "PyYAML>=6",
+]
+
+[project.scripts]
+agentcore-evidence = "agentcore_evidence.cli:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+agentcore_evidence = ["controls.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

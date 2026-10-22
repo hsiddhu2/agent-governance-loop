@@ -6,7 +6,7 @@ EXPIRES ?= $(shell python3 -c "import datetime as d; print(d.date.today() + d.ti
 export EXPIRES
 CDK_CTX = -c expires=$(EXPIRES)
 
-.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy seed attack trace reset destroy
+.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy seed attack trace evidence reset destroy
 
 # Every deploy names its stacks and passes --exclusively, so a deploy changes only
 # what it names. The Gateway's policy mode changes only through `enforce` and
@@ -31,7 +31,7 @@ endef
 # rendered. The synth starts from an empty cdk.out so a removed stack leaves nothing behind.
 check: package
 	ruff check .
-	python -m pytest tests -q
+	python -m pytest tests collector/tests -q
 	rm -rf cdk.out
 	cdk synth $(CDK_CTX) -c nag=true --quiet
 	python scripts/check_deviations.py
@@ -40,7 +40,7 @@ check: package
 
 # Offline checks for the scripts that read spans and gate enforcement. No AWS calls.
 test:
-	python -m pytest tests -q
+	python -m pytest tests collector/tests -q
 
 # Resolve the agent's dependencies for the runtime platform and pin them with hashes.
 # Run on purpose after changing requirements.txt, then review the diff.
@@ -57,7 +57,7 @@ synth: package
 
 deploy-base: package
 	@test "$(CURRENT_MODE)" != FAIL || (echo "could not read the Gateway's policy mode" && exit 1)
-	$(call deploy,AglKeys AglNetwork AglDataStaging AglDataProduction AglTools AglGateway,-c policy_mode=$(CURRENT_MODE))
+	$(call deploy,AglKeys AglAudit AglNetwork AglDataStaging AglDataProduction AglTools AglGateway,-c policy_mode=$(CURRENT_MODE))
 
 # Tool names come from the live Gateway, so policies are rendered after it exists.
 discover:
@@ -91,6 +91,13 @@ attack:
 
 trace:
 	python scripts/policy_trace.py 30
+
+# An evidence pack for the Gateway from the live account, read-only, into a new
+# folder under evidence/ (not committed). Add REDACT=--redact to share it.
+SINCE ?= 24h
+evidence:
+	agentcore-evidence collect --gateway agl-gateway --region $(REGION) --since $(SINCE) \
+	  --out evidence/$(shell date -u +%Y%m%dT%H%M%SZ) $(REDACT)
 
 reset:
 	python scripts/reset.py

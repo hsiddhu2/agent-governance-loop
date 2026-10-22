@@ -4,7 +4,9 @@ Independent community project. Not sponsored, endorsed, or maintained by AWS.
 
 A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys an agent on AgentCore Runtime behind a Gateway with Cedar policy, a decision record in CloudWatch that names the policy behind each decision, and claims stores kept as stores of record.
 
-In progress: a second agent with its own identity and rules, Bedrock Guardrails in policy, Agent Registry discovery, and an evidence pack that answers an auditor's questions from the live account.
+An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)).
+
+In progress: a second agent with its own identity and rules, Bedrock Guardrails in policy, and Agent Registry discovery.
 
 Status: under construction.
 
@@ -28,13 +30,14 @@ make deploy
 make seed
 make attack SCENARIO=claims-cleanup
 make trace
+make evidence
 make reset
 make destroy
 ```
 
 `make deploy` runs five steps in order:
 
-1. `deploy-base`: KMS keys, network, claims stores, tool Lambda, and the Gateway with its policy engine. A first deploy starts the engine in LOG_ONLY. Later deploys keep the mode it runs in.
+1. `deploy-base`: KMS keys, a trail of every call to the Gateway, network, claims stores, tool Lambda, and the Gateway with its policy engine. A first deploy starts the engine in LOG_ONLY. Later deploys keep the mode it runs in.
 2. `discover`: reads tool names from the live Gateway and renders the Cedar files from them.
 3. `deploy-policy`: adds the policies to the engine.
 4. `enforce`: checks in LOG_ONLY that the policies allow at least one tool, then switches the Gateway to ENFORCE.
@@ -64,13 +67,16 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 |---|---|---|
 | `AwsSolutions-IAM5` | Tool, Gateway and agent roles | Wildcards the services require: actions without resource-level permissions, CDK asset keys, and names assigned at deploy time. The tool role's purge on every claims table is deliberate: it is the gap the Cedar policy closes. Each one is listed next to its resource. |
 | `AwsSolutions-IAM4` | Backup selection roles, deploy-time function | The AWS managed service policy AWS Backup documents for running backups. The basic execution policy on CDK's deploy-time custom resource function. |
-| `NIST.800.53.R5-IAMNoInlinePolicy` | Gateway, Runtime, flow log and deploy-time function roles | The constructs write their own grants as inline default policies. Permissions this repo adds are in managed policies. |
+| `NIST.800.53.R5-IAMNoInlinePolicy` | Gateway, Runtime, flow log, trail delivery and deploy-time function roles | The constructs write their own grants as inline default policies. Permissions this repo adds are in managed policies. |
 | `NIST.800.53.R5-LambdaDLQ` | Tool function, deploy-time function | Both are invoked synchronously. A dead-letter queue receives only failed asynchronous events, so failures go back to the caller and to the logs. |
 | `NIST.800.53.R5-LambdaConcurrency` | Deploy-time functions | CDK's custom resource function, once in the Gateway stack to hand the generated client secret to AgentCore Identity, and once in the agents stack to configure the runtime's log group. It runs only during a deploy. The tool function has a concurrency limit. |
 | `NIST.800.53.R5-LambdaInsideVPC` | Deploy-time functions | Same functions. They call Cognito and CloudWatch Logs APIs during a deploy. The tool function runs in private subnets. |
 | `F3002` | VPC flow log | Template validation finding acknowledged by aws-cdk-lib itself: the flow log destination options are accepted in camelCase. |
 | `F3003` | VPC flow log | Same acknowledgement, from aws-cdk-lib. |
 | `W3010` | Network stack | Acknowledged by aws-cdk-lib: availability zones read from the stack. |
+| `AwsSolutions-S1` | Gateway trail bucket | Server access logs. Only CloudTrail writes to the bucket, and reads of it are recorded by the account trail. A production trail delivers to a central log archive account with its own access logs. |
+| `NIST.800.53.R5-S3BucketLoggingEnabled` | Gateway trail bucket | Same rule as `AwsSolutions-S1`, from the NIST pack. |
+| `NIST.800.53.R5-S3BucketReplicationEnabled` | Gateway trail bucket | Sandbox. A production trail delivers to a central log archive account. |
 | `AwsSolutions-COG1` | Gateway and operator user pools | Password policy. Neither pool has human users. Their clients are services using the client-credentials flow. |
 | `AwsSolutions-COG2` | Gateway and operator user pools | MFA. Same reason. |
 | `AwsSolutions-COG8` | Gateway and operator user pools | Sign-in threat protection. Same reason. |
@@ -82,6 +88,8 @@ This is a sandbox pattern. The claims stores are real and their records can be p
 The ops console is a service that calls the agent with the client-credentials flow. No person signs in in front of it, so a request is tied to the console, not to the person who asked. A production deployment puts user sign-in with MFA in front of the console.
 
 Keys, log groups, user pool and claims stores are removed with the stacks so the sandbox can be torn down. A production deployment retains them, and keeps logs for its audit period instead of 30 days. `make destroy` turns deletion protection off and empties the backup vaults first, on purpose. AgentCore creates the runtime's own log group, so the stacks set its key, masking and retention at deploy time but do not own it, and `make destroy` deletes it last. CDK's deploy-time functions write to log groups the stacks own, with the same key, masking and retention. Any group Lambda created for them earlier, named after its stack, is deleted last as well.
+
+Calls to the Gateway are CloudTrail data events, which no trail records unless asked. This pattern adds its own trail for them, in the same account, with log file validation, its own key, and a copy in CloudWatch Logs. Each event names the tool and the caller's token claims, with arguments and results redacted by the service. Management events stay with the trail the account already has. A production deployment adds the Gateway data events to its organization trail, which delivers to a central log archive account, and keeps the files under Object Lock for its audit period instead of 30 days.
 
 Trace spans in `aws/spans`, where the Gateway's policy decisions land, are encrypted with the AWS owned key. A production deployment sets a customer managed key for X-Ray, which is an account-wide setting.
 

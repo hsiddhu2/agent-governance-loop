@@ -1,0 +1,61 @@
+{
+  "source": "CloudTrail management events (LookupEvents)",
+  "changes": [
+    {
+      "time": "T+19:16:17",
+      "eventName": "TagResource",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "6ab425ce-049b-43b3-aae6-e1709e5f3d71"
+    },
+    {
+      "time": "T+19:16:00",
+      "eventName": "UpdateAgentRuntime",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_ops_agent-Uy4VNRDuho",
+        "agl_ops_agent-Uy4VNRDuho",
+        "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-iDLqPykYJvYU"
+      ],
+      "errorCode": null,
+      "eventId": "5dd2dc4d-0533-46a6-8e07-e550407bb678"
+    },
+    {
+      "time": "T+19:14:01",
+      "eventName": "TagResource",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "bbd3f826-d1de-4ae2-89b9-c0a4b1ed3637"
+    },
+    {
+      "time": "T+19:13:58",
+      "eventName": "TagResource",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1d49294a-ed1d-4133-90e1-ed58ecaf618b"
+    },
+    {
+      "time": "T+19:13:52",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "c1171783-bd2b-41ed-87c6-47d1d7574a0f"
+    },
+    {
+      "time": "T+19:13:33",
+      "eventName": "TagResource",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e120fc05-aae5-472c-af6c-a052b9567f25"
+    }
+  ]
+}

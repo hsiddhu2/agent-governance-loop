@@ -1,0 +1,24 @@
+[
+  {
+    "policyId": "ops_forbid_purge-zlncpdalfy",
+    "name": "ops_forbid_purge",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "effects": [
+      "forbid"
+    ],
+    "sha256": "80526d869d57379bfbccb7024915cd9768fb54fc5b4f3af139ba418137608545",
+    "updatedAt": "T-17:14:19"
+  },
+  {
+    "policyId": "ops_permit_reads-yyxe66ig1w",
+    "name": "ops_permit_reads",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "effects": [
+      "permit"
+    ],
+    "sha256": "815671d5dfb2e2808606efe26912337ef4b425abe158d395e5c6bd84c982aad6",
+    "updatedAt": "T-17:14:14"
+  }
+]

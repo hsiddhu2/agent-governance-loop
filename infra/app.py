@@ -6,6 +6,7 @@ from aws_cdk import aws_bedrockagentcore as ac
 
 from stacks import tags
 from stacks.agents_stack import AgentsStack
+from stacks.audit_stack import AuditStack
 from stacks.data_stack import ENVIRONMENTS, DataStack
 from stacks.gateway_stack import GatewayStack
 from stacks.keys_stack import KeysStack
@@ -34,6 +35,7 @@ model_regions = (app.node.try_get_context("model_regions") or "us-east-1,us-east
 keys = KeysStack(app, "AglKeys", env=env)
 data = [DataStack(app, f"AglData{name.title()}", env_name=name, data_key=keys.data_key, env=env)
         for name in ENVIRONMENTS]
+audit = AuditStack(app, "AglAudit", audit_key=keys.audit_key, logs_key=keys.logs_key, env=env)
 network = NetworkStack(app, "AglNetwork", logs_key=keys.logs_key, env=env)
 tools = ToolsStack(app, "AglTools", logs_key=keys.logs_key, data_key=keys.data_key,
                    vpc=network.vpc, security_group=network.tools_sg, env=env)
@@ -50,7 +52,7 @@ if not rendered_policies(cedar_dir):
     print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
           "Run `make discover`.", file=sys.stderr)
 
-for s in [keys, network, *data, tools, gw, policy, agents]:
+for s in [keys, audit, network, *data, tools, gw, policy, agents]:
     tags.apply(s, expires)
 
 # `make check` and every deploy synth with -c nag=true. Two rule packs review every

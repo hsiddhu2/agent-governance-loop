@@ -3,6 +3,9 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from constructs import Construct
 
+# Fixed so the audit key's policy can name the trail before the trail exists.
+TRAIL_NAME = "agl-gateway-tool-calls"
+
 
 class KeysStack(cdk.Stack):
     """Customer-managed KMS keys, one per kind of data, each with yearly rotation.
@@ -42,3 +45,31 @@ class KeysStack(cdk.Stack):
             removal_policy=cdk.RemovalPolicy.DESTROY,
             pending_window=cdk.Duration.days(7),
         )
+
+        self.audit_key = kms.Key(
+            self, "AuditKey",
+            alias="alias/agl-audit",
+            description="Encrypts the Gateway's tool-call trail",
+            enable_key_rotation=True,
+            removal_policy=cdk.RemovalPolicy.DESTROY,
+            pending_window=cdk.Duration.days(7),
+        )
+        # CloudTrail encrypts each log file it delivers, and only for the one trail named
+        # here. Readers decrypt through IAM: the key policy lets this account grant it.
+        trail = f"arn:{self.partition}:cloudtrail:{self.region}:{self.account}:trail/{TRAIL_NAME}"
+        cloudtrail = iam.ServicePrincipal("cloudtrail.amazonaws.com")
+        self.audit_key.add_to_resource_policy(iam.PolicyStatement(
+            principals=[cloudtrail],
+            actions=["kms:GenerateDataKey*"],
+            resources=["*"],
+            conditions={
+                "StringEquals": {"aws:SourceArn": trail},
+                "StringLike": {"kms:EncryptionContext:aws:cloudtrail:arn": trail},
+            },
+        ))
+        self.audit_key.add_to_resource_policy(iam.PolicyStatement(
+            principals=[cloudtrail],
+            actions=["kms:DescribeKey"],
+            resources=["*"],
+            conditions={"StringEquals": {"aws:SourceArn": trail}},
+        ))

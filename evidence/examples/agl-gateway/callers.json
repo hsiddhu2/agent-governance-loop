@@ -1,0 +1,23 @@
+{
+  "status": "OK",
+  "trail": "agl-gateway-tool-calls",
+  "logGroup": "/aws/cloudtrail/agl-gateway",
+  "calls": [
+    {
+      "time": "T+23:46:38",
+      "eventId": "5bad8622-fc8e-3fd6-aaac-4aeb6af7a8a7",
+      "method": "tools/call",
+      "tool": "ops___purge_claims",
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 200,
+      "error": {
+        "code": -32002,
+        "message": "Tool Execution Denied: Tool call not allowed due to policy enforcement [Policy evaluation denied due to ops_forbid_purge-zlncpdalfy]"
+      },
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    }
+  ]
+}
