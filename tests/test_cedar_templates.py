@@ -45,13 +45,27 @@ def test_permit_names_a_principal_type(path):
 @pytest.mark.parametrize("path", TEMPLATES, ids=lambda p: p.name)
 def test_template_renders_with_nothing_left(path):
     names = {t: f"ops___{t}" for t in re.findall(r"\{\{TOOL:(\w+)\}\}", path.read_text())}
-    out = render(path.read_text(), names, FAKE_GATEWAY)
+    principals = {p: f"client-{p}" for p in re.findall(r"\{\{PRINCIPAL:(\w+)\}\}", path.read_text())}
+    out = render(path.read_text(), names, FAKE_GATEWAY, principals)
     assert "{{" not in out
 
 
 def test_render_rejects_unknown_tool():
     with pytest.raises(KeyError):
         render('action == AgentCore::Action::"{{TOOL:missing}}"', {}, FAKE_GATEWAY)
+
+
+def test_render_rejects_unknown_principal():
+    with pytest.raises(KeyError):
+        render('principal == AgentCore::OAuthUser::"{{PRINCIPAL:missing}}"', {}, FAKE_GATEWAY)
+
+
+@pytest.mark.parametrize("path", TEMPLATES, ids=lambda p: p.name)
+def test_permit_is_pinned_to_one_principal(path):
+    effect, scope = statement(path)
+    if effect == "permit":
+        assert re.search(r'principal\s*==\s*AgentCore::OAuthUser::"\{\{PRINCIPAL:\w+\}\}"', scope), \
+            f"{path.name}: a permit must name the one agent it allows"
 
 
 def test_render_rejects_leftover_placeholder():

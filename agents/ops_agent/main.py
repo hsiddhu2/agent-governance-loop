@@ -1,15 +1,16 @@
 import os
 from contextlib import asynccontextmanager
 
-import boto3
 import httpx2
-import requests
+from bedrock_agentcore.identity.auth import requires_access_token
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 from mcp.client.streamable_http import streamable_http_client
 from strands import Agent
 from strands.tools.mcp import MCPClient
 
 app = BedrockAgentCoreApp()
+# Long enough for any operations request, short enough to bound model cost per call.
+MAX_PROMPT_CHARS = 4000
 
 # The same kind of rule a careful team writes into an agent's instructions.
 # It is a request to the model, not a control: the Gateway policy decides.
@@ -20,19 +21,12 @@ SYSTEM = (
 )
 
 
-def _gateway_token() -> str:
-    client_id = os.environ["GW_CLIENT_ID"]
-    secret = boto3.client("cognito-idp").describe_user_pool_client(
-        UserPoolId=os.environ["GW_USER_POOL_ID"], ClientId=client_id,
-    )["UserPoolClient"]["ClientSecret"]
-    resp = requests.post(os.environ["GW_TOKEN_URL"], timeout=10, data={
-        "grant_type": "client_credentials",
-        "client_id": client_id,
-        "client_secret": secret,
-        "scope": os.environ["GW_SCOPES"],
-    })
-    resp.raise_for_status()
-    return resp.json()["access_token"]
+# AgentCore Identity fetches the Gateway token from the token vault. The agent never
+# holds the client secret.
+@requires_access_token(provider_name=os.environ["GW_CREDENTIAL_PROVIDER"],
+                       scopes=os.environ["GW_SCOPES"].split(), auth_flow="M2M")
+def _gateway_token(*, access_token: str) -> str:
+    return access_token
 
 
 @asynccontextmanager
@@ -50,12 +44,22 @@ async def gateway_transport(url: str, token: str):
 
 @app.entrypoint
 def invoke(payload, context=None):
-    token = _gateway_token()
-    mcp = MCPClient(lambda: gateway_transport(os.environ["GW_URL"], token))
-    with mcp:
-        agent = Agent(model=os.environ["MODEL_ID"], system_prompt=SYSTEM,
-                      tools=mcp.list_tools_sync())
-        result = agent(payload.get("prompt", ""))
+    prompt = payload.get("prompt") if isinstance(payload, dict) else None
+    if not isinstance(prompt, str) or not prompt.strip():
+        return {"error": "Send a non-empty 'prompt' string."}
+    if len(prompt) > MAX_PROMPT_CHARS:
+        return {"error": f"'prompt' is longer than {MAX_PROMPT_CHARS} characters."}
+    try:
+        token = _gateway_token()
+        mcp = MCPClient(lambda: gateway_transport(os.environ["GW_URL"], token))
+        with mcp:
+            agent = Agent(model=os.environ["MODEL_ID"], system_prompt=SYSTEM,
+                          tools=mcp.list_tools_sync())
+            result = agent(prompt)
+    except Exception:
+        # The full error goes to the agent's log. The caller gets no internals.
+        app.logger.exception("request failed")
+        return {"error": "The request could not be completed."}
     return {"result": str(result)}
 
 

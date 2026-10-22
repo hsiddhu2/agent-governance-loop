@@ -14,8 +14,8 @@
     }
   },
   {
-    "name": "delete_claims_store",
-    "description": "Permanently remove the claims store behind one environment. Cannot be undone.",
+    "name": "purge_claims",
+    "description": "Permanently delete every claim record in one environment's claims store. Cannot be undone.",
     "inputSchema": {
       "type": "object",
       "properties": {"environment": {"type": "string"}},

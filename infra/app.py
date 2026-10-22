@@ -8,6 +8,8 @@ from stacks import tags
 from stacks.agents_stack import AgentsStack
 from stacks.data_stack import ENVIRONMENTS, DataStack
 from stacks.gateway_stack import GatewayStack
+from stacks.keys_stack import KeysStack
+from stacks.network_stack import NetworkStack
 from stacks.policy_stack import PolicyStack, rendered_policies
 from stacks.tools_stack import ToolsStack
 
@@ -29,11 +31,17 @@ model_id = app.node.try_get_context("model_id") or "us.anthropic.claude-sonnet-4
 # `aws bedrock get-inference-profile --inference-profile-identifier <model_id>`.
 model_regions = (app.node.try_get_context("model_regions") or "us-east-1,us-east-2,us-west-2").split(",")
 
-data = [DataStack(app, f"AglData{name.title()}", env_name=name, env=env) for name in ENVIRONMENTS]
-tools = ToolsStack(app, "AglTools", env=env)
-gw = GatewayStack(app, "AglGateway", ops_fn=tools.ops_fn, policy_mode=policy_mode, env=env)
+keys = KeysStack(app, "AglKeys", env=env)
+data = [DataStack(app, f"AglData{name.title()}", env_name=name, data_key=keys.data_key, env=env)
+        for name in ENVIRONMENTS]
+network = NetworkStack(app, "AglNetwork", logs_key=keys.logs_key, env=env)
+tools = ToolsStack(app, "AglTools", logs_key=keys.logs_key, data_key=keys.data_key,
+                   vpc=network.vpc, security_group=network.tools_sg, env=env)
+gw = GatewayStack(app, "AglGateway", ops_fn=tools.ops_fn, policy_mode=policy_mode,
+                  logs_key=keys.logs_key, env=env)
 agents = AgentsStack(app, "AglAgents", gateway=gw.gateway, model_id=model_id,
-                     model_regions=model_regions, env=env)
+                     model_regions=model_regions, logs_key=keys.logs_key,
+                     credentials=gw.ops_agent_credentials, env=env)
 # The policy stack always exists so every synth produces the same set of stacks.
 # Its contents come from the .cedar files `make discover` renders from the live
 # Gateway; before that it deploys empty.
@@ -42,14 +50,15 @@ if not rendered_policies(cedar_dir):
     print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
           "Run `make discover`.", file=sys.stderr)
 
-for s in [*data, tools, gw, policy, agents]:
+for s in [keys, network, *data, tools, gw, policy, agents]:
     tags.apply(s, expires)
 
-# `make check` runs synth with -c nag=true: the AWS Solutions rule pack reviews every
-# resource, and any finding without a written acknowledgement fails the synth.
+# `make check` and every deploy synth with -c nag=true. Two rule packs review every
+# resource: AWS Solutions, and NIST SP 800-53 Rev 5, a published catalog of security
+# and privacy controls. Any finding without a written acknowledgement fails the synth.
 if app.node.try_get_context("nag") == "true":
-    from cdk_nag import AwsSolutionsChecks
+    from cdk_nag import AwsSolutionsChecks, NIST80053R5Checks
 
-    cdk.Validations.of(app).add_plugins(AwsSolutionsChecks(app))
+    cdk.Validations.of(app).add_plugins(AwsSolutionsChecks(app), NIST80053R5Checks(app))
 
 app.synth()

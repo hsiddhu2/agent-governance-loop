@@ -14,15 +14,28 @@ CDK_CTX = -c expires=$(EXPIRES)
 # (LOG_ONLY before the first deploy, because no policies exist yet).
 CURRENT_MODE = $(shell python scripts/policy_mode.py current || echo FAIL)
 # Deploys synthesize with the AWS Solutions checks on, so nothing ships unchecked.
-DEPLOY = cdk deploy --exclusively $(CDK_CTX) -c nag=true --require-approval never
+# The synth runs once. Its templates are checked against the live stacks for resource
+# type changes, which CloudFormation would only find mid-update, and then that same
+# cdk.out is deployed. Usage: $(call deploy,<stacks>,<extra context>)
+define deploy
+	rm -rf cdk.out
+	cdk synth $(CDK_CTX) -c nag=true $(2) --quiet
+	python scripts/check_type_changes.py $(1)
+	cdk deploy --app cdk.out --exclusively --require-approval never $(1)
+endef
 
-# Run after every change. Lint, offline tests, a synth reviewed by the AWS Solutions
-# rule pack (unacknowledged findings and template validation issues fail it), and a
-# check that the stacks do not depend on whether policies have been rendered.
+# Run after every change. Lint, offline tests, a clean synth reviewed by the AWS
+# Solutions and NIST 800-53 Rev 5 rule packs (unacknowledged findings and template
+# validation issues fail it), a check that every acknowledged finding is disclosed in
+# the README, and a check that the stacks do not depend on whether policies have been
+# rendered. The synth starts from an empty cdk.out so a removed stack leaves nothing behind.
 check: package
 	ruff check .
 	python -m pytest tests -q
+	rm -rf cdk.out
 	cdk synth $(CDK_CTX) -c nag=true --quiet
+	python scripts/check_deviations.py
+	python scripts/check_outputs.py
 	python scripts/check_stable_synth.py $(CDK_CTX) -c nag=true
 
 # Offline checks for the scripts that read spans and gate enforcement. No AWS calls.
@@ -44,7 +57,7 @@ synth: package
 
 deploy-base: package
 	@test "$(CURRENT_MODE)" != FAIL || (echo "could not read the Gateway's policy mode" && exit 1)
-	$(DEPLOY) AglDataStaging AglDataProduction AglTools AglGateway -c policy_mode=$(CURRENT_MODE)
+	$(call deploy,AglKeys AglNetwork AglDataStaging AglDataProduction AglTools AglGateway,-c policy_mode=$(CURRENT_MODE))
 
 # Tool names come from the live Gateway, so policies are rendered after it exists.
 discover:
@@ -52,20 +65,20 @@ discover:
 	python scripts/render_policy.py
 
 deploy-policy: package
-	$(DEPLOY) AglPolicy
+	$(call deploy,AglPolicy)
 
 # Enforcement is switched on only after a LOG_ONLY check shows the policies
 # allow at least one tool. With default deny, an empty allow set hides every tool.
 enforce: package
 	python scripts/policy_mode.py check
-	$(DEPLOY) AglGateway -c policy_mode=ENFORCE
+	$(call deploy,AglGateway,-c policy_mode=ENFORCE)
 
 # Record decisions without applying them. Shows what policy would have stopped.
 log-only: package
-	$(DEPLOY) AglGateway -c policy_mode=LOG_ONLY
+	$(call deploy,AglGateway,-c policy_mode=LOG_ONLY)
 
 deploy-agents: package
-	$(DEPLOY) AglAgents
+	$(call deploy,AglAgents)
 
 deploy: deploy-base discover deploy-policy enforce deploy-agents
 
@@ -82,5 +95,10 @@ trace:
 reset:
 	python scripts/reset.py
 
-destroy:
+# Removes everything. The claims stores are protected like stores of record, so
+# their deletion protection and backups are undone on purpose first. The runtime's
+# log group is created by AgentCore, not the stacks, so it is removed last.
+destroy: package
+	python scripts/prepare_destroy.py
 	cdk destroy --all --force $(CDK_CTX)
+	python scripts/remove_service_logs.py

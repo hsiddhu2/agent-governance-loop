@@ -23,6 +23,10 @@ def cfn_outputs(stack: str) -> dict:
 
 
 def gateway_token(outs: dict) -> str:
+    # Operator tooling, run with the operator's own AWS credentials. It reads the ops
+    # agent's client secret on purpose: the scenarios call the Gateway with the agent's
+    # credential, without the model, to show what policy decides. The agent itself
+    # never reads this secret.
     secret = boto3.client("cognito-idp", region_name=REGION).describe_user_pool_client(
         UserPoolId=outs["UserPoolId"], ClientId=outs["ClientId"],
     )["UserPoolClient"]["ClientSecret"]
@@ -82,6 +86,24 @@ def missing_tools_message(missing: list[str], mode: str | None) -> str:
     return f"Gateway did not list these schema tools: {missing}"
 
 
+def kept_from_last_run(missing: list[str], found: dict[str, str], previous: dict[str, str],
+                       mode: str | None) -> dict[str, str] | None:
+    """Names for tools hidden by policy, taken from the last discovery, or None.
+
+    Under ENFORCE, tools/list leaves out tools that no policy allows, such as one
+    under an explicit forbid. Their names are reused from the last live discovery
+    only when every tool still listed has exactly the name recorded then, so the
+    target prefix is unchanged. A tool never discovered before is not guessed.
+    """
+    if mode != "ENFORCE" or not found:
+        return None
+    if any(previous.get(short) != name for short, name in found.items()):
+        return None
+    if any(short not in previous for short in missing):
+        return None
+    return {short: previous[short] for short in missing}
+
+
 def gateway_mode() -> str | None:
     # Imported here because policy_mode imports this module.
     from policy_mode import find_gateway
@@ -103,12 +125,23 @@ def main() -> None:
 
     missing = sorted(set(schema_tools()) - mapping.keys())
     if missing:
-        sys.exit(missing_tools_message(missing, gateway_mode()))
+        mode = gateway_mode()
+        previous = json.loads(OUT.read_text()) if OUT.exists() else {}
+        kept = kept_from_last_run(missing, mapping, previous, mode)
+        if kept is None:
+            sys.exit(missing_tools_message(missing, mode))
+        print("kept from the last discovery, hidden by policy under ENFORCE:", json.dumps(kept, indent=2))
+        mapping = {short: {**mapping, **kept}[short] for short in schema_tools()}
 
     OUT.write_text(json.dumps(mapping, indent=2) + "\n")
     print(f"wrote {OUT}:", json.dumps(mapping, indent=2))
-    # Policies name the Gateway they apply to. AgentCore rejects an unconstrained resource.
-    GATEWAY_OUT.write_text(json.dumps({"arn": outs["GatewayArn"]}, indent=2) + "\n")
+    # Policies name the Gateway they apply to, since AgentCore rejects an unconstrained
+    # resource, and the agent each permit is for. The Gateway's Cedar principal for a
+    # Cognito M2M token is the token's client id.
+    GATEWAY_OUT.write_text(json.dumps({
+        "arn": outs["GatewayArn"],
+        "principals": {"ops_agent": outs["OpsAgentClientId"]},
+    }, indent=2) + "\n")
     print(f"wrote {GATEWAY_OUT}")
 
 

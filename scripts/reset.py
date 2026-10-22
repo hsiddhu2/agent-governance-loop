@@ -1,48 +1,22 @@
-"""Put the data stores back after a scenario run, then reseed.
+"""Put the claim records back after a scenario run.
 
-A table deleted by a tool call is gone from DynamoDB, but CloudFormation still lists it,
-so a plain redeploy reports no changes and recreates nothing. Each table has its own
-stack, so only the stack of a missing table is destroyed and deployed again. The other
-table is left as it is. No other stack depends on a data stack.
+A purge deletes records, not tables: the tables have deletion protection. So a reset
+only checks both tables are there and active, then writes the synthetic rows again.
+Seeding overwrites rows by key, so running it on an untouched table changes nothing.
 """
-import os
 import subprocess
 import sys
 
 import boto3
 
-# Table name -> the stack that owns it. Matches the data stacks in infra/app.py.
-STACKS = {
-    "agl-claims-staging": "AglDataStaging",
-    "agl-claims-production": "AglDataProduction",
-}
+TABLES = ("agl-claims-staging", "agl-claims-production")
 ddb = boto3.client("dynamodb", region_name="us-east-1")
 
-
-def is_present(name: str) -> bool:
+for name in TABLES:
     try:
         status = ddb.describe_table(TableName=name)["Table"]["TableStatus"]
     except ddb.exceptions.ResourceNotFoundException:
-        return False
-    if status == "DELETING":
-        # A delete that just ran is still in progress; wait so the rebuild does not collide with it.
-        ddb.get_waiter("table_not_exists").wait(TableName=name)
-        return False
-    return True
-
-
-def cdk(*args: str) -> None:
-    subprocess.run(["cdk", *args, "-c", f"expires={os.environ['EXPIRES']}"], check=True)
-
-
-missing = [t for t in STACKS if not is_present(t)]
-if missing:
-    if not os.environ.get("EXPIRES"):
-        sys.exit("EXPIRES is not set. Run this through `make reset`.")
-for table in missing:
-    stack = STACKS[table]
-    print(f"missing: {table}; rebuilding {stack}")
-    cdk("destroy", stack, "--exclusively", "--force")
-    # Same rule pack as every other deploy.
-    cdk("deploy", stack, "--exclusively", "--require-approval", "never", "-c", "nag=true")
+        sys.exit(f"{name} does not exist. Deploy the data stacks with `make deploy`.")
+    if status != "ACTIVE":
+        sys.exit(f"{name} is {status}, not ACTIVE. Try again when it is.")
 subprocess.run([sys.executable, "scripts/seed.py"], check=True)
