@@ -15,6 +15,8 @@ Two control gaps that block agents in regulated operations, reproduced with synt
 - A claims operations agent reaches a tool that can purge every claim record. The claims stores are protected as stores of record: deletion protection, point-in-time recovery, daily backups and a customer-managed key. None of that stops a purge, and IAM allows it. Cedar policy at the Gateway denies it whatever the model decides, and the CloudWatch trace names the policy that made the decision.
 - Planned: a support agent reads a claim ticket carrying injected instructions and a policyholder record carrying a synthetic identifier. Cedar denies the call the injection asks for. Guardrails in policy withhold the identifier at the Gateway before the tool result reaches the agent.
 
+[docs/controls-map.md](docs/controls-map.md) maps what insurance, financial and AI regulators ask of agents to the control here that produces evidence for each ask, with sources.
+
 ## Quickstart
 
 Requires Python 3.12, [uv](https://docs.astral.sh/uv/), Node 22 or later, AWS CDK CLI 2.1144 or later, and an AWS account with CloudWatch Transaction Search enabled in us-east-1.
