@@ -1,5 +1,6 @@
 // Withhold the whole claim file when either statement carries government identifiers.
-// One policy per group, so the decision record names which group fired.
+// One policy per group. When enforced, the caller's error and the CloudTrail event name the
+// group that fired. In LOG_ONLY, the decision span does.
 // The detector reports every category it finds, whatever the call asks for, so
 // count() would fire on any personal data. Each category this group covers is tested
 // by name instead. Each call and its aggregation stay on one line.

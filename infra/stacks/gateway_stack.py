@@ -73,11 +73,12 @@ class GatewayStack(cdk.Stack):
             tool_schema=ac.ToolSchema.from_local_asset("tools/ops/schema.json"),
         )
 
-        # Guardrails in policy: the engine screens tool responses by calling Bedrock with
-        # the Gateway's credentials. The Service Authorization Reference lists no resource
-        # types and no condition keys for bedrock:InvokeGuardrailChecks, so it cannot be
-        # scoped below "*". The checks are defined inline in each policy: there is no
-        # guardrail resource to name.
+        # Guardrails in policy: per the AgentCore guide (Guardrails in policies), the engine
+        # calls Bedrock Guardrails with forward access session credentials derived from the
+        # Gateway's role, so the grant goes on that role. It has not been tested without it.
+        # The Service Authorization Reference lists no resource types and no condition keys
+        # for bedrock:InvokeGuardrailChecks, so it cannot be scoped below "*". The checks
+        # are defined inline in each policy: there is no guardrail resource to name.
         guardrail_checks = iam.ManagedPolicy(self, "GuardrailChecksPolicy", statements=[
             iam.PolicyStatement(sid="InvokeGuardrailChecks", actions=["bedrock:InvokeGuardrailChecks"],
                                 resources=["*"]),

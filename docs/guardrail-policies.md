@@ -7,7 +7,7 @@ Policy in AgentCore accepts two kinds of statement, and they are sent differentl
 | Plain `permit` and `forbid` | `cedar` | the CDK `Policy` construct |
 | Guardrail conditions (`BedrockGuardrails::...`), the `suppressOutput` effect, temporal conditions | `policy` | `CfnPolicy`, with `definition.policy.statement` |
 
-CreatePolicy takes a `definition` that holds either a `cedar` statement or a `policy` statement ([CreatePolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreatePolicy.html)). The `Policy` construct always writes `cedar`, and a guardrail statement sent that way is rejected as unparseable. So the policy stack declares guardrail policies on the resource directly.
+CreatePolicy takes a `definition` that holds either a `cedar` statement or a `policy` statement ([CreatePolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreatePolicy.html)). The `Policy` construct always writes `cedar`. The AWS sample [sample-native-guardrails-for-bedrock-agentcore](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore) sends guardrail statements as `policy`, and notes that only that member accepts a `when guardrails` block. Sending one through `cedar` has not been tested here. So the policy stack declares guardrail policies on the resource directly, as the sample does.
 
 ## Comments are stripped before a statement is sent
 
@@ -24,13 +24,17 @@ Two comment lines in a file set how it is created:
 - `// validation: IGNORE_ALL_FINDINGS because <reason>`: allowed only on a policy that takes access or output away (`forbid`, `suppressOutput`). The analyzer cannot read a guardrail condition, so the AgentCore guide says to create guardrail policies this way ([Guardrail policy examples](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/example-policies-guardrails.html)).
 - `// enforcement: LOG_ONLY because <reason>`: the policy records its decisions without applying them ([Test a policy in LOG_ONLY mode](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-test-a-policy.html)). Removing the line, in a reviewed change, applies it.
 
-Each guardrail policy depends on the Gateway target, because its data path, such as `context.output.policyholder`, is checked against the tool's output schema. A guardrail policy names one action. The schema declares each field the policy reads as a string.
+As a precaution, the policy stack declares a dependency on the Gateway target, so the tool whose output a guardrail policy reads, such as `context.output.policyholder`, exists first. The target is in the Gateway stack, so this is a dependency between stacks. `make deploy` deploys each stack with `--exclusively`, which skips dependencies, so it orders nothing in that path today. A guardrail policy names one action. The schema declares each field the policy reads as a string.
 
 ## Writing a sensitive-information screen
 
-The detector reports every kind of sensitive information it finds in the content, whatever categories the call names. A condition such as `.count() > 0` therefore fires on any personal data at all, and a policy meant for one group of identifiers fires on all of them. Each screen here tests each category it covers by name, `.categories().contains("US_SOCIAL_SECURITY_NUMBER")`, joined with `||`, so the decision record names the group that actually matched. Each call and its aggregation are kept on one line.
+On two records tested here, the detector reported every kind of sensitive information it found in the content, whatever categories the call named. A condition such as `.count() > 0` then fires on any personal data at all, and a policy meant for one group of identifiers fires on all of them. So each screen here tests each category it covers by name, `.categories().contains("US_SOCIAL_SECURITY_NUMBER")`, joined with `||`. In one test pair, a screen written this way matched a record carrying its own group and did not match one carrying another group. When an enforced screen fires, the caller's error and the CloudTrail event for the call name it. Each call and its aggregation are kept on one line.
 
-Each `||` term is its own guardrail call, so a screen with four categories checks the content four times. A screen that needs many categories costs more, and adds latency to every response it screens.
+In the decision record, the same detection scores appear once for each `||` term. That suggests each term is its own guardrail call, so a screen with four categories would check the content four times. This is inferred from the repeated scores, not measured. If it holds, a screen with many categories costs more and adds latency to every response it screens.
+
+## Policies are created one at a time
+
+In the account this was built in, policies created or updated together in one engine were refused for naming an action "that does not exist on the target gateway", while each was accepted on its own. The cause is not documented. So the policy stack makes each policy wait for the one before it: permits first, then forbids, then screens.
 
 ## What cannot be screened
 

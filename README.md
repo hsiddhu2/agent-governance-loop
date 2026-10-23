@@ -2,20 +2,23 @@
 
 Independent community project. Not sponsored, endorsed, or maintained by AWS.
 
-A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys an agent on AgentCore Runtime behind a Gateway with Cedar policy, a decision record in CloudWatch that names the policy behind each decision, and claims stores kept as stores of record.
+A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys an agent on AgentCore Runtime behind a Gateway with Cedar policy, a decision record in CloudWatch that names the policy behind each allow and deny, and claims stores kept as stores of record.
 
 An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)).
 
-In progress: a second agent with its own identity and rules, Bedrock Guardrails in policy, and Agent Registry discovery.
+Bedrock Guardrails in policy screen what a tool returns at the Gateway. Four screens are deployed. The government identifier screen is enforced and withholds a response it matches. The other three record what they would withhold without withholding it. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
+
+Next: a support agent with its own identity and rules, and Agent Registry discovery.
 
 Status: under construction.
 
 ## What it proves
 
-Two control gaps that block agents in regulated operations, reproduced with synthetic claims data on real infrastructure.
+Control gaps that block agents in regulated operations, reproduced with synthetic claims data on real infrastructure.
 
 - A claims operations agent reaches a tool that can purge every claim record. The claims stores are protected as stores of record: deletion protection, point-in-time recovery, daily backups and a customer-managed key. None of that stops a purge, and IAM allows it. Cedar policy at the Gateway denies it whatever the model decides, and the CloudWatch trace names the policy that made the decision.
-- Planned: a support agent reads a claim ticket carrying injected instructions and a policyholder record carrying a synthetic identifier. Cedar denies the call the injection asks for. Guardrails in policy withhold the identifier at the Gateway before the tool result reaches the agent.
+- Two tools read the same claim. `get_claim` returns what an agent needs to answer a status question: status, type, amount, the last four digits of the Social Security number and the birth year. `get_claim_record` returns the whole claim file, with every identifier and health detail in it. It is deliberately not minimized, to show what a guardrail does and does not catch when an API returns too much. Guardrails in policy screen its response at the Gateway. When the government identifier screen matches, the Gateway withholds the whole response, not only the identifier, and the caller gets an error that names the screen. Some of what a claim file holds cannot be screened at all (see Limitations). So the control is the tool that returns only what the caller needs, as `get_claim` does. The screen is the backstop when an API gets that wrong.
+- Next: a support agent reads a claim ticket carrying injected instructions. Cedar denies the call the injection asks for.
 
 [docs/controls-map.md](docs/controls-map.md) maps what insurance, financial and AI regulators ask of agents to the control here that produces evidence for each ask, with sources.
 
@@ -34,6 +37,8 @@ make evidence
 make reset
 make destroy
 ```
+
+`make seed` writes 50 synthetic claims to each claims store, and 20 probe records to staging, each carrying one kind of field. Every value is fictional and drawn from ranges that belong to nobody, such as Social Security area 666, which is never assigned. See [`scripts/synthetic.py`](scripts/synthetic.py).
 
 `make deploy` runs five steps in order:
 
@@ -91,7 +96,13 @@ Keys, log groups, user pool and claims stores are removed with the stacks so the
 
 Calls to the Gateway are CloudTrail data events, which no trail records unless asked. This pattern adds its own trail for them, in the same account, with log file validation, its own key, and a copy in CloudWatch Logs. Each event names the tool and the caller's token claims, with arguments and results redacted by the service. Management events stay with the trail the account already has. A production deployment adds the Gateway data events to its organization trail, which delivers to a central log archive account, and keeps the files under Object Lock for its audit period instead of 30 days.
 
-Trace spans in `aws/spans`, where the Gateway's policy decisions land, are encrypted with the AWS owned key. A production deployment sets a customer managed key for X-Ray, which is an account-wide setting.
+Trace spans in `aws/spans`, where the Gateway's policy decisions land, are encrypted with the AWS owned key and have no data masking. A production deployment sets a customer managed key for X-Ray, which is an account-wide setting. Whether a masking policy can be set on `aws/spans` has not been tested here.
+
+Guardrails in policy have no category for a date of birth or for US health information, such as a medical record number, a diagnosis or an ICD-10 code. Neither can be screened. See [docs/guardrail-policies.md](docs/guardrail-policies.md#what-cannot-be-screened).
+
+Only the government identifier screen is enforced. The contact details, financial and health identifier screens run in LOG_ONLY: they record what they would withhold and withhold nothing.
+
+When a screen withholds a response, the trace shows only the request's ALLOW. The withheld response, and the screen that withheld it, are recorded in the call's CloudTrail event, so the evidence pack reads them from the trail.
 
 ## License
 

@@ -1,5 +1,6 @@
 // Withhold the whole claim file when either statement carries health identifiers.
-// One policy per group, so the decision record names which group fired.
+// One policy per group. When enforced, the caller's error and the CloudTrail event name the
+// group that fired. In LOG_ONLY, the decision span does.
 // These are the only health identifiers Guardrails in policy accepts. There is no
 // category for a US medical record number, health plan member id, diagnosis or
 // medication, so US health information in the statement is not screened.
