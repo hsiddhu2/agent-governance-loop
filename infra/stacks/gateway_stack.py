@@ -77,6 +77,7 @@ class GatewayStack(cdk.Stack):
                 scopes=[cognito.OAuthScope.custom(read_scope)],
             ),
         )
+        self.support_client = support_client
         self.support_scopes = [read_scope]
         # The construct allows only its own client. The Gateway accepts a token only from
         # a client on this list, so the support client is added beside it. Changing the

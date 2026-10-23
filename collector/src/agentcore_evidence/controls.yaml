@@ -14,8 +14,8 @@
       section: "4.5"
       quote: "an accurate inventory of AI use cases, systems or models"
       url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
-  checks: [inventory.gateway_listed]
-  limits: Covers what sits behind this Gateway and the runtimes in this Region, not agents elsewhere.
+  checks: [inventory.gateway_listed, inventory.registered]
+  limits: Covers what sits behind this Gateway, the runtimes and the Agent Registry records in this Region, not agents elsewhere. A record shows a reviewer approved it, not what the review covered.
 
 - id: least-privilege
   ask: Limit access to least privilege

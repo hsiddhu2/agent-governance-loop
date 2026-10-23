@@ -5,13 +5,14 @@ import aws_cdk as cdk
 from aws_cdk import aws_bedrockagentcore as ac
 
 from stacks import tags
-from stacks.agents_stack import AgentsStack
+from stacks.agents_stack import OPS, SUPPORT, AgentsStack
 from stacks.audit_stack import AuditStack
 from stacks.data_stack import ENVIRONMENTS, DataStack
 from stacks.gateway_stack import GatewayStack
 from stacks.keys_stack import KeysStack
 from stacks.network_stack import NetworkStack
 from stacks.policy_stack import PolicyStack, rendered_policies
+from stacks.registry_stack import RegistryStack
 from stacks.tools_stack import ToolsStack
 
 app = cdk.App()
@@ -51,11 +52,30 @@ agents = AgentsStack(app, "AglAgents", gateway=gw.gateway, model_id=model_id,
 # Gateway; before that it deploys empty.
 policy = PolicyStack(app, "AglPolicy", engine=gw.engine, cedar_dir=cedar_dir,
                      targets=[gw.ops_target, gw.support_target], env=env)
+# The catalog. Each agent's record names its runtime, its Gateway principal and what
+# its policy templates declare for it.
+catalog_tags = {"project": "agl", "env": "sandbox", "expires": expires or ""}
+registry = RegistryStack(app, "AglRegistry", gateway_url=gw.gateway.gateway_url, tags=catalog_tags, agents=[
+    {"prefix": "Ops", "name": OPS.slug, "display_name": "Claims operations agent",
+     "purpose": "Answers operators' questions about claims and claims stores. Reads claim files. "
+                "Never purges.",
+     "runtime_arn": agents.runtimes[OPS].agent_runtime_arn, "invoke_scope": OPS.invoke_scope,
+     "gateway_principal": gw.gateway.user_pool_client.user_pool_client_id, "policy_principal": "ops_agent",
+     "model_id": model_id,
+     "data_handled": ["claim records", "policyholder statements", "attending physician statements"]},
+    {"prefix": "Support", "name": SUPPORT.slug, "display_name": "Customer support agent",
+     "purpose": "Reads customer support tickets and drafts replies, looking up the claim a ticket is "
+                "about through the minimized claim view.",
+     "runtime_arn": agents.runtimes[SUPPORT].agent_runtime_arn, "invoke_scope": SUPPORT.invoke_scope,
+     "gateway_principal": gw.support_client.user_pool_client_id, "policy_principal": "support_agent",
+     "model_id": model_id,
+     "data_handled": ["support tickets, which can carry identifiers customers paste", "claim summaries"]},
+], env=env)
 if not rendered_policies(cedar_dir):
     print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
           "Run `make discover`.", file=sys.stderr)
 
-for s in [keys, audit, network, *data, tools, gw, policy, agents]:
+for s in [keys, audit, network, *data, tools, gw, policy, agents, registry]:
     tags.apply(s, expires)
 
 # `make check` and every deploy synth with -c nag=true. Two rule packs review every

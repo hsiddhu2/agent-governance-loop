@@ -13,6 +13,21 @@ def gateway_listed(p):
         if t else (FAIL, "the Gateway has no targets")
 
 
+def registered(p):
+    """Each runtime and the Gateway are named by an approved Agent Registry record."""
+    c = p["inventory"].get("catalog") or {"status": GAP, "reason": "the Agent Registry was not read"}
+    if c["status"] != "OK":
+        return GAP, c["reason"]
+    wanted = [f"gateway {p['inventory']['gateway']['name']}"]
+    wanted += [f"runtime {r['name']}" for r in p["inventory"]["runtimes"]]
+    approved = {label for r in c["records"] if r["status"] == "APPROVED" for label in r["names"]}
+    missing = [w for w in wanted if w not in approved]
+    if missing:
+        return FAIL, f"not in an approved registry record: {', '.join(missing)}"
+    where = ", ".join(sorted({x["name"] for x in c["registries"]}))
+    return PASS, f"{len(wanted)} of {len(wanted)} named in approved records ({where})"
+
+
 def named_clients(jwt) -> bool:
     return bool(jwt and (jwt["allowedClients"] or jwt["allowedAudience"]))
 
@@ -138,6 +153,7 @@ def trail_validated(p):
 
 CHECKS = {
     "inventory.gateway_listed": gateway_listed,
+    "inventory.registered": registered,
     "identity.gateway_jwt": gateway_jwt,
     "identity.runtimes_jwt": runtimes_jwt,
     "policies.engine_attached": engine_attached,

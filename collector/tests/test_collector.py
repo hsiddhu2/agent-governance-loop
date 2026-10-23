@@ -6,6 +6,7 @@ from importlib import resources
 
 import pytest
 import yaml
+from botocore.exceptions import ClientError
 
 from agentcore_evidence import checks, cli, control_plane, records, report
 from agentcore_evidence.redact import Redactor, client_ids
@@ -388,3 +389,66 @@ def test_refuses_a_directory_with_files(tmp_path):
     (tmp_path / "old.json").write_text("{}")
     with pytest.raises(SystemExit, match="not empty"):
         cli.main(["collect", "--gateway", "g", "--region", "us-east-1", "--out", str(tmp_path)])
+
+
+class FakeRegistry:
+    def __init__(self, records):
+        self.records = records
+
+    def get_paginator(self, name):
+        records = self.records
+
+        class Pages:
+            def paginate(self, **kw):
+                if name == "list_registries":
+                    return [{"registries": [{"name": "catalog", "registryArn": "arn:x:registry/r1",
+                                             "status": "READY"}]}]
+                return [{"registryRecords": [{k: v for k, v in r.items() if k != "descriptors"}
+                                             for r in records]}]
+        return Pages()
+
+    def get_registry_record(self, registryId, recordId):
+        return next(r for r in self.records if r["recordId"] == recordId)
+
+
+GW = {"name": "gw", "gatewayArn": "arn:x:gateway/gw", "gatewayUrl": "https://gw/mcp"}
+RUNTIMES = [{"name": "ops", "arn": "arn:x:runtime/ops"}, {"name": "support", "arn": "arn:x:runtime/support"}]
+
+
+def record(rid, status, text):
+    return {"recordId": rid, "name": rid, "recordType": "CUSTOM", "status": status,
+            "descriptors": {"custom": {"data": text}}}
+
+
+def catalog_pack(records):
+    cat = control_plane.catalog(FakeRegistry(records), control_plane.cataloged(GW, RUNTIMES))
+    return {"inventory": {"gateway": {"name": "gw"}, "runtimes": RUNTIMES, "catalog": cat}}
+
+
+def test_every_resource_in_an_approved_record_passes():
+    pack = catalog_pack([record("gw", "APPROVED", '{"url": "https://gw/mcp"}'),
+                         record("ops", "APPROVED", '{"arn": "arn:x:runtime/ops"}'),
+                         record("support", "APPROVED", '{"arn": "arn:x:runtime/support"}')])
+    assert checks.registered(pack)[0] == "PASS"
+    assert "descriptors" not in json.dumps(pack)
+
+
+def test_a_draft_record_does_not_count():
+    pack = catalog_pack([record("gw", "APPROVED", '{"url": "https://gw/mcp"}'),
+                         record("ops", "APPROVED", '{"arn": "arn:x:runtime/ops"}'),
+                         record("support", "DRAFT", '{"arn": "arn:x:runtime/support"}')])
+    assert checks.registered(pack) == ("FAIL", "not in an approved registry record: runtime support")
+
+
+def test_unreadable_registry_is_a_gap():
+    class Denied(FakeRegistry):
+        def get_paginator(self, name):
+            raise ClientError({"Error": {"Code": "AccessDeniedException", "Message": "no"}}, "ListRegistries")
+    cat = control_plane.catalog(Denied([]), control_plane.cataloged(GW, RUNTIMES))
+    status, finding = checks.registered({"inventory": {"gateway": {"name": "gw"}, "runtimes": [],
+                                                       "catalog": cat}})
+    assert status == "GAP" and "AccessDeniedException" in finding
+
+
+def test_a_pack_without_a_catalog_is_a_gap():
+    assert checks.registered(minimal_pack())[0] == "GAP"

@@ -36,6 +36,27 @@
         "logs:GetQueryResults"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "ReadCatalog",
+      "Effect": "Allow",
+      "Action": [
+        "agent-registry:ListRegistries",
+        "agent-registry:ListRegistryRecords",
+        "agent-registry:GetRegistryRecord"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DecryptCatalogRecords",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "kms:ViaService": "agent-registry.*.amazonaws.com"
+        }
+      }
     }
   ]
 }

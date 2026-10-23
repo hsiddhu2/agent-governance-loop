@@ -6,7 +6,7 @@ EXPIRES ?= $(shell python3 -c "import datetime as d; print(d.date.today() + d.ti
 export EXPIRES
 CDK_CTX = -c expires=$(EXPIRES)
 
-.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy seed attack matrix trace evidence reset destroy
+.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy-registry approve-catalog deploy seed attack matrix find trace evidence reset destroy
 
 # Every deploy names its stacks and passes --exclusively, so a deploy changes only
 # what it names. The Gateway's policy mode changes only through `enforce` and
@@ -84,7 +84,19 @@ log-only: package
 deploy-agents: package
 	$(call deploy,AglAgents)
 
-deploy: deploy-base discover deploy-policy enforce deploy-agents
+# The catalog. It reads the Gateway's URL, each runtime and each agent's Gateway client,
+# so those stacks are deployed with it, the Gateway in the mode it already runs in.
+# The registry's key policy names the registry's service-linked role, which must exist first.
+deploy-registry: package
+	@test "$(CURRENT_MODE)" != FAIL || (echo "could not read the Gateway's policy mode" && exit 1)
+	python scripts/registry_role.py
+	$(call deploy,AglGateway AglAgents AglRegistry,-c policy_mode=$(CURRENT_MODE))
+
+# The reviewer step: approve each draft record that matches what is deployed, reject the rest.
+approve-catalog:
+	python scripts/approve_catalog.py
+
+deploy: deploy-base discover deploy-policy enforce deploy-agents deploy-registry approve-catalog
 
 seed:
 	python scripts/seed.py
@@ -96,6 +108,10 @@ attack:
 # Each agent's credential against each tool, without the model. Enforcing Gateway only.
 matrix:
 	python scripts/access_matrix.py
+
+# Find a tool in the catalog and call it as the support agent. Enforcing Gateway only.
+find:
+	python scripts/registry_find.py
 
 trace:
 	python scripts/policy_trace.py 30

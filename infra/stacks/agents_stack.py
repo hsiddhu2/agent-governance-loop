@@ -79,6 +79,7 @@ class AgentsStack(cdk.Stack):
             OPS, gateway, ops_credentials, list(gateway.oauth_scopes), "RuntimeLogs")
         support_runtime, support_console = self._agent(
             SUPPORT, gateway, support_credentials, support_scopes, "SupportRuntimeLogs")
+        self.runtimes = {OPS: ops_runtime, SUPPORT: support_runtime}
 
         # CDK's shared function behind the log group calls. It runs only during deployment.
         settler = self.node.find_child("AWS" + cr.AwsCustomResource.PROVIDER_FUNCTION_UUID.replace("-", ""))

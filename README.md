@@ -76,7 +76,7 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 | `NIST.800.53.R5-LambdaDLQ` | Tool function, deploy-time function | Both are invoked synchronously. A dead-letter queue receives only failed asynchronous events, so failures go back to the caller and to the logs. |
 | `NIST.800.53.R5-LambdaConcurrency` | Deploy-time functions | CDK's custom resource function, once in the Gateway stack to hand the generated client secret to AgentCore Identity, and once in the agents stack to configure the runtime's log group. It runs only during a deploy. The tool function has a concurrency limit. |
 | `NIST.800.53.R5-LambdaInsideVPC` | Deploy-time functions | Same functions. They call Cognito and CloudWatch Logs APIs during a deploy. The tool function runs in private subnets. |
-| `F3002` | VPC flow log | Template validation finding acknowledged by aws-cdk-lib itself: the flow log destination options are accepted in camelCase. |
+| `F3002` | VPC flow log, registry | Template validation findings. The flow log one is acknowledged by aws-cdk-lib itself: the flow log destination options are accepted in camelCase. The registry's encryption key property is in the live CloudFormation schema but not yet in the one aws-cdk-lib bundles. |
 | `F3003` | VPC flow log | Same acknowledgement, from aws-cdk-lib. |
 | `W3010` | Network stack | Acknowledged by aws-cdk-lib: availability zones read from the stack. |
 | `AwsSolutions-S1` | Gateway trail bucket | Server access logs. Only CloudTrail writes to the bucket, and reads of it are recorded by the account trail. A production trail delivers to a central log archive account with its own access logs. |

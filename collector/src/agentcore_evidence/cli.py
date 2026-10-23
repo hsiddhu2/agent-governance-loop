@@ -47,8 +47,11 @@ def collect(session, gateway: str, region: str, start: datetime, end: datetime) 
     policies = control_plane.policies(control, engine) if engine else []
     trails = records.gateway_trails(trail, gw["gatewayArn"], region)
     calls = records.callers(logs, trails, gw["gatewayArn"], s, e)
+    cat = control_plane.catalog(session.client("agent-registry-control", region_name=region),
+                                control_plane.cataloged(gw, runtimes))
+    gw_targets = control_plane.targets(control, gw["gatewayId"])
     return {
-        "inventory": control_plane.inventory(gw, control_plane.targets(control, gw["gatewayId"]), runtimes),
+        "inventory": control_plane.inventory(gw, gw_targets, runtimes, cat),
         "identity": control_plane.identity(gw, runtimes),
         "policies": policies,
         "enforcement": control_plane.enforcement(gw, policies),

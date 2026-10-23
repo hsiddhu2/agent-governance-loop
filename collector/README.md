@@ -25,12 +25,13 @@ Every call is a read. [`iam-policy.json`](iam-policy.json) lists them. Two choic
 
 - Caller identity comes from the authorizer configuration on the Gateway and each runtime, never from the identity provider. A Cognito client description includes the client secret.
 - Runtime environment variables are read by `GetAgentRuntime` but never written to the pack.
+- Agent Registry records are read to see which resources each one names. Only the names and the record's status go in the pack, not the descriptor content.
 
 ## The pack
 
 | File | Question | Source |
 |---|---|---|
-| `inventory.json` | What agents and tools exist? | Gateway, its targets, and the runtimes in the Region |
+| `inventory.json` | What agents and tools exist, and are they approved in a catalog? | Gateway, its targets, the runtimes in the Region, and which Agent Registry records name each one, with the record's status |
 | `identity.json` | Who may call the Gateway and each runtime? | Their JWT authorizer configuration |
 | `policies.json`, `policies/*.cedar` | What may each caller do? | Every policy in the Gateway's engine, with a SHA-256 of each statement as it appears in the pack, after any redaction |
 | `enforcement.json` | Is policy enforced? | The Gateway's engine mode and each policy's own mode. Either can record without applying |
