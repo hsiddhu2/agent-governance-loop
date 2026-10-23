@@ -32,7 +32,8 @@
           "type": "string"
         },
         "claim_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The claim's id exactly as the claims store writes it, such as claim#12. Keep the claim# prefix."
         }
       },
       "required": [
@@ -81,7 +82,8 @@
           "type": "string"
         },
         "claim_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The claim's id exactly as the claims store writes it, such as claim#12. Keep the claim# prefix."
         }
       },
       "required": [

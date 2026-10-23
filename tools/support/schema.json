@@ -9,7 +9,8 @@
           "type": "string"
         },
         "ticket_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The ticket's id exactly as the ticket store writes it, such as ticket#7. Keep the ticket# prefix."
         }
       },
       "required": [
