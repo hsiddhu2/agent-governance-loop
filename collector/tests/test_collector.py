@@ -226,6 +226,27 @@ def test_changes_leave_out_reads_and_token_requests():
     assert [c["eventName"] for c in records.changes(t, None, None)["changes"]] == ["UpdateGateway"]
 
 
+def test_each_change_names_what_it_changed():
+    # requestParameters as LookupEvents returns them. Resources is empty for policy events.
+    t = FakeTrail([
+        {"eventName": "CreatePolicy", "readOnly": False, "requestParameters": {
+            "name": "ops_permit_read_tools", "policyEngineId": "e1", "clientToken": "x"}},
+        {"eventName": "DeletePolicy", "readOnly": False, "requestParameters": {
+            "policyId": "ops_permit_reads-1", "policyEngineId": "e1"}},
+        {"eventName": "UpdatePolicy", "readOnly": False, "requestParameters": {
+            "policyId": "ops_screen_x-1", "policyEngineId": "e1", "enforcementMode": "ACTIVE"}},
+        {"eventName": "CreatePolicyEngine", "readOnly": False, "requestParameters": {"name": "engine"}},
+        {"eventName": "DeletePolicyEngine", "readOnly": False, "requestParameters": {"policyEngineId": "e2"}},
+        {"eventName": "UpdateGateway", "readOnly": False, "requestParameters": {
+            "gatewayIdentifier": "gw-abc", "name": "gw"}},
+        {"eventName": "TagResource", "readOnly": False, "requestParameters": {"resourceArn": "arn:x"}},
+    ])
+    targets = [(c["eventName"], c["target"]) for c in records.changes(t, None, None)["changes"]]
+    assert targets == [("CreatePolicy", "ops_permit_read_tools"), ("DeletePolicy", "ops_permit_reads-1"),
+                       ("UpdatePolicy", "ops_screen_x-1"), ("CreatePolicyEngine", "engine"),
+                       ("DeletePolicyEngine", "e2"), ("UpdateGateway", "gw-abc"), ("TagResource", None)]
+
+
 def test_redaction_is_stable_and_keeps_digests():
     r = Redactor({"client": ["client123"]})
     out = r.value({

@@ -23,6 +23,17 @@ SUPPRESSING_POLICY = re.compile(r"denied due to (\S+)")
 # Calls that change configuration. Token requests are also writes to CloudTrail, but
 # they are credential use, not change.
 CHANGE_VERBS = ("Create", "Update", "Delete", "Put", "Start", "Stop", "Synchronize", "Set", "Tag", "Untag")
+# The request parameter that names what a change was made to. LookupEvents leaves Resources
+# empty for policy and policy engine events, so the request is the only place it appears.
+# Only events whose parameters have been seen in a real trail are listed.
+TARGET = {
+    "CreatePolicy": "name",
+    "UpdatePolicy": "policyId",
+    "DeletePolicy": "policyId",
+    "CreatePolicyEngine": "name",
+    "DeletePolicyEngine": "policyEngineId",
+    "UpdateGateway": "gatewayIdentifier",
+}
 
 
 def decisions(logs, gateway_id: str, start: int, end: int) -> dict:
@@ -199,6 +210,7 @@ def changes(cloudtrail, start: datetime, end: datetime) -> dict:
                 "time": e.get("eventTime"),
                 "eventName": e.get("eventName"),
                 "actor": (e.get("userIdentity") or {}).get("arn"),
+                "target": (e.get("requestParameters") or {}).get(TARGET.get(e["eventName"], "")),
                 "resources": [r.get("ResourceName") for r in ev.get("Resources", [])],
                 "errorCode": e.get("errorCode"),
                 "eventId": e.get("eventID"),

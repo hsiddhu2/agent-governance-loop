@@ -1,8 +1,8 @@
 # Evidence pack
 
 Gateway `agl-gateway` in us-east-1. Window T+00:00:00 to T+23:59:59.
-Collected T+1d 00:00:10 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>`.
-19 decisions but 17 recorded calls. The trail's first recorded event, T+15:25:48, is later than the earliest decision, T+10:56:05, so earlier decisions have no matching call.
+Collected T+1d 00:00:08 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>`.
+19 decisions but 17 recorded calls. The trail's first recorded event, T+15:20:52, is later than the earliest decision, T+10:51:09, so earlier decisions have no matching call.
 
 This pack supports evidence for the asks below. It does not show compliance with any of them: each source asks for more than an account can show, and compliance is decided over a whole program.
 

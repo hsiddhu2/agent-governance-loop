@@ -6,7 +6,7 @@
     "status": "READY",
     "protocol": "MCP",
     "roleArn": "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV",
-    "updatedAt": "T+17:01:11"
+    "updatedAt": "T+16:56:16"
   },
   "targets": [
     {
@@ -31,7 +31,7 @@
           "credentialProviderType": "GATEWAY_IAM_ROLE"
         }
       ],
-      "updatedAt": "T+16:54:13"
+      "updatedAt": "T+16:49:18"
     }
   ],
   "runtimes": [
@@ -55,7 +55,7 @@
         }
       },
       "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
-      "updatedAt": "T+10:55:23"
+      "updatedAt": "T+10:50:27"
     }
   ]
 }

@@ -4,77 +4,7 @@
   "logGroup": "/aws/cloudtrail/agl-gateway",
   "calls": [
     {
-      "time": "T+21:51:18",
-      "eventId": "49a1250b-20f0-3b99-b5fd-3c5fc932a5c8",
-      "requestId": "f97a9af0-d2fd-4b10-886b-6ffc8bdd6920",
-      "method": "tools/call",
-      "tool": "ops___get_claim_record",
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 200,
-      "error": null,
-      "suppressedBy": null,
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+21:50:16",
-      "eventId": "c7f56c22-d0db-3807-a18e-d322e290a1e7",
-      "requestId": "1f469012-67e8-453f-a013-23bc4dc63ae6",
-      "method": "tools/call",
-      "tool": "ops___get_claim_record",
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 403,
-      "error": {
-        "code": -32002,
-        "message": "Output blocked by policy: Policy evaluation denied due to ops_screen_government_ids-1ylf7yzw40"
-      },
-      "suppressedBy": [
-        "ops_screen_government_ids-1ylf7yzw40"
-      ],
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+21:51:49",
-      "eventId": "7a35595c-ac47-309d-9d52-c40782f2aca2",
-      "requestId": "468ec928-f66d-478d-8005-bffce9cdb678",
-      "method": "tools/call",
-      "tool": "ops___get_claim_record",
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 200,
-      "error": null,
-      "suppressedBy": null,
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+21:50:48",
-      "eventId": "909f03f4-93e4-3311-81cb-39cfc7b73397",
-      "requestId": "a063ca93-6d50-4bd0-9ee1-92c6fb2da10b",
-      "method": "tools/call",
-      "tool": "ops___get_claim_record",
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 403,
-      "error": {
-        "code": -32002,
-        "message": "Output blocked by policy: Policy evaluation denied due to ops_screen_government_ids-1ylf7yzw40"
-      },
-      "suppressedBy": [
-        "ops_screen_government_ids-1ylf7yzw40"
-      ],
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+21:49:45",
+      "time": "T+21:44:49",
       "eventId": "08b1a9d3-fe4c-31e8-a1de-dba0cd19d5fd",
       "requestId": "c6e4b86a-41b2-47e2-af5d-4f614f45d27a",
       "method": "tools/call",
@@ -94,7 +24,77 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+20:40:06",
+      "time": "T+21:45:20",
+      "eventId": "c7f56c22-d0db-3807-a18e-d322e290a1e7",
+      "requestId": "1f469012-67e8-453f-a013-23bc4dc63ae6",
+      "method": "tools/call",
+      "tool": "ops___get_claim_record",
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 403,
+      "error": {
+        "code": -32002,
+        "message": "Output blocked by policy: Policy evaluation denied due to ops_screen_government_ids-1ylf7yzw40"
+      },
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ],
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+21:46:22",
+      "eventId": "49a1250b-20f0-3b99-b5fd-3c5fc932a5c8",
+      "requestId": "f97a9af0-d2fd-4b10-886b-6ffc8bdd6920",
+      "method": "tools/call",
+      "tool": "ops___get_claim_record",
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 200,
+      "error": null,
+      "suppressedBy": null,
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+21:45:52",
+      "eventId": "909f03f4-93e4-3311-81cb-39cfc7b73397",
+      "requestId": "a063ca93-6d50-4bd0-9ee1-92c6fb2da10b",
+      "method": "tools/call",
+      "tool": "ops___get_claim_record",
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 403,
+      "error": {
+        "code": -32002,
+        "message": "Output blocked by policy: Policy evaluation denied due to ops_screen_government_ids-1ylf7yzw40"
+      },
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ],
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+21:46:53",
+      "eventId": "7a35595c-ac47-309d-9d52-c40782f2aca2",
+      "requestId": "468ec928-f66d-478d-8005-bffce9cdb678",
+      "method": "tools/call",
+      "tool": "ops___get_claim_record",
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 200,
+      "error": null,
+      "suppressedBy": null,
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+20:35:10",
       "eventId": "8a51d221-2dab-36a0-b3c9-cea7d021d319",
       "requestId": "635fbe05-ca72-427a-83cb-e73a16b06759",
       "method": "tools/call",
@@ -114,7 +114,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+20:28:43",
+      "time": "T+20:23:47",
       "eventId": "c7e48e79-2972-39ca-9cd4-63c2b9313b2c",
       "requestId": "b4a78b7d-5e4f-4337-8c5a-26b782dce66b",
       "method": "tools/call",
@@ -129,7 +129,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+20:28:41",
+      "time": "T+20:23:45",
       "eventId": "41702059-6eeb-3944-b581-1db92043c0ba",
       "requestId": "04b37d12-5bb4-4eb5-9932-9d6369822461",
       "method": "tools/call",
@@ -144,22 +144,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+20:21:47",
-      "eventId": "507aed14-aff3-3909-800f-0ff0570fb3b4",
-      "requestId": "e8e957fa-874f-4373-87b3-03e34654f038",
-      "method": "tools/list",
-      "tool": null,
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 200,
-      "error": null,
-      "suppressedBy": null,
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+20:21:48",
+      "time": "T+20:16:52",
       "eventId": "136d033a-0201-3c8c-a709-00e3992bfad4",
       "requestId": "264518f6-32b1-4e98-aff7-3522a690bdfa",
       "method": "tools/call",
@@ -174,7 +159,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+20:21:49",
+      "time": "T+20:16:53",
       "eventId": "cecddfb9-433f-3416-b932-4c659773db56",
       "requestId": "28baa48a-95c3-4a3d-803c-7c2bb967179d",
       "method": "tools/call",
@@ -189,7 +174,22 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+19:45:26",
+      "time": "T+20:16:51",
+      "eventId": "507aed14-aff3-3909-800f-0ff0570fb3b4",
+      "requestId": "e8e957fa-874f-4373-87b3-03e34654f038",
+      "method": "tools/list",
+      "tool": null,
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 200,
+      "error": null,
+      "suppressedBy": null,
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+19:40:30",
       "eventId": "6edb1e5a-a4b4-3d54-81a0-4df1ccd0770a",
       "requestId": "fcb5d6ec-2b87-4bce-8ce1-55828f9bb1ae",
       "method": "tools/call",
@@ -204,22 +204,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+19:45:24",
-      "eventId": "6a4551d7-c400-3614-a0aa-68d0e349e36e",
-      "requestId": "71ee9db8-3f37-4021-82ad-194933144da1",
-      "method": "tools/list",
-      "tool": null,
-      "sub": "<client-2>",
-      "clientId": null,
-      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
-      "statusCode": 200,
-      "error": null,
-      "suppressedBy": null,
-      "sourceIp": "<ip-1>",
-      "userAgent": "python-requests/2.34.2"
-    },
-    {
-      "time": "T+19:45:26",
+      "time": "T+19:40:30",
       "eventId": "9d24b7f3-5939-3003-80d0-f5e5de752512",
       "requestId": "663cf93e-6075-4e6a-bb93-b5465a561fa9",
       "method": "tools/call",
@@ -237,7 +222,22 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+17:00:10",
+      "time": "T+19:40:28",
+      "eventId": "6a4551d7-c400-3614-a0aa-68d0e349e36e",
+      "requestId": "71ee9db8-3f37-4021-82ad-194933144da1",
+      "method": "tools/list",
+      "tool": null,
+      "sub": "<client-2>",
+      "clientId": null,
+      "scope": "AglGateway-B3EC02C7&#x2F;read AglGateway-B3EC02C7&#x2F;write",
+      "statusCode": 200,
+      "error": null,
+      "suppressedBy": null,
+      "sourceIp": "<ip-1>",
+      "userAgent": "python-requests/2.34.2"
+    },
+    {
+      "time": "T+16:55:14",
       "eventId": "d8c448fe-00b4-37af-b70f-ce9db506aea7",
       "requestId": "a35e345a-8579-4764-856d-23e5beb361b9",
       "method": "tools/list",
@@ -252,7 +252,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+16:55:52",
+      "time": "T+16:50:56",
       "eventId": "1bfc75bf-1700-3b16-b7f2-33beba93518a",
       "requestId": "e967f23b-19c1-489c-ac55-b6d0f95c2967",
       "method": "tools/list",
@@ -267,7 +267,7 @@
       "userAgent": "python-requests/2.34.2"
     },
     {
-      "time": "T+15:25:48",
+      "time": "T+15:20:52",
       "eventId": "5bad8622-fc8e-3fd6-aaac-4aeb6af7a8a7",
       "requestId": "7511fc2e-759f-4afd-a57a-aaf15fa9a886",
       "method": "tools/call",
