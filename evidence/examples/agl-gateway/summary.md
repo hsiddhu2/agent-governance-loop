@@ -1,7 +1,8 @@
 # Evidence pack
 
 Gateway `agl-gateway` in us-east-1. Window T+00:00:00 to T+23:59:59.
-Collected T+1d 00:00:07 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>`.
+Collected T+1d 00:00:10 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>`.
+19 decisions but 17 recorded calls. The trail's first recorded event, T+15:25:48, is later than the earliest decision, T+10:56:05, so earlier decisions have no matching call.
 
 This pack supports evidence for the asks below. It does not show compliance with any of them: each source asks for more than an account can show, and compliance is decided over a whole program.
 
@@ -29,12 +30,13 @@ PASS: the evidence shows the control working. FAIL: it shows the control is not.
 | identity.runtimes_jwt | PASS | 1 runtime(s), each accepting named clients only | `identity.json` |
 | policies.engine_attached | PASS | engine agl_engine-mmk18ak0rd | `policies.json` |
 | policies.forbid_present | PASS | active forbid: ops_forbid_purge | `policies.json` |
-| enforcement.enforced | PASS | Gateway mode ENFORCE, 2 policies ACTIVE | `enforcement.json` |
-| decisions.recorded | PASS | ALLOW 4, DENY 3 | `decisions.json` |
-| decisions.deny_names_policy | PASS | 3 deny(s) naming ops_forbid_purge-zlncpdalfy | `decisions.json` |
-| callers.recorded | PASS | 1 call(s) in trail agl-gateway-tool-calls | `callers.json` |
+| enforcement.enforced | PASS | Gateway mode ENFORCE, 2 permit and forbid policies ACTIVE. Screens, judged apart: ops_screen_contact_details LOG_ONLY, ops_screen_financial LOG_ONLY, ops_screen_government_ids ACTIVE, ops_screen_health_ids LOG_ONLY | `enforcement.json` |
+| decisions.recorded | PASS | ALLOW 11, DENY 4, SUPPRESSED 4 | `decisions.json` |
+| decisions.deny_names_policy | PASS | 4 deny(s) naming ops_forbid_purge-zlncpdalfy | `decisions.json` |
+| callers.recorded | PASS | 17 call(s) in trail agl-gateway-tool-calls | `callers.json` |
 | callers.identified | PASS | every call names its token subject (1 distinct) | `callers.json` |
-| changes.recorded | PASS | 6 control-plane write(s) in the window | `changes.json` |
+| callers.suppression_names_policy | PASS | 4 response(s) withheld, naming ops_screen_government_ids-1ylf7yzw40 | `callers.json` |
+| changes.recorded | PASS | 86 control-plane write(s) in the window | `changes.json` |
 | retention.logs_encrypted | FAIL | no customer managed key: aws/spans | `retention.json` |
 | retention.logs_bounded | PASS | 3 log group(s) | `retention.json` |
 | retention.logs_masked | FAIL | no data masking: aws/spans | `retention.json` |

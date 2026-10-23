@@ -32,7 +32,7 @@ Every call is a read. [`iam-policy.json`](iam-policy.json) lists them. Two choic
 |---|---|---|
 | `inventory.json` | What agents and tools exist? | Gateway, its targets, and the runtimes in the Region |
 | `identity.json` | Who may call the Gateway and each runtime? | Their JWT authorizer configuration |
-| `policies.json`, `policies/*.cedar` | What may each caller do? | Every policy in the Gateway's engine, with a SHA-256 of each statement |
+| `policies.json`, `policies/*.cedar` | What may each caller do? | Every policy in the Gateway's engine, with a SHA-256 of each statement as it appears in the pack, after any redaction |
 | `enforcement.json` | Is policy enforced? | The Gateway's engine mode and each policy's own mode. Either can record without applying |
 | `decisions.json` | What did the agents do? | Policy spans in `aws/spans`, joined to the tool span by request id for the tool name |
 | `callers.json` | Who made each call? | A CloudTrail trail that records Gateway data events and sends them to CloudWatch Logs |

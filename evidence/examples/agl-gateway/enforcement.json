@@ -4,8 +4,14 @@
   "gatewayMode": "ENFORCE",
   "policies": {
     "ops_forbid_purge": "ACTIVE",
-    "ops_permit_reads": "ACTIVE"
+    "ops_permit_read_tools": "ACTIVE"
   },
   "policiesNotEnforced": [],
+  "screens": {
+    "ops_screen_contact_details": "LOG_ONLY",
+    "ops_screen_financial": "LOG_ONLY",
+    "ops_screen_government_ids": "ACTIVE",
+    "ops_screen_health_ids": "LOG_ONLY"
+  },
   "enforced": true
 }

@@ -4,7 +4,6 @@ Everything here comes from the AgentCore control plane at the time of the run.
 Runtime environment variables are never written: they can hold configuration a
 team did not mean to hand an auditor.
 """
-import hashlib
 import re
 
 # Statements a policy engine holds. Comments are kept, since they state intent.
@@ -124,7 +123,6 @@ def policies(control, engine: str) -> list[dict]:
                 "status": detail.get("status"),
                 "enforcementMode": detail.get("enforcementMode"),
                 "effects": EFFECT.findall(statement),
-                "sha256": hashlib.sha256(statement.encode()).hexdigest(),
                 "updatedAt": str(detail.get("updatedAt")),
                 "statement": statement,
             })

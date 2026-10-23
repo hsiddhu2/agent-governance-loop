@@ -6,7 +6,7 @@
     "status": "READY",
     "protocol": "MCP",
     "roleArn": "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV",
-    "updatedAt": "T+19:13:54"
+    "updatedAt": "T+17:01:11"
   },
   "targets": [
     {
@@ -20,7 +20,7 @@
             "lambdaArn": "arn:aws:lambda:us-east-1:<account-1>:function:agl-ops-tools",
             "toolSchema": {
               "s3": {
-                "uri": "s3://cdk-hnb659fds-assets-<account-1>-us-east-1/3ee865ac1aa8d2d5a1a81921aa252aef8e594dc69024df36bc555aba5d14069a.json"
+                "uri": "s3://cdk-hnb659fds-assets-<account-1>-us-east-1/82369d992724fad030e49ab415220fac9f7004b6eb66926433766d36d352e26f.json"
               }
             }
           }
@@ -31,7 +31,7 @@
           "credentialProviderType": "GATEWAY_IAM_ROLE"
         }
       ],
-      "updatedAt": "T-18:05:13"
+      "updatedAt": "T+16:54:13"
     }
   ],
   "runtimes": [
@@ -55,7 +55,7 @@
         }
       },
       "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
-      "updatedAt": "T+19:16:13"
+      "updatedAt": "T+10:55:23"
     }
   ]
 }

@@ -59,12 +59,11 @@ class FakeEngine:
                 "definition": self.definitions[policyId]}
 
 
-def test_guardrail_policy_statement_effect_and_digest_are_read():
+def test_guardrail_policy_statement_and_effect_are_read():
     engine = FakeEngine({"screen": {"policy": {"statement": SCREEN}},
                          "forbid": {"cedar": {"statement": "forbid(principal, action, resource);"}}})
     screen, forbid = control_plane.policies(engine, "e1")
     assert screen["statement"] == SCREEN and screen["effects"] == ["suppressOutput"]
-    assert screen["sha256"] == hashlib.sha256(SCREEN.encode()).hexdigest()
     assert forbid["effects"] == ["forbid"]
 
 
@@ -307,6 +306,46 @@ def test_pack_manifest_hashes_every_file(tmp_path):
         assert hashlib.sha256((tmp_path / name).read_bytes()).hexdigest() == digest
     assert "statement" not in (tmp_path / "policies.json").read_text()
     assert "| Stop | **PASS** |" in (tmp_path / "summary.md").read_text()
+
+
+def test_policy_digest_matches_the_redacted_statement_in_the_pack(tmp_path):
+    pack = minimal_pack()
+    pack["policies"][0]["statement"] = \
+        f'forbid(principal, action, resource == AgentCore::Gateway::"{GW_ARN.replace("acct", ACCOUNT)}");'
+    run = {"gateway": "gw", "region": "r", "start": "a", "end": "b", "collectedAt": "c", "caller": "x"}
+    report.write_pack(tmp_path, Redactor().value(pack), [], run)
+    written = (tmp_path / "policies" / "forbid_x.cedar").read_bytes()
+    assert ACCOUNT not in written.decode()
+    [entry] = json.loads((tmp_path / "policies.json").read_text())
+    assert entry["sha256"] == hashlib.sha256(written).hexdigest()
+
+
+def pack_with_late_trail(decision_times, call_times):
+    pack = minimal_pack()
+    pack["decisions"] = {"counts": {"ALLOW": len(decision_times)}, "decisions": [
+        {"time": t, "requestId": f"r{i}", "decision": "ALLOW", "determiningPolicies": [],
+         "suppressedBy": None} for i, t in enumerate(decision_times)]}
+    pack["callers"] = {"status": "OK", "trail": "t", "calls": [
+        {"time": t, "requestId": "r0", "sub": "c", "suppressedBy": None} for t in call_times]}
+    return pack
+
+
+def test_summary_explains_decisions_without_calls(tmp_path):
+    origin = datetime(2030, 1, 2, tzinfo=UTC)
+    pack = pack_with_late_trail(["2030-01-02T01:00:00+00:00", "2030-01-02T05:00:00+00:00"],
+                                ["2030-01-02T04:00:00Z"])
+    run = {"gateway": "gw", "region": "r", "start": "a", "end": "b", "collectedAt": "c", "caller": "x"}
+    report.write_pack(tmp_path, Redactor(origin=origin).value(pack), [], run)
+    text = (tmp_path / "summary.md").read_text()
+    assert "2 decisions but 1 recorded call" in text
+    assert "first recorded event, T+04:00:00, is later than the earliest decision, T+01:00:00" in text
+
+
+def test_summary_adds_no_note_when_every_decision_has_a_call(tmp_path):
+    pack = pack_with_late_trail(["2030-01-02T01:00:00+00:00"], ["2030-01-02T01:00:00Z"])
+    run = {"gateway": "gw", "region": "r", "start": "a", "end": "b", "collectedAt": "c", "caller": "x"}
+    report.write_pack(tmp_path, pack, [], run)
+    assert "recorded call" not in (tmp_path / "summary.md").read_text()
 
 
 def test_bundled_controls_name_only_known_checks():

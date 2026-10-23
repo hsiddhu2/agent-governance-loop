@@ -2,7 +2,658 @@
   "source": "CloudTrail management events (LookupEvents)",
   "changes": [
     {
-      "time": "T+19:16:17",
+      "time": "T+20:39:20",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "58cf5119-cdd0-4e57-a327-7a793781d317"
+    },
+    {
+      "time": "T+20:37:45",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e65f1456-3251-41f1-ab0e-e45140f9d985"
+    },
+    {
+      "time": "T+20:37:38",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1b0bc25f-9deb-4200-a4fa-2992228db814"
+    },
+    {
+      "time": "T+20:37:28",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "49c00d5d-3cbf-4e49-8ded-b5b4fa187a0c"
+    },
+    {
+      "time": "T+20:37:13",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "3cc8fd9c-f9ce-4a58-a8a7-b097168f7c3c"
+    },
+    {
+      "time": "T+20:34:17",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "6692613e-a843-4589-bb05-2750f0b3bcd3"
+    },
+    {
+      "time": "T+20:28:12",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "796216d3-b9d9-4900-b755-b4364c08dc95"
+    },
+    {
+      "time": "T+20:21:05",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "32a472bd-c3d3-461c-9489-88f30d6fbfb0"
+    },
+    {
+      "time": "T+20:20:56",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e7cc1f01-ae46-422a-8207-a2ff84686777"
+    },
+    {
+      "time": "T+20:20:50",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "3d837fe9-1923-40c7-96de-cd3de7bfc9ab"
+    },
+    {
+      "time": "T+20:20:43",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1989c7d9-0cc2-41e9-b64b-11d2309b9581"
+    },
+    {
+      "time": "T+20:20:37",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "d28cd1f4-b957-477f-b5fe-eee68ffb3f6b"
+    },
+    {
+      "time": "T+20:20:26",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "f505fd59-76a9-4c55-befd-5ef8c1c341f9"
+    },
+    {
+      "time": "T+20:16:56",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "75673f6e-bd52-4618-ae4e-05d041d2196d"
+    },
+    {
+      "time": "T+20:16:45",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b66baeb5-a5b6-47bd-85e4-5fafdf2c52c3"
+    },
+    {
+      "time": "T+20:12:57",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "0a765f6c-2516-487e-bfce-c60f2a01a15b"
+    },
+    {
+      "time": "T+20:12:57",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "10a8ec2a-d124-4142-9e0a-23e159e43051"
+    },
+    {
+      "time": "T+20:12:57",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "70d3edb1-7677-4e02-8e1c-7e2b78d75056"
+    },
+    {
+      "time": "T+20:12:57",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b3d29229-7e25-4f1a-be8f-e968e75c8c22"
+    },
+    {
+      "time": "T+20:12:57",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b5f5c13b-0fe3-4c73-a1a3-184f91b2f329"
+    },
+    {
+      "time": "T+20:12:49",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "481edd16-6ea8-4e4b-bb4b-799c4ccdda56"
+    },
+    {
+      "time": "T+20:12:49",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "543f43f3-7299-4487-a2aa-cfe3b5676a87"
+    },
+    {
+      "time": "T+20:12:49",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "7362ebbe-243c-49fa-9295-c827e30ad30e"
+    },
+    {
+      "time": "T+20:12:39",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "53edc822-0230-4c8f-b7ed-401915c40e30"
+    },
+    {
+      "time": "T+20:12:39",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "5986feab-5b80-4520-9302-3a72c74e5143"
+    },
+    {
+      "time": "T+20:03:27",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": "ConflictException",
+      "eventId": "a56a51e9-daed-47bd-ac7f-764c559f9146"
+    },
+    {
+      "time": "T+20:03:23",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b4b0cd2a-16cc-4bab-9c16-0f28851b6ff1"
+    },
+    {
+      "time": "T+20:03:12",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "5bf3b0e4-1334-4754-b5b6-c542f338a978"
+    },
+    {
+      "time": "T+20:03:02",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "244d98e5-ba19-4af7-b397-9de0febae6a7"
+    },
+    {
+      "time": "T+20:02:51",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "2f78c034-89b3-48b8-97de-a3998f5069b2"
+    },
+    {
+      "time": "T+19:54:43",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "2ba8a124-3dc5-4da4-ac50-29262d3cf325"
+    },
+    {
+      "time": "T+19:54:33",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "6363a46e-8d01-4c8e-8fce-e7baf9dfb6fd"
+    },
+    {
+      "time": "T+19:54:29",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "28ded4dc-b4ed-4b63-b0cc-90077bde0745"
+    },
+    {
+      "time": "T+19:54:19",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "76c6fe09-3a4f-4c40-9074-965c9694d789"
+    },
+    {
+      "time": "T+19:54:14",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "d635e234-c58b-491a-8c8a-56b01f918018"
+    },
+    {
+      "time": "T+19:53:59",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "83dc0761-77b0-4fc6-837c-4e337dcad923"
+    },
+    {
+      "time": "T+19:52:40",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e1a328cd-9a78-4799-ba4d-da31f4a7e000"
+    },
+    {
+      "time": "T+19:52:39",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "0396a8bc-d4ac-47c0-888c-4a66a2d284f2"
+    },
+    {
+      "time": "T+19:52:38",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "2a89491c-fe0d-44f8-a9de-9ef3b01cdcef"
+    },
+    {
+      "time": "T+19:52:38",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b9ac2b47-4afb-4c37-ba36-e81b2a35f956"
+    },
+    {
+      "time": "T+19:44:25",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "4f95b8ea-91cb-433e-9e28-958781174b63"
+    },
+    {
+      "time": "T+19:44:14",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "31882f65-f2f0-4288-bc0f-0ac9446cd677"
+    },
+    {
+      "time": "T+19:44:10",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "101fe0dc-9109-4623-8c3c-0ef96ef16058"
+    },
+    {
+      "time": "T+19:44:10",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "d920f51a-8be1-46c4-826e-c0645f0ffc69"
+    },
+    {
+      "time": "T+19:44:09",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "87e04da2-0a89-40b6-a106-047f003d73ec"
+    },
+    {
+      "time": "T+19:44:09",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "94499abf-e0b6-4e57-aaf7-9837b5b5c93c"
+    },
+    {
+      "time": "T+19:33:58",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "297c7a14-ced3-45f0-9946-4023d47cb161"
+    },
+    {
+      "time": "T+19:33:53",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "73b535bf-c310-4055-9886-f653dc29828b"
+    },
+    {
+      "time": "T+19:33:53",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "957edc6d-c9e5-424a-9499-7ddf05d80c54"
+    },
+    {
+      "time": "T+19:21:54",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1936b10e-02d8-4b50-aaee-8b36e723b33e"
+    },
+    {
+      "time": "T+19:21:50",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AglPolicy-GuardrailPoliciesHandlerRoleE0288DFA-Jw2sMZWlj4ez/<session-3>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "05060d21-b121-482c-bf3e-d162af28a0e0"
+    },
+    {
+      "time": "T+19:21:50",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AglPolicy-GuardrailPoliciesHandlerRoleE0288DFA-Jw2sMZWlj4ez/<session-3>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "11a597af-5757-460d-9e80-d05db6cf218c"
+    },
+    {
+      "time": "T+19:21:50",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AglPolicy-GuardrailPoliciesHandlerRoleE0288DFA-Jw2sMZWlj4ez/<session-3>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "cffe9f2a-c60a-4d26-b5a8-0501a7b9d5ef"
+    },
+    {
+      "time": "T+19:21:50",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AglPolicy-GuardrailPoliciesHandlerRoleE0288DFA-Jw2sMZWlj4ez/<session-3>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "d52f319d-4057-468f-81c6-95c02d7c383d"
+    },
+    {
+      "time": "T+19:19:25",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "0bf54a85-263f-4171-8401-514eea31d136"
+    },
+    {
+      "time": "T+17:42:18",
+      "eventName": "DeletePolicyEngine",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "8abbe818-b245-422c-85f5-c4c25302f9e5"
+    },
+    {
+      "time": "T+17:42:12",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "5706978f-543c-491d-8127-d7e7be4333bd"
+    },
+    {
+      "time": "T+17:42:07",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "27c54c52-1950-4cd5-b949-69ffc792db9c"
+    },
+    {
+      "time": "T+17:42:03",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "64c004ed-1a99-42b0-b60e-dbcc4293cf26"
+    },
+    {
+      "time": "T+17:41:52",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "30ce9aab-fb19-491f-817d-6b0e3d0ca558"
+    },
+    {
+      "time": "T+17:41:42",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "86c3beee-a36f-40c8-9c1d-56cea6e92ac9"
+    },
+    {
+      "time": "T+17:41:31",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "26d7a1ff-2944-40cd-863c-1f934351540f"
+    },
+    {
+      "time": "T+17:41:20",
+      "eventName": "CreatePolicyEngine",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "dc49906d-7832-4d58-9463-59ce086f1fc3"
+    },
+    {
+      "time": "T+17:11:47",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "d0ad608e-02b8-4dfd-8427-73bb2568156a"
+    },
+    {
+      "time": "T+17:11:46",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "5e14bc94-b25f-4dc1-8e01-e64f5b2bdea8"
+    },
+    {
+      "time": "T+17:11:46",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "a7d71cc5-3303-47d6-8c8d-2615d2c75086"
+    },
+    {
+      "time": "T+17:11:46",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "ada092cd-c21d-480b-9883-710b1cdd203c"
+    },
+    {
+      "time": "T+17:06:35",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "8a8d4f94-f147-44a7-8be9-7106d3c17d51"
+    },
+    {
+      "time": "T+17:06:26",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "64d9d93c-e744-4c77-8589-165b955e8c2d"
+    },
+    {
+      "time": "T+17:06:25",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "2e473865-042d-4f8c-a395-595bedc836e5"
+    },
+    {
+      "time": "T+17:06:25",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "52dc19d6-a018-49f2-9d68-87357e32f55d"
+    },
+    {
+      "time": "T+17:01:10",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "7e90b5ce-870d-47f9-bf90-1b3a9be8c263"
+    },
+    {
+      "time": "T+16:56:36",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "5155519e-0424-4d00-bff7-0bb3c3509f29"
+    },
+    {
+      "time": "T+16:56:32",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "21ce1e91-3e7b-4297-866e-14e23434380d"
+    },
+    {
+      "time": "T+16:56:29",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "645f98a7-2274-448a-be32-04e011c3fa40"
+    },
+    {
+      "time": "T+16:56:28",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "6a9d1f6b-3100-4007-8de7-cdf510fb0886"
+    },
+    {
+      "time": "T+16:56:28",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": "ValidationException",
+      "eventId": "9121923f-d130-4fd4-9620-5688d50fe8bc"
+    },
+    {
+      "time": "T+16:56:28",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "fafbecc6-6b39-4272-a3bb-678a4836cca6"
+    },
+    {
+      "time": "T+16:54:09",
+      "eventName": "UpdateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk"
+      ],
+      "errorCode": null,
+      "eventId": "0c8ebb56-5781-405c-b35c-66072a82de90"
+    },
+    {
+      "time": "T+16:54:00",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "7921f2e4-1506-41e3-b14f-b694e74b11f0"
+    },
+    {
+      "time": "T+10:55:27",
       "eventName": "TagResource",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [],
@@ -10,7 +661,7 @@
       "eventId": "6ab425ce-049b-43b3-aae6-e1709e5f3d71"
     },
     {
-      "time": "T+19:16:00",
+      "time": "T+10:55:10",
       "eventName": "UpdateAgentRuntime",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [
@@ -22,7 +673,7 @@
       "eventId": "5dd2dc4d-0533-46a6-8e07-e550407bb678"
     },
     {
-      "time": "T+19:14:01",
+      "time": "T+10:53:11",
       "eventName": "TagResource",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [],
@@ -30,7 +681,7 @@
       "eventId": "bbd3f826-d1de-4ae2-89b9-c0a4b1ed3637"
     },
     {
-      "time": "T+19:13:58",
+      "time": "T+10:53:08",
       "eventName": "TagResource",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [],
@@ -38,7 +689,7 @@
       "eventId": "1d49294a-ed1d-4133-90e1-ed58ecaf618b"
     },
     {
-      "time": "T+19:13:52",
+      "time": "T+10:53:02",
       "eventName": "UpdateGateway",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [
@@ -50,7 +701,7 @@
       "eventId": "c1171783-bd2b-41ed-87c6-47d1d7574a0f"
     },
     {
-      "time": "T+19:13:33",
+      "time": "T+10:52:43",
       "eventName": "TagResource",
       "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-1>",
       "resources": [],
