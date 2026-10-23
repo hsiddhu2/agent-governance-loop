@@ -65,7 +65,7 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 
 | Rule | Where | Why it stands |
 |---|---|---|
-| `AwsSolutions-IAM5` | Tool, Gateway and agent roles | Wildcards the services require: actions without resource-level permissions, CDK asset keys, and names assigned at deploy time. The tool role's purge on every claims table is deliberate: it is the gap the Cedar policy closes. Each one is listed next to its resource. |
+| `AwsSolutions-IAM5` | Tool, Gateway and agent roles | Wildcards the services require: actions without resource-level permissions (including `bedrock:InvokeGuardrailChecks`), CDK asset keys, and names assigned at deploy time. The tool role's purge on every claims table is deliberate: it is the gap the Cedar policy closes. Each one is listed next to its resource. |
 | `AwsSolutions-IAM4` | Backup selection roles, deploy-time function | The AWS managed service policy AWS Backup documents for running backups. The basic execution policy on CDK's deploy-time custom resource function. |
 | `NIST.800.53.R5-IAMNoInlinePolicy` | Gateway, Runtime, flow log, trail delivery and deploy-time function roles | The constructs write their own grants as inline default policies. Permissions this repo adds are in managed policies. |
 | `NIST.800.53.R5-LambdaDLQ` | Tool function, deploy-time function | Both are invoked synchronously. A dead-letter queue receives only failed asynchronous events, so failures go back to the caller and to the logs. |

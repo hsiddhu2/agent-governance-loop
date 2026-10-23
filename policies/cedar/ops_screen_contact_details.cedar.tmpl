@@ -1,0 +1,26 @@
+// Withhold the whole claim file when either statement carries contact details.
+// One policy per group, so the decision record names which group fired.
+// There is no date-of-birth category, so a date of birth is not screened. AGE is the
+// closest category the policy language accepts.
+// The detector reports every category it finds, whatever the call asks for, so
+// count() would fire on any personal data. Each category this group covers is tested
+// by name instead. Each call and its aggregation stay on one line.
+// suppressOutput runs after the tool and withholds its result. The tool still runs.
+// Any principal: a screen that skipped some callers would only weaken it.
+// The analyzer cannot read a guardrail condition, so it judges this policy by its scope alone.
+// Not Cedar: guardrail statements are created as the API's `policy` definition. See
+// docs/guardrail-policies.md.
+// validation: IGNORE_ALL_FINDINGS because a guardrail condition is opaque to the analyzer
+// enforcement: LOG_ONLY because each group is measured before it withholds anything
+suppressOutput(
+  principal,
+  action == AgentCore::Action::"{{TOOL:get_claim_record}}",
+  resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"
+)
+when guardrails {
+  BedrockGuardrails::SensitiveInformation(["NAME", "ADDRESS", "PHONE", "EMAIL", "AGE"], [context.output.policyholder, context.output.health]).categories().contains("NAME") ||
+  BedrockGuardrails::SensitiveInformation(["NAME", "ADDRESS", "PHONE", "EMAIL", "AGE"], [context.output.policyholder, context.output.health]).categories().contains("ADDRESS") ||
+  BedrockGuardrails::SensitiveInformation(["NAME", "ADDRESS", "PHONE", "EMAIL", "AGE"], [context.output.policyholder, context.output.health]).categories().contains("PHONE") ||
+  BedrockGuardrails::SensitiveInformation(["NAME", "ADDRESS", "PHONE", "EMAIL", "AGE"], [context.output.policyholder, context.output.health]).categories().contains("EMAIL") ||
+  BedrockGuardrails::SensitiveInformation(["NAME", "ADDRESS", "PHONE", "EMAIL", "AGE"], [context.output.policyholder, context.output.health]).categories().contains("AGE")
+};

@@ -31,6 +31,8 @@ class ToolsStack(cdk.Stack):
         tool_policy = iam.ManagedPolicy(self, "OpsToolPolicy", statements=[
             iam.PolicyStatement(sid="Describe", actions=["dynamodb:DescribeTable"],
                                 resources=[claims_tables]),
+            iam.PolicyStatement(sid="ReadClaim", actions=["dynamodb:GetItem"],
+                                resources=[claims_tables]),
             # The over-scope. Nothing in IAM stops this role purging every claim record.
             # Deletion protection, backups and point-in-time recovery guard the table,
             # not its rows. The Cedar policy at the Gateway is the control that stops it.

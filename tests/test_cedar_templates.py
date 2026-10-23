@@ -12,7 +12,7 @@ import pytest
 from render_policy import render
 
 TEMPLATES = sorted(Path(__file__).resolve().parent.parent.glob("policies/cedar/*.cedar.tmpl"))
-SCOPE = re.compile(r"\b(permit|forbid)\s*\((.*?)\)\s*(when|unless|;)", re.S)
+SCOPE = re.compile(r"\b(permit|forbid|suppressOutput)\s*\((.*?)\)\s*(when|unless|;)", re.S)
 GATEWAY_RESOURCE = 'resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"'
 FAKE_GATEWAY = "arn:aws:bedrock-agentcore:us-east-1:example:gateway/g"
 

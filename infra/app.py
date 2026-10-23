@@ -47,7 +47,8 @@ agents = AgentsStack(app, "AglAgents", gateway=gw.gateway, model_id=model_id,
 # The policy stack always exists so every synth produces the same set of stacks.
 # Its contents come from the .cedar files `make discover` renders from the live
 # Gateway; before that it deploys empty.
-policy = PolicyStack(app, "AglPolicy", engine=gw.engine, cedar_dir=cedar_dir, env=env)
+policy = PolicyStack(app, "AglPolicy", engine=gw.engine, cedar_dir=cedar_dir,
+                     target=gw.ops_target, env=env)
 if not rendered_policies(cedar_dir):
     print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
           "Run `make discover`.", file=sys.stderr)

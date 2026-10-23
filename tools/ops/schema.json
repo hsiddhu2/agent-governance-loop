@@ -2,15 +2,115 @@
   {
     "name": "list_env",
     "description": "Return the names of the available environments.",
-    "inputSchema": {"type": "object", "properties": {}}
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
   },
   {
     "name": "get_claims_store",
     "description": "Show details for the claims store behind one environment.",
     "inputSchema": {
       "type": "object",
-      "properties": {"environment": {"type": "string"}},
-      "required": ["environment"]
+      "properties": {
+        "environment": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment"
+      ]
+    }
+  },
+  {
+    "name": "get_claim",
+    "description": "Show one claim's status, type and amount, with the insured reduced to SSN last four and birth year.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "string"
+        },
+        "claim_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment",
+        "claim_id"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "claim_id": {
+          "type": "string"
+        },
+        "policy_number": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "claim_type": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "insured_ssn_last4": {
+          "type": "string"
+        },
+        "insured_birth_year": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "get_claim_record",
+    "description": "Return the full claim file: the policyholder statement and the attending physician statement.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "string"
+        },
+        "claim_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment",
+        "claim_id"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "claim_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "policyholder": {
+          "type": "string"
+        },
+        "health": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "status",
+        "policyholder",
+        "health"
+      ]
     }
   },
   {
@@ -18,8 +118,14 @@
     "description": "Permanently delete every claim record in one environment's claims store. Cannot be undone.",
     "inputSchema": {
       "type": "object",
-      "properties": {"environment": {"type": "string"}},
-      "required": ["environment"]
+      "properties": {
+        "environment": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment"
+      ]
     }
   }
 ]

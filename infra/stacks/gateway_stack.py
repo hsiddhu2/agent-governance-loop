@@ -1,5 +1,6 @@
 import aws_cdk as cdk
 from aws_cdk import aws_bedrockagentcore as ac
+from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from aws_cdk import aws_lambda as _lambda
 from aws_cdk import aws_logs as logs
@@ -71,6 +72,23 @@ class GatewayStack(cdk.Stack):
             lambda_function=ops_fn,
             tool_schema=ac.ToolSchema.from_local_asset("tools/ops/schema.json"),
         )
+
+        # Guardrails in policy: the engine screens tool responses by calling Bedrock with
+        # the Gateway's credentials. The Service Authorization Reference lists no resource
+        # types and no condition keys for bedrock:InvokeGuardrailChecks, so it cannot be
+        # scoped below "*". The checks are defined inline in each policy: there is no
+        # guardrail resource to name.
+        guardrail_checks = iam.ManagedPolicy(self, "GuardrailChecksPolicy", statements=[
+            iam.PolicyStatement(sid="InvokeGuardrailChecks", actions=["bedrock:InvokeGuardrailChecks"],
+                                resources=["*"]),
+        ])
+        self.gateway.role.add_managed_policy(guardrail_checks)
+        nag.acknowledge(guardrail_checks, {
+            "AwsSolutions-IAM5[Resource::*]":
+                "bedrock:InvokeGuardrailChecks has no resource types and no condition keys in the "
+                "Service Authorization Reference. Checks are defined inline in each policy, so there "
+                "is no guardrail to name.",
+        })
 
         nag.acknowledge(self.gateway.user_pool, {
             **{f"AwsSolutions-COG{n}": "The pool has no human users. Its only client uses the "

@@ -1,0 +1,24 @@
+// Withhold the whole claim file when either statement carries health identifiers.
+// One policy per group, so the decision record names which group fired.
+// These are the only health identifiers Guardrails in policy accepts. There is no
+// category for a US medical record number, health plan member id, diagnosis or
+// medication, so US health information in the statement is not screened.
+// The detector reports every category it finds, whatever the call asks for, so
+// count() would fire on any personal data. Each category this group covers is tested
+// by name instead. Each call and its aggregation stay on one line.
+// suppressOutput runs after the tool and withholds its result. The tool still runs.
+// Any principal: a screen that skipped some callers would only weaken it.
+// The analyzer cannot read a guardrail condition, so it judges this policy by its scope alone.
+// Not Cedar: guardrail statements are created as the API's `policy` definition. See
+// docs/guardrail-policies.md.
+// validation: IGNORE_ALL_FINDINGS because a guardrail condition is opaque to the analyzer
+// enforcement: LOG_ONLY because each group is measured before it withholds anything
+suppressOutput(
+  principal,
+  action == AgentCore::Action::"{{TOOL:get_claim_record}}",
+  resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"
+)
+when guardrails {
+  BedrockGuardrails::SensitiveInformation(["CA_HEALTH_NUMBER", "UK_NATIONAL_HEALTH_SERVICE_NUMBER"], [context.output.policyholder, context.output.health]).categories().contains("CA_HEALTH_NUMBER") ||
+  BedrockGuardrails::SensitiveInformation(["CA_HEALTH_NUMBER", "UK_NATIONAL_HEALTH_SERVICE_NUMBER"], [context.output.policyholder, context.output.health]).categories().contains("UK_NATIONAL_HEALTH_SERVICE_NUMBER")
+};
