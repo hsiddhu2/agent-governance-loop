@@ -192,6 +192,14 @@ def test_suppression_comes_from_cloudtrail_not_spans(monkeypatch):
     assert status == "PASS" and SCREEN_ID in finding
 
 
+def test_a_withhold_by_two_screens_names_both():
+    # Recorded live: one response withheld by two screens names both, comma-separated.
+    message = ("Output blocked by policy: Policy evaluation denied due to "
+               "support_screen_government_ids-abc, support_screen_financial-def")
+    assert records.suppressed_by(403, {"code": -32002, "message": message}) == [
+        "support_screen_government_ids-abc", "support_screen_financial-def"]
+
+
 def test_a_denied_call_is_not_a_suppression(monkeypatch):
     denied = {"code": -32002, "message": "Tool call denied by policy"}
     monkeypatch.setattr(records, "run_query", lambda *a: [trail_event(error=denied, status=403)])

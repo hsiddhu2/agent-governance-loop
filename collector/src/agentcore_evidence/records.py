@@ -19,7 +19,9 @@ MAX_ROWS = 10000
 DECISION = "aws.agentcore.policy.authorization_decision"
 # A screen that withholds a response returns HTTP 403 with this error message.
 OUTPUT_BLOCKED = "Output blocked by policy"
-SUPPRESSING_POLICY = re.compile(r"denied due to (\S+)")
+# Everything after this names the screens that fired. A response withheld by more
+# than one screen names each, separated by commas.
+SUPPRESSING_POLICIES = re.compile(r"denied due to (.+)")
 # Calls that change configuration. Token requests are also writes to CloudTrail, but
 # they are credential use, not change.
 CHANGE_VERBS = ("Create", "Update", "Delete", "Put", "Start", "Stop", "Synchronize", "Set", "Tag", "Untag")
@@ -192,7 +194,8 @@ def suppressed_by(status, error: dict | None) -> list[str] | None:
     message = (error or {}).get("message") or ""
     if status != 403 or OUTPUT_BLOCKED not in message:
         return None
-    return SUPPRESSING_POLICY.findall(message)
+    found = SUPPRESSING_POLICIES.search(message)
+    return [name.strip() for name in found.group(1).split(",") if name.strip()] if found else []
 
 
 def changes(cloudtrail, start: datetime, end: datetime) -> dict:
