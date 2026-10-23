@@ -452,3 +452,26 @@ def test_unreadable_registry_is_a_gap():
 
 def test_a_pack_without_a_catalog_is_a_gap():
     assert checks.registered(minimal_pack())[0] == "GAP"
+
+
+def screens_pack(mode="ENFORCE", screens=None):
+    p = minimal_pack()
+    p["enforcement"].update({"gatewayMode": mode, "screens": screens or {}})
+    return p
+
+
+def test_an_active_screen_passes_and_log_only_ones_are_listed():
+    status, finding = checks.screens_active(screens_pack(screens={"gov": "ACTIVE", "contact": "LOG_ONLY"}))
+    assert status == "PASS" and "gov" in finding and "contact" in finding
+
+
+def test_only_log_only_screens_fail():
+    assert checks.screens_active(screens_pack(screens={"contact": "LOG_ONLY"}))[0] == "FAIL"
+
+
+def test_an_active_screen_under_a_log_only_gateway_fails():
+    assert checks.screens_active(screens_pack("LOG_ONLY", {"gov": "ACTIVE"}))[0] == "FAIL"
+
+
+def test_no_screen_fails():
+    assert checks.screens_active(screens_pack())[0] == "FAIL"

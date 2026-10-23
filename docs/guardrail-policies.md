@@ -45,6 +45,8 @@ The policy language accepts a fixed list of sensitive-information categories ([G
 
 A guardrail cannot withhold what it cannot detect. The control for these fields is the tool itself: a tool that returns only what the caller needs, as `get_claim` does, never puts them in the response.
 
+[`screen-coverage.md`](screen-coverage.md) measures each kind of field in a claim file against the screens, and sets the result against the HIPAA Safe Harbor identifiers.
+
 ## IAM
 
 The Gateway's service role needs `bedrock:InvokeGuardrailChecks` to run the checks. The Service Authorization Reference lists no resource types for that action, so it is granted on `*`. The checks are defined inside each policy, and there is no guardrail resource to name.

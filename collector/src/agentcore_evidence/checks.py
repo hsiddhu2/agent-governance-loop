@@ -77,6 +77,22 @@ def enforced(p):
     return FAIL, f"Gateway mode {e['gatewayMode']}, not enforced: {off}{screens(e)}"
 
 
+def screens_active(p):
+    """At least one output screen withholds, and the Gateway applies it."""
+    e = p["enforcement"]
+    s = e.get("screens") or {}
+    active = sorted(k for k, v in s.items() if v == "ACTIVE")
+    log_only = sorted(k for k, v in s.items() if v != "ACTIVE")
+    rest = f". LOG_ONLY, withholding nothing: {', '.join(log_only)}" if log_only else ""
+    if not s:
+        return FAIL, "no output screen on the Gateway's policy engine"
+    if e["gatewayMode"] != "ENFORCE":
+        return FAIL, f"Gateway mode {e['gatewayMode']}: no screen withholds anything"
+    if not active:
+        return FAIL, f"every screen is LOG_ONLY: {', '.join(log_only)}"
+    return PASS, f"withholding: {', '.join(active)}{rest}"
+
+
 def decisions_recorded(p):
     c = p["decisions"]["counts"]
     return (PASS, ", ".join(f"{k} {v}" for k, v in sorted(c.items()))) if c \
@@ -159,6 +175,7 @@ CHECKS = {
     "policies.engine_attached": engine_attached,
     "policies.forbid_present": forbid_present,
     "enforcement.enforced": enforced,
+    "enforcement.screens_active": screens_active,
     "decisions.recorded": decisions_recorded,
     "decisions.deny_names_policy": deny_names_policy,
     "callers.recorded": calls_recorded,

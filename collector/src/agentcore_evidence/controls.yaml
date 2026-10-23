@@ -43,6 +43,16 @@
       url: https://content.naic.org/sites/default/files/2023-12-4%252520Model%252520Bulletin_Adopted_0.pdf
   checks: [policies.engine_attached, policies.forbid_present, enforcement.enforced, decisions.deny_names_policy]
 
+- id: sensitive-output
+  ask: Keep sensitive data out of what an agent is given
+  sources:
+    - source: FINRA Annual Regulatory Oversight Report, GenAI section
+      section: Emerging Trends in GenAI, Agents
+      quote: "Agents operating on sensitive data may unintentionally store, explore, disclose or misuse sensitive or proprietary information."
+      url: https://www.finra.org/rules-guidance/guidance/reports/2026-finra-annual-regulatory-oversight-report/gen-ai
+  checks: [enforcement.screens_active, callers.suppression_names_policy]
+  limits: A screen withholds only the categories it tests, and only categories the detector supports. It runs after the tool, so the tool still reads the data.
+
 - id: record-events
   ask: Record events automatically and track tools used
   sources:
