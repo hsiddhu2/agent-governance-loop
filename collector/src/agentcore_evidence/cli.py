@@ -46,13 +46,14 @@ def collect(session, gateway: str, region: str, start: datetime, end: datetime) 
     engine = control_plane.engine_id(gw)
     policies = control_plane.policies(control, engine) if engine else []
     trails = records.gateway_trails(trail, gw["gatewayArn"], region)
+    calls = records.callers(logs, trails, gw["gatewayArn"], s, e)
     return {
         "inventory": control_plane.inventory(gw, control_plane.targets(control, gw["gatewayId"]), runtimes),
         "identity": control_plane.identity(gw, runtimes),
         "policies": policies,
         "enforcement": control_plane.enforcement(gw, policies),
-        "decisions": records.decisions(logs, gw["gatewayId"], s, e),
-        "callers": records.callers(logs, trails, gw["gatewayArn"], s, e),
+        "decisions": records.join_suppressions(records.decisions(logs, gw["gatewayId"], s, e), calls),
+        "callers": calls,
         "changes": records.changes(trail, start, end),
         "retention": records.retention(logs, trails, [r["agentRuntimeId"] for r in runtimes]),
     }

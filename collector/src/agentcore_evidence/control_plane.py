@@ -7,8 +7,9 @@ team did not mean to hand an auditor.
 import hashlib
 import re
 
-# Cedar statements a policy engine holds. Comments are kept, since they state intent.
-EFFECT = re.compile(r"^\s*(permit|forbid)\s*\(", re.MULTILINE)
+# Statements a policy engine holds. Comments are kept, since they state intent.
+# suppressOutput is the effect of a guardrail screen, which withholds a tool's result.
+EFFECT = re.compile(r"^\s*(permit|forbid|suppressOutput)\s*\(", re.MULTILINE)
 
 
 def gateway(control, gateway_id: str) -> dict:
@@ -114,7 +115,9 @@ def policies(control, engine: str) -> list[dict]:
     for page in control.get_paginator("list_policies").paginate(policyEngineId=engine):
         for p in page["policies"]:
             detail = control.get_policy(policyEngineId=engine, policyId=p["policyId"])
-            statement = detail.get("definition", {}).get("cedar", {}).get("statement", "")
+            # Cedar policies come back as `cedar`, guardrail screens as `policy`.
+            definition = detail.get("definition", {})
+            statement = (definition.get("cedar") or definition.get("policy") or {}).get("statement", "")
             found.append({
                 "policyId": detail["policyId"],
                 "name": detail["name"],
@@ -128,15 +131,26 @@ def policies(control, engine: str) -> list[dict]:
     return found
 
 
+def is_screen(policy: dict) -> bool:
+    return bool(policy["effects"]) and set(policy["effects"]) == {"suppressOutput"}
+
+
 def enforcement(gw: dict, engine_policies: list[dict]) -> dict:
-    """Whether decisions are applied. Either level can be set to record without applying."""
+    """Whether decisions are applied. Either level can be set to record without applying.
+
+    Enforcement is judged on the permit and forbid policies. A policy in LOG_ONLY cannot
+    change a decision, so a screen left in LOG_ONLY does not weaken them. Screens are
+    reported on their own. A policy whose effect cannot be read is judged with the rest.
+    """
     config = gw.get("policyEngineConfiguration") or {}
-    log_only = [p["name"] for p in engine_policies if p["enforcementMode"] != "ACTIVE"]
+    access = [p for p in engine_policies if not is_screen(p)]
+    log_only = [p["name"] for p in access if p["enforcementMode"] != "ACTIVE"]
     return {
         "engineAttached": bool(config),
         "engineArn": config.get("arn"),
         "gatewayMode": config.get("mode"),
-        "policies": {p["name"]: p["enforcementMode"] for p in engine_policies},
+        "policies": {p["name"]: p["enforcementMode"] for p in access},
         "policiesNotEnforced": log_only,
+        "screens": {p["name"]: p["enforcementMode"] for p in engine_policies if is_screen(p)},
         "enforced": config.get("mode") == "ENFORCE" and not log_only,
     }

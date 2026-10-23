@@ -34,16 +34,73 @@ def test_management_only_trail_does_not_count():
     assert not records.selects_gateway({"EventSelectors": [{"ReadWriteType": "All"}]}, GW_ARN)
 
 
-def test_log_only_policy_means_not_enforced():
-    gw = {"policyEngineConfiguration": {"arn": "arn:x:policy-engine/e1", "mode": "ENFORCE"}}
-    e = control_plane.enforcement(gw, [{"name": "a", "enforcementMode": "ACTIVE"},
-                                       {"name": "b", "enforcementMode": "LOG_ONLY"}])
+SCREEN = (
+    "suppressOutput(\n  principal,\n  action == AgentCore::Action::\"ops___get_claim_record\",\n"
+    f"  resource == AgentCore::Gateway::\"{GW_ARN}\"\n)\nwhen guardrails {{\n"
+    "  BedrockGuardrails::SensitiveInformation([\"US_SOCIAL_SECURITY_NUMBER\"], "
+    "[context.output.policyholder]).categories().contains(\"US_SOCIAL_SECURITY_NUMBER\")\n};"
+)
+
+
+class FakeEngine:
+    def __init__(self, definitions):
+        self.definitions = definitions
+
+    def get_paginator(self, name):
+        ids = list(self.definitions)
+
+        class Pages:
+            def paginate(self, **kw):
+                return [{"policies": [{"policyId": i} for i in ids]}]
+        return Pages()
+
+    def get_policy(self, policyEngineId, policyId):
+        return {"policyId": policyId, "name": policyId, "status": "ACTIVE", "enforcementMode": "ACTIVE",
+                "definition": self.definitions[policyId]}
+
+
+def test_guardrail_policy_statement_effect_and_digest_are_read():
+    engine = FakeEngine({"screen": {"policy": {"statement": SCREEN}},
+                         "forbid": {"cedar": {"statement": "forbid(principal, action, resource);"}}})
+    screen, forbid = control_plane.policies(engine, "e1")
+    assert screen["statement"] == SCREEN and screen["effects"] == ["suppressOutput"]
+    assert screen["sha256"] == hashlib.sha256(SCREEN.encode()).hexdigest()
+    assert forbid["effects"] == ["forbid"]
+
+
+ENFORCING = {"policyEngineConfiguration": {"arn": "arn:x:policy-engine/e1", "mode": "ENFORCE"}}
+
+
+def test_log_only_permit_or_forbid_means_not_enforced():
+    e = control_plane.enforcement(ENFORCING, [
+        {"name": "a", "enforcementMode": "ACTIVE", "effects": ["permit"]},
+        {"name": "b", "enforcementMode": "LOG_ONLY", "effects": ["forbid"]}])
     assert not e["enforced"] and e["policiesNotEnforced"] == ["b"]
+
+
+def test_log_only_screen_does_not_weaken_enforcement():
+    e = control_plane.enforcement(ENFORCING, [
+        {"name": "permit", "enforcementMode": "ACTIVE", "effects": ["permit"]},
+        {"name": "forbid", "enforcementMode": "ACTIVE", "effects": ["forbid"]},
+        {"name": "screen_a", "enforcementMode": "ACTIVE", "effects": ["suppressOutput"]},
+        {"name": "screen_b", "enforcementMode": "LOG_ONLY", "effects": ["suppressOutput"]}])
+    assert e["enforced"] and e["policiesNotEnforced"] == []
+    assert e["screens"] == {"screen_a": "ACTIVE", "screen_b": "LOG_ONLY"}
+    status, finding = checks.enforced({"enforcement": e})
+    assert status == "PASS" and "screen_b" in finding
+
+
+def test_log_only_forbid_is_not_a_forbid_in_force():
+    policies = [{"name": "forbid_x", "status": "ACTIVE", "enforcementMode": "LOG_ONLY",
+                 "effects": ["forbid"]}]
+    status, finding = checks.forbid_present({"policies": policies})
+    assert status == "FAIL" and "forbid_x" in finding
 
 
 def test_log_only_engine_means_not_enforced():
     gw = {"policyEngineConfiguration": {"arn": "arn:x:policy-engine/e1", "mode": "LOG_ONLY"}}
-    assert not control_plane.enforcement(gw, [{"name": "a", "enforcementMode": "ACTIVE"}])["enforced"]
+    assert not control_plane.enforcement(gw, [{"name": "a", "enforcementMode": "ACTIVE",
+                                               "effects": ["forbid"]}])["enforced"]
 
 
 def span(name, **attributes):
@@ -66,15 +123,15 @@ def test_decision_is_joined_to_its_tool(monkeypatch):
     assert row["tool"] == "ops___purge" and row["determiningPolicies"] == ["forbid_purge-1"]
 
 
-def trail_event(gateway_arn=GW_ARN, error=None):
+def trail_event(gateway_arn=GW_ARN, error=None, status=200, request_id="r1"):
     body = {"jsonrpc": "2.0", "id": 1}
     body.update({"error": error} if error else {"result": {"content": "REDACTED"}})
     return {"@message": json.dumps({
-        "eventTime": "t", "eventName": "InvokeGateway", "eventID": "e1",
+        "eventTime": "t", "eventName": "InvokeGateway", "eventID": "e1", "requestID": request_id,
         "resources": [{"ARN": gateway_arn}],
         "requestParameters": {"body": {"method": "tools/call", "params": {"name": "ops___purge",
                                                                          "arguments": "REDACTED"}}},
-        "responseElements": {"statusCode": 200, "body": body},
+        "responseElements": {"statusCode": status, "body": body},
         "additionalEventData": {"jwt": {"claims": {"sub": "client123", "client_id": "client123"}}},
     })}
 
@@ -87,6 +144,61 @@ def test_calls_name_tool_caller_and_error(monkeypatch):
     assert c["logGroup"] == "/trail/g"
     [call] = c["calls"]
     assert (call["tool"], call["sub"], call["error"]["code"]) == ("ops___purge", "client123", -32002)
+
+
+PERMIT = "ops_permit_read_tools-1"
+SCREEN_ID = "ops_screen_government_ids-1"
+TRAIL = [{"name": "t", "logGroupArn": "arn:aws:logs:us-east-1:acct:log-group:/trail/g:*"}]
+
+
+def authorize(request_id):
+    return span("AgentCore.Policy.AuthorizeAction", **{
+        "aws.request.id": request_id, records.DECISION: "ALLOW",
+        "aws.agentcore.policy.determining_policies": [PERMIT],
+        "aws.agentcore.gateway.policy.mode": "ENFORCE"})
+
+
+def invoke(request_id, status):
+    return span("AgentCore.Gateway.InvokeTool", **{
+        "aws.request.id": request_id, "tool.name": "ops___get_claim_record", records.DECISION: "ALLOW",
+        "http.response.status_code": status})
+
+
+def test_call_authorized_for_request_and_response_is_one_decision(monkeypatch):
+    rows = [authorize("r1"), authorize("r1"), invoke("r1", 200)]
+    monkeypatch.setattr(records, "run_query", lambda *a: rows)
+    d = records.decisions(None, "gw-abc", 0, 1)
+    assert d["counts"] == {"ALLOW": 1}
+    [row] = d["decisions"]
+    assert row["determiningPolicies"] == [PERMIT] and row["authorizations"] == 2
+
+
+def test_suppression_comes_from_cloudtrail_not_spans(monkeypatch):
+    monkeypatch.setattr(records, "run_query", lambda *a: [authorize("r2"), invoke("r2", 403)])
+    d = records.decisions(None, "gw-abc", 0, 1)
+    assert d["counts"] == {"ALLOW": 1} and d["decisions"][0]["suppressedBy"] is None
+
+    blocked = {"code": -32002,
+               "message": f"Output blocked by policy: Policy evaluation denied due to {SCREEN_ID}"}
+    event = trail_event(error=blocked, status=403, request_id="r2")
+    monkeypatch.setattr(records, "run_query", lambda *a: [event])
+    c = records.callers(None, TRAIL, GW_ARN, 0, 1)
+    assert c["calls"][0]["suppressedBy"] == [SCREEN_ID]
+
+    d = records.join_suppressions(d, c)
+    assert d["counts"] == {"SUPPRESSED": 1}
+    [row] = d["decisions"]
+    assert row["decision"] == "ALLOW" and row["suppressedBy"] == [SCREEN_ID]
+    status, finding = checks.suppression_names_policy({"callers": c})
+    assert status == "PASS" and SCREEN_ID in finding
+
+
+def test_a_denied_call_is_not_a_suppression(monkeypatch):
+    denied = {"code": -32002, "message": "Tool call denied by policy"}
+    monkeypatch.setattr(records, "run_query", lambda *a: [trail_event(error=denied, status=403)])
+    c = records.callers(None, TRAIL, GW_ARN, 0, 1)
+    assert c["calls"][0]["suppressedBy"] is None
+    assert checks.suppression_names_policy({"callers": c})[0] == "GAP"
 
 
 def test_no_trail_is_a_gap():

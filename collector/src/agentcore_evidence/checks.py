@@ -40,16 +40,26 @@ def engine_attached(p):
 
 
 def forbid_present(p):
-    forbids = [x["name"] for x in p["policies"] if "forbid" in x["effects"] and x["status"] == "ACTIVE"]
-    return (PASS, f"active forbid: {', '.join(forbids)}") if forbids else (FAIL, "no active forbid policy")
+    forbids = [x for x in p["policies"] if "forbid" in x["effects"] and x["status"] == "ACTIVE"]
+    applied = [x["name"] for x in forbids if x["enforcementMode"] == "ACTIVE"]
+    if applied:
+        return PASS, f"active forbid: {', '.join(applied)}"
+    logged = [x["name"] for x in forbids]
+    return FAIL, f"forbid in LOG_ONLY only: {', '.join(logged)}" if logged else "no active forbid policy"
+
+
+def screens(e) -> str:
+    s = e.get("screens") or {}
+    return f". Screens, judged apart: {', '.join(f'{k} {v}' for k, v in sorted(s.items()))}" if s else ""
 
 
 def enforced(p):
     e = p["enforcement"]
     if e["enforced"]:
-        return PASS, f"Gateway mode ENFORCE, {len(e['policies'])} policies ACTIVE"
+        n = len(e["policies"])
+        return PASS, f"Gateway mode ENFORCE, {n} permit and forbid policies ACTIVE{screens(e)}"
     off = e["policiesNotEnforced"] or "engine level"
-    return FAIL, f"Gateway mode {e['gatewayMode']}, not enforced: {off}"
+    return FAIL, f"Gateway mode {e['gatewayMode']}, not enforced: {off}{screens(e)}"
 
 
 def decisions_recorded(p):
@@ -81,6 +91,19 @@ def callers_identified(p):
     missing = sum(1 for x in calls if not x["sub"])
     return (FAIL, f"{missing} call(s) without a token subject") if missing \
         else (PASS, f"every call names its token subject ({len({x['sub'] for x in calls})} distinct)")
+
+
+def suppression_names_policy(p):
+    c = p["callers"]
+    if c["status"] != "OK":
+        return GAP, c["reason"]
+    withheld = [x for x in c["calls"] if x["suppressedBy"] is not None]
+    named = [x for x in withheld if x["suppressedBy"]]
+    if named:
+        policies = sorted({s for x in named for s in x["suppressedBy"]})
+        return PASS, f"{len(named)} response(s) withheld, naming {', '.join(policies)}"
+    return (GAP, "no withheld response in the window") if not withheld \
+        else (FAIL, "withheld responses without a named screen")
 
 
 def changes_recorded(p):
@@ -124,6 +147,7 @@ CHECKS = {
     "decisions.deny_names_policy": deny_names_policy,
     "callers.recorded": calls_recorded,
     "callers.identified": callers_identified,
+    "callers.suppression_names_policy": suppression_names_policy,
     "changes.recorded": changes_recorded,
     "retention.logs_encrypted": logs_encrypted,
     "retention.logs_bounded": logs_bounded,

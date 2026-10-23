@@ -5,6 +5,7 @@ Gateway data events, and changes from CloudTrail management events. Tool argumen
 and results are never collected: the spans do not carry them and CloudTrail redacts them.
 """
 import json
+import re
 from datetime import datetime
 
 from botocore.exceptions import ClientError
@@ -16,6 +17,9 @@ SOURCE = "bedrock-agentcore.amazonaws.com"
 GATEWAY_TYPE = "AWS::BedrockAgentCore::Gateway"
 MAX_ROWS = 10000
 DECISION = "aws.agentcore.policy.authorization_decision"
+# A screen that withholds a response returns HTTP 403 with this error message.
+OUTPUT_BLOCKED = "Output blocked by policy"
+SUPPRESSING_POLICY = re.compile(r"denied due to (\S+)")
 # Calls that change configuration. Token requests are also writes to CloudTrail, but
 # they are credential use, not change.
 CHANGE_VERBS = ("Create", "Update", "Delete", "Put", "Start", "Stop", "Synchronize", "Set", "Tag", "Untag")
@@ -39,25 +43,56 @@ def decisions(logs, gateway_id: str, start: int, end: int) -> dict:
         a = s.get("attributes", {})
         if s.get("name") == "AgentCore.Gateway.InvokeTool" and a.get("tool.name"):
             tools[a.get("aws.request.id")] = a["tool.name"]
-    rows = []
-    for s in spans:
+    # A call that reaches its result is authorized twice, once for the request and once
+    # for the response, and both spans carry the request id. One row per call.
+    rows = {}
+    for s in sorted(spans, key=lambda s: int(s.get("endTimeUnixNano") or 0)):
         a = s.get("attributes", {})
         if s.get("name") == "AgentCore.Gateway.InvokeTool" or DECISION not in a:
             continue
-        rows.append({
+        key = a.get("aws.request.id") or s.get("spanId")
+        policies = a.get("aws.agentcore.policy.determining_policies", [])
+        row = rows.get(key)
+        if row:
+            row["authorizations"] += 1
+            row["determiningPolicies"] += [x for x in policies if x not in row["determiningPolicies"]]
+            if a[DECISION] == "DENY":
+                row["decision"] = "DENY"
+            continue
+        rows[key] = {
             "time": nanos_to_iso(s.get("endTimeUnixNano")),
             "requestId": a.get("aws.request.id"),
             "traceId": s.get("traceId"),
             "tool": tools.get(a.get("aws.request.id")),
             "decision": a[DECISION],
-            "determiningPolicies": a.get("aws.agentcore.policy.determining_policies", []),
+            "determiningPolicies": list(policies),
             "reason": a.get("aws.agentcore.policy.authorization_reason"),
             "mode": a.get("aws.agentcore.gateway.policy.mode"),
-        })
+            "authorizations": 1,
+            "suppressedBy": None,
+        }
+    rows = list(rows.values())
+    return {"source": SPANS, "counts": tally(rows), "decisions": rows}
+
+
+def tally(rows: list[dict]) -> dict:
     counts = {}
     for r in rows:
-        counts[r["decision"]] = counts.get(r["decision"], 0) + 1
-    return {"source": SPANS, "counts": counts, "decisions": rows}
+        outcome = "SUPPRESSED" if r["suppressedBy"] else r["decision"]
+        counts[outcome] = counts.get(outcome, 0) + 1
+    return counts
+
+
+def join_suppressions(found: dict, calls: dict) -> dict:
+    """Mark each allowed call whose response a screen withheld.
+
+    A suppression writes no span of its own: the call shows only the request's ALLOW.
+    CloudTrail records the 403 and names the screen, so suppressions come from there.
+    """
+    withheld = {c["requestId"]: c["suppressedBy"] for c in calls["calls"] if c["suppressedBy"]}
+    rows = [{**r, "suppressedBy": withheld.get(r["requestId"])} for r in found["decisions"]]
+    return {**found, "source": f"{SPANS}, suppressions from CloudTrail",
+            "counts": tally(rows), "decisions": rows}
 
 
 def nanos_to_iso(nanos) -> str | None:
@@ -122,20 +157,31 @@ def callers(logs, trails: list[dict], gateway_arn: str, start: int, end: int) ->
         body = (e.get("requestParameters") or {}).get("body") or {}
         response = e.get("responseElements") or {}
         claims = ((e.get("additionalEventData") or {}).get("jwt") or {}).get("claims") or {}
+        error = (response.get("body") or {}).get("error")
         calls.append({
             "time": e.get("eventTime"),
             "eventId": e.get("eventID"),
+            "requestId": e.get("requestID"),
             "method": body.get("method"),
             "tool": (body.get("params") or {}).get("name"),
             "sub": claims.get("sub"),
             "clientId": claims.get("client_id"),
             "scope": claims.get("scope"),
             "statusCode": response.get("statusCode"),
-            "error": (response.get("body") or {}).get("error"),
+            "error": error,
+            "suppressedBy": suppressed_by(response.get("statusCode"), error),
             "sourceIp": e.get("sourceIPAddress"),
             "userAgent": e.get("userAgent"),
         })
     return {"status": "OK", "trail": readable[0]["name"], "logGroup": group, "calls": calls}
+
+
+def suppressed_by(status, error: dict | None) -> list[str] | None:
+    """The screens named in a withheld response, or None if the response was not withheld."""
+    message = (error or {}).get("message") or ""
+    if status != 403 or OUTPUT_BLOCKED not in message:
+        return None
+    return SUPPRESSING_POLICY.findall(message)
 
 
 def changes(cloudtrail, start: datetime, end: datetime) -> dict:
