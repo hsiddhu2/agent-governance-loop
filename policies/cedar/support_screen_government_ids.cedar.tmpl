@@ -1,0 +1,25 @@
+// Withhold a support ticket when its text carries government identifiers a customer pasted.
+// Production redacts identifiers when a ticket is received. This screen is the backstop
+// for what intake misses. Contact details are not screened: every ticket carries them.
+// One policy per group. When enforced, the caller's error and the CloudTrail event name the
+// group that fired. In LOG_ONLY, the decision span does.
+// The detector reports every category it finds, whatever the call asks for, so
+// count() would fire on any personal data. Each category this group covers is tested
+// by name instead. Each call and its aggregation stay on one line.
+// suppressOutput runs after the tool and withholds its result. The tool still runs.
+// Any principal: a screen that skipped some callers would only weaken it.
+// The analyzer cannot read a guardrail condition, so it judges this policy by its scope alone.
+// Not Cedar: guardrail statements are created as the API's `policy` definition. See
+// docs/guardrail-policies.md.
+// validation: IGNORE_ALL_FINDINGS because a guardrail condition is opaque to the analyzer
+suppressOutput(
+  principal,
+  action == AgentCore::Action::"{{TOOL:get_ticket}}",
+  resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"
+)
+when guardrails {
+  BedrockGuardrails::SensitiveInformation(["US_SOCIAL_SECURITY_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER", "US_PASSPORT_NUMBER", "DRIVER_ID"], [context.output.subject, context.output.body]).categories().contains("US_SOCIAL_SECURITY_NUMBER") ||
+  BedrockGuardrails::SensitiveInformation(["US_SOCIAL_SECURITY_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER", "US_PASSPORT_NUMBER", "DRIVER_ID"], [context.output.subject, context.output.body]).categories().contains("US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER") ||
+  BedrockGuardrails::SensitiveInformation(["US_SOCIAL_SECURITY_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER", "US_PASSPORT_NUMBER", "DRIVER_ID"], [context.output.subject, context.output.body]).categories().contains("US_PASSPORT_NUMBER") ||
+  BedrockGuardrails::SensitiveInformation(["US_SOCIAL_SECURITY_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER", "US_PASSPORT_NUMBER", "DRIVER_ID"], [context.output.subject, context.output.body]).categories().contains("DRIVER_ID")
+};

@@ -1,0 +1,10 @@
+# Direct dependencies. The bundle installs from requirements.lock, never from
+# this file. After changing it, run `make lock` and review the diff.
+strands-agents
+bedrock-agentcore
+# The agent uses the 2.x transport API.
+mcp>=2.1,<3
+httpx2
+requests
+boto3
+aws-opentelemetry-distro>=0.18.0

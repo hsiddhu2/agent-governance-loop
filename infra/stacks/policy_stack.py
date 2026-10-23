@@ -89,7 +89,7 @@ class PolicyStack(cdk.Stack):
     """
 
     def __init__(self, scope: Construct, id: str, engine: ac.IPolicyEngine,
-                 cedar_dir: Path, target: Construct, **kw):
+                 cedar_dir: Path, targets: list[Construct], **kw):
         super().__init__(scope, id, **kw)
 
         # No files yet means no policies yet: the engine then denies everything,
@@ -118,10 +118,11 @@ class PolicyStack(cdk.Stack):
                     validation_mode=validation.value,
                     enforcement_mode=mode,
                 )
-                # The data path is checked against the tool's output schema, so the target
-                # must exist first. The target is in the Gateway stack, so this becomes a
-                # dependency on that stack, not on the target resource.
-                policy.node.add_dependency(target)
+                # The data path is checked against the tool's output schema, so the targets
+                # must exist first. They are in the Gateway stack, so this becomes a
+                # dependency on that stack, not on the target resources.
+                for target in targets:
+                    policy.node.add_dependency(target)
                 if previous:
                     policy.node.add_dependency(previous)
                 previous = policy

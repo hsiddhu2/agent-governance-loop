@@ -1,5 +1,6 @@
 import aws_cdk as cdk
 from aws_cdk import aws_bedrockagentcore as ac
+from aws_cdk import aws_cognito as cognito
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from aws_cdk import aws_lambda as _lambda
@@ -13,9 +14,9 @@ from stacks.logs import send_function_logs
 
 
 class GatewayStack(cdk.Stack):
-    """MCP Gateway with the ops target, its policy engine, and trace delivery."""
+    """MCP Gateway with the ops and support targets, its policy engine, and trace delivery."""
 
-    def __init__(self, scope: Construct, id: str, ops_fn: _lambda.IFunction,
+    def __init__(self, scope: Construct, id: str, ops_fn: _lambda.IFunction, support_fn: _lambda.IFunction,
                  policy_mode: ac.PolicyEngineMode, logs_key: kms.IKey, **kw):
         super().__init__(scope, id, **kw)
 
@@ -65,12 +66,46 @@ class GatewayStack(cdk.Stack):
             token_endpoint=self.gateway.token_endpoint_url,
         )
 
+        # The support agent's own Gateway client in the same pool, so it is its own Cedar
+        # principal. It may ask for the read scope only.
+        read_scope = next(s for s in self.gateway.oauth_scopes if s.endswith("/read"))
+        support_client = self.gateway.user_pool.add_client(
+            "SupportAgentClient",
+            generate_secret=True,
+            o_auth=cognito.OAuthSettings(
+                flows=cognito.OAuthFlows(client_credentials=True),
+                scopes=[cognito.OAuthScope.custom(read_scope)],
+            ),
+        )
+        self.support_scopes = [read_scope]
+        # The construct allows only its own client. The Gateway accepts a token only from
+        # a client on this list, so the support client is added beside it. Changing the
+        # authorizer updates the Gateway in place: its ARN, which every policy names, stays.
+        self.gateway.node.default_child.add_property_override(
+            "AuthorizerConfiguration.CustomJWTAuthorizer.AllowedClients",
+            [self.gateway.user_pool_client.user_pool_client_id, support_client.user_pool_client_id])
+        self.support_agent_credentials = ac.OAuth2CredentialProvider.using_cognito(
+            self, "SupportAgentGatewayCredentials",
+            o_auth2_credential_provider_name="agl-support-agent-gateway",
+            client_id=support_client.user_pool_client_id,
+            client_secret=support_client.user_pool_client_secret,
+            issuer=f"https://cognito-idp.{self.region}.amazonaws.com/{self.gateway.user_pool.user_pool_id}",
+            authorization_endpoint=f"{self.gateway.user_pool_domain.base_url()}/oauth2/authorize",
+            token_endpoint=self.gateway.token_endpoint_url,
+        )
+
         # The target name becomes part of every tool name the Gateway exposes.
         self.ops_target = self.gateway.add_lambda_target(
             "OpsTarget",
             gateway_target_name="ops",
             lambda_function=ops_fn,
             tool_schema=ac.ToolSchema.from_local_asset("tools/ops/schema.json"),
+        )
+        self.support_target = self.gateway.add_lambda_target(
+            "SupportTarget",
+            gateway_target_name="support",
+            lambda_function=support_fn,
+            tool_schema=ac.ToolSchema.from_local_asset("tools/support/schema.json"),
         )
 
         # Guardrails in policy: per the AgentCore guide (Guardrails in policies), the engine
@@ -97,17 +132,20 @@ class GatewayStack(cdk.Stack):
                for n in (1, 2, 8)},
         })
         asset_bucket = "arn:<AWS::Partition>:s3:::cdk-hnb659fds-assets-<AWS::AccountId>-us-east-1"
-        # The Lambda ARN reaches this stack as a weak reference, so the finding id
-        # carries the reference text. A rename of the tools stack output changes it.
-        ops_fn_versions = ('{"Fn::GetStackOutput":{"StackName":"AglTools","Region":"us-east-1",'
-                           '"OutputName":"PublishOutputFnGetAttOpsToolsE3B3FFF4ArnA8F67AAB"}}:*')
+        # The Lambda ARNs reach this stack as weak references, so the finding ids
+        # carry the reference text. A rename of a tools stack output changes them.
+        fn_versions = [('{"Fn::GetStackOutput":{"StackName":"AglTools","Region":"us-east-1",'
+                        f'"OutputName":"{output}"}}}}:*')
+                       for output in ("PublishOutputFnGetAttOpsToolsE3B3FFF4ArnA8F67AAB",
+                                      "PublishOutputFnGetAttSupportTools1D2E42C8Arn286F4EB0")]
         nag.acknowledge(self.gateway, {
             **{f"AwsSolutions-IAM5[Action::s3:{a}]": "Added by the Gateway construct to read the "
                "tool schema from the CDK asset bucket." for a in ("GetObject*", "GetBucket*", "List*")},
             f"AwsSolutions-IAM5[Resource::{asset_bucket}/*]":
                 "The tool schema lives at a content-hashed key in the CDK asset bucket.",
-            f"AwsSolutions-IAM5[Resource::{ops_fn_versions}]":
-                "Invoke on the tool function and its versions, added by the Gateway target construct.",
+            **{f"AwsSolutions-IAM5[Resource::{versions}]":
+               "Invoke on the tool function and its versions, added by the Gateway target construct."
+               for versions in fn_versions},
             "NIST.800.53.R5-IAMNoInlinePolicy":
                 "The Gateway construct writes its service role's grants as an inline default policy, "
                 "including the custom resource that reads the generated client secret at deploy time.",
@@ -180,6 +218,10 @@ class GatewayStack(cdk.Stack):
         # credential, without the model.
         cdk.CfnOutput(self, "ClientId", value=self.gateway.user_pool_client.user_pool_client_id)
         cdk.CfnOutput(self, "OpsAgentClientId", value=self.gateway.user_pool_client.user_pool_client_id)
+        # The support agent's Gateway client and the scope it may ask for. Its id is the
+        # support agent's Cedar principal.
+        cdk.CfnOutput(self, "SupportAgentClientId", value=support_client.user_pool_client_id)
+        cdk.CfnOutput(self, "SupportScopes", value=",".join(self.support_scopes))
         cdk.CfnOutput(self, "UserPoolId", value=self.gateway.user_pool.user_pool_id)
         cdk.CfnOutput(self, "Scopes", value=",".join(self.gateway.oauth_scopes))
         cdk.CfnOutput(self, "PolicyEngineArn", value=self.engine.policy_engine_arn)

@@ -31,14 +31,26 @@ def test_policies_attach_from_the_role():
     policies = of_type(resources, "AWS::IAM::ManagedPolicy")
     assert policies
     assert not any("Roles" in p["Properties"] for p in policies.values())
-    [role] = of_type(resources, "AWS::IAM::Role").values()
-    attached = {ref["Ref"] for ref in role["Properties"]["ManagedPolicyArns"] if "Ref" in ref}
+    roles = of_type(resources, "AWS::IAM::Role").values()
+    attached = {ref["Ref"] for role in roles
+                for ref in role["Properties"]["ManagedPolicyArns"] if "Ref" in ref}
     assert attached == set(policies)
 
 
-def test_function_waits_for_its_role():
+def test_each_function_waits_for_its_own_role():
     resources = tools_template()
-    [role_id] = of_type(resources, "AWS::IAM::Role")
-    [fn] = of_type(resources, "AWS::Lambda::Function").values()
-    assert fn["Properties"]["Role"] == {"Fn::GetAtt": [role_id, "Arn"]}
-    assert fn["Properties"]["VpcConfig"]["SubnetIds"]
+    roles = set(of_type(resources, "AWS::IAM::Role"))
+    functions = of_type(resources, "AWS::Lambda::Function").values()
+    used = [fn["Properties"]["Role"]["Fn::GetAtt"][0] for fn in functions]
+    assert sorted(used) == sorted(roles)
+    assert all(fn["Properties"]["VpcConfig"]["SubnetIds"] for fn in functions)
+
+
+def test_support_role_cannot_write():
+    resources = tools_template()
+    [support] = [k for k, r in of_type(resources, "AWS::IAM::Role").items()
+                 if r["Properties"].get("RoleName") == "agl-support-tool"]
+    refs = {ref["Ref"] for ref in resources[support]["Properties"]["ManagedPolicyArns"] if "Ref" in ref}
+    actions = {a for ref in refs for st in resources[ref]["Properties"]["PolicyDocument"]["Statement"]
+               for a in ([st["Action"]] if isinstance(st["Action"], str) else st["Action"])}
+    assert not {a for a in actions if a.startswith("dynamodb:")} - {"dynamodb:GetItem"}

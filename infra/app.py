@@ -39,16 +39,18 @@ audit = AuditStack(app, "AglAudit", audit_key=keys.audit_key, logs_key=keys.logs
 network = NetworkStack(app, "AglNetwork", logs_key=keys.logs_key, env=env)
 tools = ToolsStack(app, "AglTools", logs_key=keys.logs_key, data_key=keys.data_key,
                    vpc=network.vpc, security_group=network.tools_sg, env=env)
-gw = GatewayStack(app, "AglGateway", ops_fn=tools.ops_fn, policy_mode=policy_mode,
-                  logs_key=keys.logs_key, env=env)
+gw = GatewayStack(app, "AglGateway", ops_fn=tools.ops_fn, support_fn=tools.support_fn,
+                  policy_mode=policy_mode, logs_key=keys.logs_key, env=env)
 agents = AgentsStack(app, "AglAgents", gateway=gw.gateway, model_id=model_id,
                      model_regions=model_regions, logs_key=keys.logs_key,
-                     credentials=gw.ops_agent_credentials, env=env)
+                     ops_credentials=gw.ops_agent_credentials,
+                     support_credentials=gw.support_agent_credentials,
+                     support_scopes=gw.support_scopes, env=env)
 # The policy stack always exists so every synth produces the same set of stacks.
 # Its contents come from the .cedar files `make discover` renders from the live
 # Gateway; before that it deploys empty.
 policy = PolicyStack(app, "AglPolicy", engine=gw.engine, cedar_dir=cedar_dir,
-                     target=gw.ops_target, env=env)
+                     targets=[gw.ops_target, gw.support_target], env=env)
 if not rendered_policies(cedar_dir):
     print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
           "Run `make discover`.", file=sys.stderr)

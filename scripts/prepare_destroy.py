@@ -1,4 +1,4 @@
-"""Make the claims stores removable, as the first step of `make destroy`.
+"""Make the claims and ticket stores removable, as the first step of `make destroy`.
 
 The stores are protected the way stores of record are: deletion protection on, and a
 backup vault that CloudFormation can delete only once it is empty. Teardown therefore
@@ -12,7 +12,10 @@ import time
 import boto3
 
 REGION = "us-east-1"
-TABLES = ("agl-claims-staging", "agl-claims-production")
+ENVIRONMENTS = ("staging", "production")
+# Each environment's vault is named after its claims table and also holds its tickets.
+VAULTS = tuple(f"agl-claims-{env}" for env in ENVIRONMENTS)
+TABLES = VAULTS + tuple(f"agl-tickets-{env}" for env in ENVIRONMENTS)
 TRAIL = "agl-gateway-tool-calls"
 WAIT_SECONDS = 600
 ddb = boto3.client("dynamodb", region_name=REGION)
@@ -46,7 +49,6 @@ def unprotect(name: str) -> None:
 
 
 def empty_vault(name: str) -> None:
-    # Each data stack names its vault after its table.
     def points() -> list[str]:
         pages = bk.get_paginator("list_recovery_points_by_backup_vault").paginate(BackupVaultName=name)
         return [p["RecoveryPointArn"] for page in pages for p in page["RecoveryPoints"]]
@@ -90,4 +92,5 @@ def empty_trail_bucket() -> None:
 empty_trail_bucket()
 for table in TABLES:
     unprotect(table)
-    empty_vault(table)
+for vault in VAULTS:
+    empty_vault(vault)

@@ -10,7 +10,11 @@ from stacks.logs import log_group as owned_log_group
 
 
 class ToolsStack(cdk.Stack):
-    """The ops tool Lambda, running under a role that can do more than its callers should."""
+    """The tool Lambdas behind the Gateway.
+
+    The ops tools run under a role that can do more than their callers should. The
+    support tools run under a role scoped to what they do.
+    """
 
     def __init__(self, scope: Construct, id: str, logs_key: kms.IKey, data_key: kms.IKey,
                  vpc: ec2.IVpc, security_group: ec2.ISecurityGroup, **kw):
@@ -102,8 +106,54 @@ class ToolsStack(cdk.Stack):
                 "Lambda creates and removes network interfaces whose ids are not known in advance. "
                 "The describe actions do not support resource-level permissions.",
         })
-        nag.acknowledge(self.ops_fn, {
-            "NIST.800.53.R5-LambdaDLQ":
-                "The Gateway invokes the function synchronously. A dead-letter queue only receives "
-                "failed asynchronous events, so a failure here goes back to the caller and to the logs.",
+        no_dlq = ("The Gateway invokes the function synchronously. A dead-letter queue only receives "
+                  "failed asynchronous events, so a failure here goes back to the caller and to the logs.")
+        nag.acknowledge(self.ops_fn, {"NIST.800.53.R5-LambdaDLQ": no_dlq})
+
+        # The support tools. Unlike the ops role, this one is scoped to what its tool does:
+        # read one ticket.
+        support_role = iam.Role(
+            self, "SupportToolRole",
+            role_name="agl-support-tool",
+            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
+        )
+        ticket_tables = self.format_arn(service="dynamodb", resource="table",
+                                        resource_name="agl-tickets-*")
+        support_logs = owned_log_group(self, "SupportToolsLogs", "/aws/lambda/agl-support-tools", logs_key)
+        support_policy = iam.ManagedPolicy(self, "SupportToolPolicy", statements=[
+            iam.PolicyStatement(sid="ReadTicket", actions=["dynamodb:GetItem"],
+                                resources=[ticket_tables]),
+            iam.PolicyStatement(sid="DataKeyViaDynamoDB",
+                                actions=["kms:Decrypt"],
+                                resources=[data_key.key_arn],
+                                conditions={"StringEquals": {
+                                    "kms:ViaService": f"dynamodb.{self.region}.amazonaws.com"}}),
+            iam.PolicyStatement(sid="WriteOwnLogs", actions=["logs:CreateLogStream", "logs:PutLogEvents"],
+                                resources=[f"{support_logs.log_group_arn}:*"]),
+        ])
+        for policy in (support_policy, vpc_access):
+            support_role.add_managed_policy(policy)
+
+        self.support_fn = _lambda.Function(
+            self, "SupportTools",
+            function_name="agl-support-tools",
+            runtime=_lambda.Runtime.PYTHON_3_14,
+            handler="handler.handler",
+            code=_lambda.Code.from_asset("tools/support", exclude=["schema.json"]),
+            role=support_role,
+            log_group=support_logs,
+            timeout=cdk.Duration.seconds(30),
+            environment={"TABLE_PREFIX": "agl-tickets-"},
+            vpc=vpc,
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
+            security_groups=[security_group],
+            reserved_concurrent_executions=5,
+        )
+        nag.acknowledge(support_policy, {
+            "AwsSolutions-IAM5[Resource::arn:<AWS::Partition>:dynamodb:us-east-1:<AWS::AccountId>:table/agl-tickets-*]":
+                "Read one item from either environment's ticket table. Matched by name, not by "
+                "reference, so a data stack can be replaced on its own.",
+            "AwsSolutions-IAM5[Resource::<SupportToolsLogsC52DF76F.Arn>:*]":
+                "Log stream names are assigned by Lambda at run time, inside this one log group.",
         })
+        nag.acknowledge(self.support_fn, {"NIST.800.53.R5-LambdaDLQ": no_dlq})

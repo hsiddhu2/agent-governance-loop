@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
-# Build the Ops Agent bundle for AgentCore Runtime direct code deploy:
+# Build one agent's bundle for AgentCore Runtime direct code deploy:
 # agent source plus the locked dependencies for Linux arm64, Python 3.12.
 # Installing from the lock with hashes means the same commit builds the same bundle.
+# Usage: scripts/package_agent.sh <agent>, where agents/<agent>/ holds its code.
 set -euo pipefail
-OUT=build/ops_agent
+AGENT=${1:?usage: package_agent.sh <agent, e.g. ops_agent>}
+OUT=build/$AGENT
 command -v uv >/dev/null || { echo "uv is required: https://docs.astral.sh/uv/" >&2; exit 1; }
 rm -rf "$OUT"
 mkdir -p "$OUT"
 uv pip install -q \
   --python-platform aarch64-manylinux2014 --python-version 3.12 \
   --only-binary=:all: --require-hashes --no-deps --target "$OUT" \
-  -r agents/ops_agent/requirements.lock
-cp agents/ops_agent/main.py "$OUT/"
+  -r "agents/$AGENT/requirements.lock"
+cp "agents/$AGENT/main.py" "$OUT/"
 
 # Installing into a target folder writes launcher scripts that point at the Python
 # that ran the install, which does not exist in the runtime. Point them at the

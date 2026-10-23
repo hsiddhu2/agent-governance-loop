@@ -1,4 +1,4 @@
-"""Put the claim records back after a scenario run.
+"""Put the claim records and tickets back after a scenario run.
 
 A purge deletes records, not tables: the tables have deletion protection. So a reset
 only checks both tables are there and active, then writes the synthetic rows again.
@@ -9,7 +9,7 @@ import sys
 
 import boto3
 
-TABLES = ("agl-claims-staging", "agl-claims-production")
+TABLES = ("agl-claims-staging", "agl-claims-production", "agl-tickets-staging", "agl-tickets-production")
 ddb = boto3.client("dynamodb", region_name="us-east-1")
 
 for name in TABLES:

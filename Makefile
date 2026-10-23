@@ -6,7 +6,7 @@ EXPIRES ?= $(shell python3 -c "import datetime as d; print(d.date.today() + d.ti
 export EXPIRES
 CDK_CTX = -c expires=$(EXPIRES)
 
-.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy seed attack trace evidence reset destroy
+.PHONY: check test lock package synth deploy-base discover deploy-policy enforce log-only deploy-agents deploy seed attack matrix trace evidence reset destroy
 
 # Every deploy names its stacks and passes --exclusively, so a deploy changes only
 # what it names. The Gateway's policy mode changes only through `enforce` and
@@ -42,15 +42,19 @@ check: package
 test:
 	python -m pytest tests collector/tests -q
 
-# Resolve the agent's dependencies for the runtime platform and pin them with hashes.
-# Run on purpose after changing requirements.txt, then review the diff.
+AGENTS = ops_agent support_agent
+
+# Resolve each agent's dependencies for the runtime platform and pin them with hashes.
+# Run on purpose after changing a requirements.txt, then review the diff.
 lock:
-	uv pip compile agents/ops_agent/requirements.txt -o agents/ops_agent/requirements.lock \
-	  --python-platform aarch64-manylinux2014 --python-version 3.12 \
-	  --only-binary=:all: --generate-hashes --no-header -q
+	for a in $(AGENTS); do \
+	  uv pip compile agents/$$a/requirements.txt -o agents/$$a/requirements.lock \
+	    --python-platform aarch64-manylinux2014 --python-version 3.12 \
+	    --only-binary=:all: --generate-hashes --no-header -q || exit 1; \
+	done
 
 package:
-	scripts/package_agent.sh
+	for a in $(AGENTS); do scripts/package_agent.sh $$a || exit 1; done
 
 synth: package
 	cdk synth $(CDK_CTX) --quiet
@@ -88,6 +92,10 @@ seed:
 MODE ?= agent
 attack:
 	python scripts/attack.py --scenario $(SCENARIO) --mode $(MODE)
+
+# Each agent's credential against each tool, without the model. Enforcing Gateway only.
+matrix:
+	python scripts/access_matrix.py
 
 trace:
 	python scripts/policy_trace.py 30

@@ -11,6 +11,7 @@ REGION = "us-east-1"
 PREFIXES = [
     # The runtime name, which every runtime id and so every group name starts with.
     "/aws/bedrock-agentcore/runtimes/agl_ops_agent-",
+    "/aws/bedrock-agentcore/runtimes/agl_support_agent-",
     # Groups Lambda named after the stack. Stack-owned groups are lower case, agl-.
     "/aws/lambda/Agl",
 ]

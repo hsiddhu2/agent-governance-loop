@@ -1,0 +1,48 @@
+[
+  {
+    "name": "get_ticket",
+    "description": "Read one customer support ticket: the claim it is about, its status, subject and body.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "string"
+        },
+        "ticket_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "environment",
+        "ticket_id"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ticket_id": {
+          "type": "string"
+        },
+        "claim_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticket_id",
+        "claim_id",
+        "status",
+        "subject",
+        "body"
+      ]
+    }
+  }
+]

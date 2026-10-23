@@ -65,7 +65,8 @@ def test_policies_are_created_one_after_another(tmp_path):
     env = cdk.Environment(region="us-east-1")
     holder = cdk.Stack(app, "Holder", env=env)
     engine = ac.PolicyEngine(holder, "Engine", policy_engine_name="e")
-    stack = PolicyStack(app, "P", engine=engine, cedar_dir=tmp_path, target=Construct(holder, "T"), env=env)
+    stack = PolicyStack(app, "P", engine=engine, cedar_dir=tmp_path,
+                        targets=[Construct(holder, "T")], env=env)
     resources = Template.from_stack(stack).to_json()["Resources"]
     by_name = {r["Properties"]["Name"]: (k, r) for k, r in resources.items()
                if r["Type"].endswith("::Policy")}

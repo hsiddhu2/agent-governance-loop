@@ -22,19 +22,27 @@ def cfn_outputs(stack: str) -> dict:
     return {o["OutputKey"]: o["OutputValue"] for o in outs}
 
 
-def gateway_token(outs: dict) -> str:
-    # Operator tooling, run with the operator's own AWS credentials. It reads the ops
-    # agent's client secret on purpose: the scenarios call the Gateway with the agent's
-    # credential, without the model, to show what policy decides. The agent itself
-    # never reads this secret.
+# Which stack outputs hold each agent's Gateway client and the scopes it may ask for.
+AGENT_CLIENTS = {
+    "ops": ("OpsAgentClientId", "Scopes"),
+    "support": ("SupportAgentClientId", "SupportScopes"),
+}
+
+
+def gateway_token(outs: dict, agent: str = "ops") -> str:
+    # Operator tooling, run with the operator's own AWS credentials. It reads an agent's
+    # client secret on purpose: the scenarios call the Gateway with the agent's
+    # credential, without the model, to show what policy decides. The agents themselves
+    # never read these secrets.
+    client_key, scopes_key = AGENT_CLIENTS[agent]
     secret = boto3.client("cognito-idp", region_name=REGION).describe_user_pool_client(
-        UserPoolId=outs["UserPoolId"], ClientId=outs["ClientId"],
+        UserPoolId=outs["UserPoolId"], ClientId=outs[client_key],
     )["UserPoolClient"]["ClientSecret"]
     resp = requests.post(outs["TokenEndpoint"], timeout=10, data={
         "grant_type": "client_credentials",
-        "client_id": outs["ClientId"],
+        "client_id": outs[client_key],
         "client_secret": secret,
-        "scope": outs["Scopes"].replace(",", " "),
+        "scope": outs[scopes_key].replace(",", " "),
     })
     resp.raise_for_status()
     return resp.json()["access_token"]
@@ -140,7 +148,8 @@ def main() -> None:
     # Cognito M2M token is the token's client id.
     GATEWAY_OUT.write_text(json.dumps({
         "arn": outs["GatewayArn"],
-        "principals": {"ops_agent": outs["OpsAgentClientId"]},
+        "principals": {"ops_agent": outs["OpsAgentClientId"],
+                       "support_agent": outs["SupportAgentClientId"]},
     }, indent=2) + "\n")
     print(f"wrote {GATEWAY_OUT}")
 
