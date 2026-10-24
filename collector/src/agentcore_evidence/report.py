@@ -33,8 +33,12 @@ def write_pack(out: Path, pack: dict, controls: list[dict], run: dict) -> dict:
     cedar.mkdir(exist_ok=True)
     # Each digest is of the statement as written here, after any redaction, so a reader
     # can check it against the file in the pack.
+    # A policy with no statement, such as one made from a policy generation, gets no file.
     digests = {}
     for p in pack["policies"]:
+        if p["statement"] is None:
+            digests[p["name"]] = None
+            continue
         path = cedar / f"{p['name']}.cedar"
         path.write_text(p["statement"] + "\n", encoding="utf-8")
         digests[p["name"]] = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -77,10 +81,12 @@ def unmatched(pack: dict) -> str | None:
     A trail records only from when it was created, so decisions before its first event
     have no call to match.
     """
-    decisions, calls = pack["decisions"]["decisions"], pack["callers"]["calls"]
+    # Only tool calls are decided one by one. A tools/list call has no decision of its own.
+    decisions = pack["decisions"]["decisions"]
+    calls = [c for c in pack["callers"]["calls"] if c.get("method") == "tools/call"]
     if pack["callers"]["status"] != "OK" or len(decisions) <= len(calls):
         return None
-    note = f"{len(decisions)} decisions but {len(calls)} recorded call{'s' if len(calls) != 1 else ''}."
+    note = f"{len(decisions)} decisions but {len(calls)} recorded tool call{'s' if len(calls) != 1 else ''}."
     earliest = min((d["time"] for d in decisions if d["time"]), key=instant, default=None)
     first = min((c["time"] for c in calls if c["time"]), key=instant, default=None)
     if earliest and first and instant(first) > instant(earliest):

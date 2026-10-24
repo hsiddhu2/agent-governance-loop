@@ -68,6 +68,20 @@ def test_guardrail_policy_statement_and_effect_are_read():
     assert forbid["effects"] == ["forbid"]
 
 
+def test_a_generated_policy_has_no_statement_and_no_file(tmp_path):
+    generated = {"policyGenerationId": "g1", "policyGenerationAssetId": "a1"}
+    engine = FakeEngine({"gen": {"policyGeneration": generated}})
+    (gen,) = control_plane.policies(engine, "e1")
+    assert gen["statement"] is None and gen["effects"] == [] and gen["definedAs"] == "policyGeneration"
+    assert gen["generatedFrom"] == generated
+    pack = minimal_pack()
+    pack["policies"] = [gen]
+    run = {"gateway": "gw", "region": "r", "start": "a", "end": "b", "collectedAt": "c", "caller": "x"}
+    report.write_pack(tmp_path, pack, [], run)
+    assert not (tmp_path / "policies" / "gen.cedar").exists()
+    assert json.loads((tmp_path / "policies.json").read_text())[0]["sha256"] is None
+
+
 ENFORCING = {"policyEngineConfiguration": {"arn": "arn:x:policy-engine/e1", "mode": "ENFORCE"}}
 
 
@@ -253,7 +267,7 @@ def test_each_change_names_what_it_changed():
     targets = [(c["eventName"], c["target"]) for c in records.changes(t, None, None)["changes"]]
     assert targets == [("CreatePolicy", "ops_permit_read_tools"), ("DeletePolicy", "ops_permit_reads-1"),
                        ("UpdatePolicy", "ops_screen_x-1"), ("CreatePolicyEngine", "engine"),
-                       ("DeletePolicyEngine", "e2"), ("UpdateGateway", "gw-abc"), ("TagResource", None)]
+                       ("DeletePolicyEngine", "e2"), ("UpdateGateway", "gw-abc"), ("TagResource", "arn:x")]
 
 
 def test_redaction_is_stable_and_keeps_digests():
@@ -356,7 +370,8 @@ def pack_with_late_trail(decision_times, call_times):
         {"time": t, "requestId": f"r{i}", "decision": "ALLOW", "determiningPolicies": [],
          "suppressedBy": None} for i, t in enumerate(decision_times)]}
     pack["callers"] = {"status": "OK", "trail": "t", "calls": [
-        {"time": t, "requestId": "r0", "sub": "c", "suppressedBy": None} for t in call_times]}
+        {"time": t, "requestId": "r0", "method": "tools/call", "sub": "c", "suppressedBy": None}
+        for t in call_times]}
     return pack
 
 
@@ -367,8 +382,15 @@ def test_summary_explains_decisions_without_calls(tmp_path):
     run = {"gateway": "gw", "region": "r", "start": "a", "end": "b", "collectedAt": "c", "caller": "x"}
     report.write_pack(tmp_path, Redactor(origin=origin).value(pack), [], run)
     text = (tmp_path / "summary.md").read_text()
-    assert "2 decisions but 1 recorded call" in text
+    assert "2 decisions but 1 recorded tool call" in text
     assert "first recorded event, T+04:00:00, is later than the earliest decision, T+01:00:00" in text
+
+
+def test_tools_list_calls_are_not_counted_against_decisions(tmp_path):
+    pack = pack_with_late_trail(["2030-01-02T01:00:00+00:00"], [])
+    pack["callers"]["calls"] = [{"time": "2030-01-02T01:00:00Z", "requestId": f"l{i}", "method": "tools/list",
+                                 "sub": "c", "suppressedBy": None} for i in range(3)]
+    assert report.unmatched(pack) == "1 decisions but 0 recorded tool calls."
 
 
 def test_summary_adds_no_note_when_every_decision_has_a_call(tmp_path):

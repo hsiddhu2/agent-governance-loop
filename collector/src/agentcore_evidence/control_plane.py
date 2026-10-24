@@ -159,15 +159,19 @@ def policies(control, engine: str) -> list[dict]:
     for page in control.get_paginator("list_policies").paginate(policyEngineId=engine):
         for p in page["policies"]:
             detail = control.get_policy(policyEngineId=engine, policyId=p["policyId"])
-            # Cedar policies come back as `cedar`, guardrail screens as `policy`.
+            # Cedar policies come back as `cedar`, guardrail screens as `policy`. A policy made
+            # from a policy generation comes back as `policyGeneration`, with no statement.
             definition = detail.get("definition", {})
-            statement = (definition.get("cedar") or definition.get("policy") or {}).get("statement", "")
+            source = next((k for k in ("cedar", "policy", "policyGeneration") if k in definition), None)
+            statement = (definition.get("cedar") or definition.get("policy") or {}).get("statement")
             found.append({
                 "policyId": detail["policyId"],
                 "name": detail["name"],
                 "status": detail.get("status"),
                 "enforcementMode": detail.get("enforcementMode"),
-                "effects": EFFECT.findall(statement),
+                "definedAs": source,
+                **({"generatedFrom": definition["policyGeneration"]} if source == "policyGeneration" else {}),
+                "effects": EFFECT.findall(statement or ""),
                 "updatedAt": str(detail.get("updatedAt")),
                 "statement": statement,
             })

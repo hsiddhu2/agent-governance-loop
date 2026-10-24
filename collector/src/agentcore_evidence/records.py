@@ -35,6 +35,7 @@ TARGET = {
     "CreatePolicyEngine": "name",
     "DeletePolicyEngine": "policyEngineId",
     "UpdateGateway": "gatewayIdentifier",
+    "TagResource": "resourceArn",
 }
 
 
