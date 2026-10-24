@@ -10,7 +10,7 @@
       "allowedAudience": [],
       "allowedScopes": []
     },
-    "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-hxhwh522lk"
+    "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-gxl9ipizia"
   },
   "runtimes": [
     {
@@ -26,8 +26,8 @@
           "agl-support-agent/invoke"
         ]
       },
-      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-tmmsEUBl5n",
-      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-xf9PWsvzWfoW"
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-1tiE1e7occ",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-Fis5nI9fD9Cm"
     },
     {
       "name": "agl_ops_agent",
@@ -42,8 +42,8 @@
           "agl-ops-agent/invoke"
         ]
       },
-      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
-      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-iDLqPykYJvYU"
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-ikmvggF3WN",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-XOP79laGgMsW"
     }
   ]
 }

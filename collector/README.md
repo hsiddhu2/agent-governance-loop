@@ -17,7 +17,7 @@ agentcore-evidence collect --gateway <name or id> --region us-east-1 --since 24h
 
 The output directory must be empty or new, so no file from an earlier run mixes in.
 
-A redacted pack from this repo's own deployment, with both agents, the catalog and the screens, is in [`evidence/examples/agl-gateway-two-agents/`](../evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`. [`evidence/examples/agl-gateway/`](../evidence/examples/agl-gateway/summary.md) is an earlier pack from the same Gateway with one agent, kept for comparison. With `--redact`, times are offsets from the start of the window, such as `T+23:46:38`.
+A redacted pack from this repo's own deployment, with both agents, the catalog and the screens, is in [`evidence/examples/agl-gateway-two-agents/`](../evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`. Its window opens just before a full `make deploy` into an empty account, so it records the deploy's control-plane writes and every call made after it. With `--redact`, times are offsets from the start of the window, such as `T+12:46:38`.
 
 ## Permissions
 

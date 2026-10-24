@@ -10,5 +10,5 @@ permit(
     AgentCore::Action::"support___get_ticket",
     AgentCore::Action::"ops___get_claim"
   ],
-  resource == AgentCore::Gateway::"arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk"
+  resource == AgentCore::Gateway::"arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-gxl9ipizia"
 );

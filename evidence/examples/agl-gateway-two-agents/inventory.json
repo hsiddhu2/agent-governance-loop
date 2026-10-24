@@ -4,11 +4,21 @@
     "registries": [
       {
         "name": "agl-registry",
-        "arn": "arn:aws:agent-registry:us-east-1:<account-1>:registry/jQeBIfGHD82O72Og",
+        "arn": "arn:aws:agent-registry:us-east-1:<account-1>:registry/JVod52Zx4hiJyHSi",
         "status": "READY"
       }
     ],
     "records": [
+      {
+        "registry": "agl-registry",
+        "name": "agl-ops-agent",
+        "recordType": "CUSTOM",
+        "status": "APPROVED",
+        "names": [
+          "gateway agl-gateway",
+          "runtime agl_ops_agent"
+        ]
+      },
       {
         "registry": "agl-registry",
         "name": "agl-claims-gateway",
@@ -27,31 +37,21 @@
           "gateway agl-gateway",
           "runtime agl_support_agent"
         ]
-      },
-      {
-        "registry": "agl-registry",
-        "name": "agl-ops-agent",
-        "recordType": "CUSTOM",
-        "status": "APPROVED",
-        "names": [
-          "gateway agl-gateway",
-          "runtime agl_ops_agent"
-        ]
       }
     ]
   },
   "gateway": {
-    "gatewayId": "agl-gateway-hxhwh522lk",
+    "gatewayId": "agl-gateway-gxl9ipizia",
     "name": "agl-gateway",
-    "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+    "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-gxl9ipizia",
     "status": "READY",
     "protocol": "MCP",
-    "roleArn": "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV",
-    "updatedAt": "T+15:40:02"
+    "roleArn": "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-eomrh8v4jVOb",
+    "updatedAt": "T+00:13:44"
   },
   "targets": [
     {
-      "targetId": "IHNRU8MNND",
+      "targetId": "6YDIYSAVJQ",
       "name": "support",
       "status": "READY",
       "type": "LAMBDA",
@@ -72,10 +72,10 @@
           "credentialProviderType": "GATEWAY_IAM_ROLE"
         }
       ],
-      "updatedAt": "T+21:15:20"
+      "updatedAt": "T+00:10:57"
     },
     {
-      "targetId": "ZK1B1A1OL8",
+      "targetId": "G4LDVQSTOV",
       "name": "ops",
       "status": "READY",
       "type": "LAMBDA",
@@ -96,17 +96,17 @@
           "credentialProviderType": "GATEWAY_IAM_ROLE"
         }
       ],
-      "updatedAt": "T+21:15:21"
+      "updatedAt": "T+00:10:56"
     }
   ],
   "runtimes": [
     {
-      "agentRuntimeId": "agl_support_agent-tmmsEUBl5n",
+      "agentRuntimeId": "agl_support_agent-1tiE1e7occ",
       "name": "agl_support_agent",
-      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_support_agent-tmmsEUBl5n",
+      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_support_agent-1tiE1e7occ",
       "version": "1",
       "status": "READY",
-      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-xf9PWsvzWfoW",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-Fis5nI9fD9Cm",
       "network": "PUBLIC",
       "authorizer": {
         "customJWTAuthorizer": {
@@ -119,16 +119,16 @@
           ]
         }
       },
-      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-tmmsEUBl5n",
-      "updatedAt": "T+15:42:08"
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-1tiE1e7occ",
+      "updatedAt": "T+00:15:21"
     },
     {
-      "agentRuntimeId": "agl_ops_agent-Uy4VNRDuho",
+      "agentRuntimeId": "agl_ops_agent-ikmvggF3WN",
       "name": "agl_ops_agent",
-      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_ops_agent-Uy4VNRDuho",
-      "version": "7",
+      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_ops_agent-ikmvggF3WN",
+      "version": "1",
       "status": "READY",
-      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-iDLqPykYJvYU",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-XOP79laGgMsW",
       "network": "PUBLIC",
       "authorizer": {
         "customJWTAuthorizer": {
@@ -141,8 +141,8 @@
           ]
         }
       },
-      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
-      "updatedAt": "T-09:13:22"
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-ikmvggF3WN",
+      "updatedAt": "T+00:15:20"
     }
   ]
 }

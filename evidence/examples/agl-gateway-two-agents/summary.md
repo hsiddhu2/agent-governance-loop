@@ -1,7 +1,7 @@
 # Evidence pack
 
-Gateway `agl-gateway` in us-east-1. Window T+00:00:00 to T+23:59:59.
-Collected T+1d 00:00:15 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>`.
+Gateway `agl-gateway` in us-east-1. Window T+00:00:00 to T+12:59:59.
+Collected T+13:00:09 by `arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-2>`.
 
 This pack supports evidence for the asks below. It does not show compliance with any of them: each source asks for more than an account can show, and compliance is decided over a whole program.
 
@@ -29,16 +29,16 @@ PASS: the evidence shows the control working. FAIL: it shows the control is not.
 | inventory.registered | PASS | 3 of 3 named in approved records (agl-registry) | `inventory.json` |
 | identity.gateway_jwt | PASS | JWT inbound, 2 allowed client(s) | `identity.json` |
 | identity.runtimes_jwt | PASS | 2 runtime(s), each accepting named clients only | `identity.json` |
-| policies.engine_attached | PASS | engine agl_engine-mmk18ak0rd | `policies.json` |
+| policies.engine_attached | PASS | engine agl_engine-43ngcruyjq | `policies.json` |
 | policies.forbid_present | PASS | active forbid: ops_forbid_purge | `policies.json` |
 | enforcement.enforced | PASS | Gateway mode ENFORCE, 3 permit and forbid policies ACTIVE. Screens, judged apart: ops_screen_contact_details LOG_ONLY, ops_screen_financial LOG_ONLY, ops_screen_government_ids ACTIVE, ops_screen_health_ids LOG_ONLY, support_screen_financial ACTIVE, support_screen_government_ids ACTIVE | `enforcement.json` |
 | enforcement.screens_active | PASS | withholding: ops_screen_government_ids, support_screen_financial, support_screen_government_ids. LOG_ONLY, withholding nothing: ops_screen_contact_details, ops_screen_financial, ops_screen_health_ids | `enforcement.json` |
-| decisions.recorded | PASS | ALLOW 186, DENY 46, SUPPRESSED 37 | `decisions.json` |
-| decisions.deny_names_policy | PASS | 18 deny(s) naming ops_forbid_purge-zlncpdalfy | `decisions.json` |
-| callers.recorded | PASS | 378 call(s) in trail agl-gateway-tool-calls | `callers.json` |
+| decisions.recorded | PASS | ALLOW 125, DENY 17, SUPPRESSED 26 | `decisions.json` |
+| decisions.deny_names_policy | PASS | 9 deny(s) naming ops_forbid_purge-0ohig_wj2b | `decisions.json` |
+| callers.recorded | PASS | 194 call(s) in trail agl-gateway-tool-calls | `callers.json` |
 | callers.identified | PASS | every call names its token subject (2 distinct) | `callers.json` |
-| callers.suppression_names_policy | PASS | 37 response(s) withheld, naming ops_screen_government_ids-1ylf7yzw40, support_screen_financial-65zhg33em0, support_screen_government_ids-ztrepe3u56 | `callers.json` |
-| changes.recorded | PASS | 81 control-plane write(s) in the window | `changes.json` |
+| callers.suppression_names_policy | PASS | 26 response(s) withheld, naming ops_screen_government_ids-5waxi9n0qr, support_screen_financial-43sxiac2uv, support_screen_government_ids-_vcvitl418 | `callers.json` |
+| changes.recorded | PASS | 22 control-plane write(s) in the window | `changes.json` |
 | retention.logs_encrypted | FAIL | no customer managed key: aws/spans | `retention.json` |
 | retention.logs_bounded | PASS | 4 log group(s) | `retention.json` |
 | retention.logs_masked | FAIL | no data masking: aws/spans | `retention.json` |

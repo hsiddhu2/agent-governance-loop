@@ -1,20 +1,20 @@
 {
   "logGroups": [
     {
-      "name": "/aws/bedrock-agentcore/runtimes/agl_ops_agent-Uy4VNRDuho-DEFAULT",
-      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/27ef5540-38ac-4c77-8812-6f0d453a31bf",
+      "name": "/aws/bedrock-agentcore/runtimes/agl_ops_agent-ikmvggF3WN-DEFAULT",
+      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/9e0494d4-cba4-484a-9ac6-4847323dfa67",
       "retentionInDays": 30,
       "dataProtection": "ACTIVATED"
     },
     {
-      "name": "/aws/bedrock-agentcore/runtimes/agl_support_agent-tmmsEUBl5n-DEFAULT",
-      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/27ef5540-38ac-4c77-8812-6f0d453a31bf",
+      "name": "/aws/bedrock-agentcore/runtimes/agl_support_agent-1tiE1e7occ-DEFAULT",
+      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/9e0494d4-cba4-484a-9ac6-4847323dfa67",
       "retentionInDays": 30,
       "dataProtection": "ACTIVATED"
     },
     {
       "name": "/aws/cloudtrail/agl-gateway",
-      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/27ef5540-38ac-4c77-8812-6f0d453a31bf",
+      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/9e0494d4-cba4-484a-9ac6-4847323dfa67",
       "retentionInDays": 30,
       "dataProtection": "ACTIVATED"
     },
@@ -31,7 +31,7 @@
       "arn": "arn:aws:cloudtrail:us-east-1:<account-1>:trail/agl-gateway-tool-calls",
       "logging": true,
       "logFileValidation": true,
-      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/150ff87d-de58-450e-8455-5793be6e315b",
+      "kmsKeyId": "arn:aws:kms:us-east-1:<account-1>:key/9fcd362f-1907-463e-bdec-8a49b9738858",
       "s3Bucket": "agl-audit-<account-1>-us-east-1",
       "logGroupArn": "arn:aws:logs:us-east-1:<account-1>:log-group:/aws/cloudtrail/agl-gateway:*"
     }

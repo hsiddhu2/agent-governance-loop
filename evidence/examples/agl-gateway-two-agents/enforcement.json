@@ -1,6 +1,6 @@
 {
   "engineAttached": true,
-  "engineArn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:policy-engine/agl_engine-mmk18ak0rd",
+  "engineArn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:policy-engine/agl_engine-43ngcruyjq",
   "gatewayMode": "ENFORCE",
   "policies": {
     "ops_forbid_purge": "ACTIVE",
