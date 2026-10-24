@@ -2,13 +2,13 @@
 
 Independent community project. Not sponsored, endorsed, or maintained by AWS.
 
-A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys an agent on AgentCore Runtime behind a Gateway with Cedar policy, a decision record in CloudWatch that names the policy behind each allow and deny, and claims stores kept as stores of record.
+A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys two agents on AgentCore Runtime behind a Gateway with Cedar policy, an approved catalog of the agents and the Gateway's tools, a decision record in CloudWatch that names the policy behind each allow and deny, and claims and ticket stores kept as stores of record.
 
 An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)).
 
-Bedrock Guardrails in policy screen what a tool returns at the Gateway. Four screens are deployed. The government identifier screen is enforced and withholds a response it matches. The other three record what they would withhold without withholding it. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
+Bedrock Guardrails in policy screen what a tool returns at the Gateway. Six screens are deployed. On the full claim file, the government identifier screen is enforced and withholds a response it matches, and three others record what they would withhold without withholding it. On support tickets, the government identifier and financial screens are both enforced. See [docs/guardrail-policies.md](docs/guardrail-policies.md), and [docs/screen-coverage.md](docs/screen-coverage.md) for what each screen catches, field by field.
 
-Next: a support agent with its own identity and rules, and Agent Registry discovery.
+[docs/scaling.md](docs/scaling.md) covers growing from one team to many: a Gateway and a policy engine per team, the service limits, and keeping every Gateway enforced.
 
 Status: under construction.
 
@@ -18,7 +18,8 @@ Control gaps that block agents in regulated operations, reproduced with syntheti
 
 - A claims operations agent reaches a tool that can purge every claim record. The claims stores are protected as stores of record: deletion protection, point-in-time recovery, daily backups and a customer-managed key. None of that stops a purge, and IAM allows it. Cedar policy at the Gateway denies it whatever the model decides, and the CloudWatch trace names the policy that made the decision.
 - Two tools read the same claim. `get_claim` returns what an agent needs to answer a status question: status, type, amount, the last four digits of the Social Security number and the birth year. `get_claim_record` returns the whole claim file, with every identifier and health detail in it. It is deliberately not minimized, to show what a guardrail does and does not catch when an API returns too much. Guardrails in policy screen its response at the Gateway. When the government identifier screen matches, the Gateway withholds the whole response, not only the identifier, and the caller gets an error that names the screen. Some of what a claim file holds cannot be screened at all (see Limitations). So the control is the tool that returns only what the caller needs, as `get_claim` does. The screen is the backstop when an API gets that wrong.
-- Next: a support agent reads a claim ticket carrying injected instructions. Cedar denies the call the injection asks for.
+- A support agent reads customer tickets. It is its own Cedar principal, may call only `get_ticket` and `get_claim`, and is denied every other tool (`make matrix` checks each agent against each tool). One ticket carries instructions telling whoever reads it to purge the claims store. The purge tool is not listed to the support agent, so the injected call never reached the Gateway, and the same call made directly with the support agent's credential is denied by the forbid. A ticket where a customer pasted a Social Security or card number is withheld by the ticket screens.
+- The agents and the Gateway's tools are recorded in an Agent Registry catalog. Each record is published as a draft and approved only when it matches what is deployed (`make approve-catalog`). Finding a tool in the catalog grants nothing: `make find` searches for the purge tool and calls it as the support agent, and the Gateway denies it.
 
 [docs/controls-map.md](docs/controls-map.md) maps what insurance, financial and AI regulators ask of agents to the control here that produces evidence for each ask, with sources.
 
@@ -32,21 +33,27 @@ source .venv/bin/activate
 make deploy
 make seed
 make attack SCENARIO=claims-cleanup
+make attack SCENARIO=ticket-injection
+make attack SCENARIO=claim-file
+make matrix
+make find
 make trace
 make evidence
 make reset
 make destroy
 ```
 
-`make seed` writes 50 synthetic claims to each claims store, and 20 probe records to staging, each carrying one kind of field. Every value is fictional and drawn from ranges that belong to nobody, such as Social Security area 666, which is never assigned. See [`scripts/synthetic.py`](scripts/synthetic.py).
+`make seed` writes 50 synthetic claims to each claims store, 20 probe records to staging, each carrying one kind of field, and 12 support tickets to each ticket store. Every value is fictional and drawn from ranges that belong to nobody, such as Social Security area 666, which is never assigned. See [`scripts/synthetic.py`](scripts/synthetic.py).
 
-`make deploy` runs five steps in order:
+`make deploy` runs seven steps in order:
 
-1. `deploy-base`: KMS keys, a trail of every call to the Gateway, network, claims stores, tool Lambda, and the Gateway with its policy engine. A first deploy starts the engine in LOG_ONLY. Later deploys keep the mode it runs in.
+1. `deploy-base`: KMS keys, a trail of every call to the Gateway, network, claims and ticket stores, the two tool functions, and the Gateway with its policy engine. A first deploy starts the engine in LOG_ONLY. Later deploys keep the mode it runs in.
 2. `discover`: reads tool names from the live Gateway and renders the Cedar files from them.
 3. `deploy-policy`: adds the policies to the engine.
 4. `enforce`: checks in LOG_ONLY that the policies allow at least one tool, then switches the Gateway to ENFORCE.
-5. `deploy-agents`: the agent on AgentCore Runtime, behind its own user pool. The Runtime accepts only tokens issued to the ops console client.
+5. `deploy-agents`: the ops and support agents on AgentCore Runtime, behind their own user pool. Each runtime accepts only tokens issued to its own console client.
+6. `deploy-registry`: the catalog, with its own key. Its records are published as drafts.
+7. `approve-catalog`: approves each record that matches what is deployed, and rejects the rest with the reason.
 
 Enforcement changes only through `make enforce` and `make log-only`. Every other deploy keeps the mode the Gateway already runs in.
 
@@ -100,7 +107,11 @@ Trace spans in `aws/spans`, where the Gateway's policy decisions land, are encry
 
 Guardrails in policy have no category for a date of birth or for US health information, such as a medical record number, a diagnosis or an ICD-10 code. Neither can be screened. See [docs/guardrail-policies.md](docs/guardrail-policies.md#what-cannot-be-screened).
 
-Only the government identifier screen is enforced. The contact details, financial and health identifier screens run in LOG_ONLY: they record what they would withhold and withhold nothing.
+On the full claim file, only the government identifier screen is enforced. The contact details, financial and health identifier screens run in LOG_ONLY: they record what they would withhold and withhold nothing.
+
+Catalog approval is automated: `make approve-catalog` checks each record against the deployed resources. A production team runs that step under a role that can change a record's status and cannot publish one, or puts a person in it.
+
+In its default form, the CDK Gateway construct's service role can be used by any Gateway in the account ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). The Gateway stack replaces the role's trust policy with the statement limited to this Gateway, until the construct is fixed.
 
 When a screen withholds a response, the trace shows only the request's ALLOW. The withheld response, and the screen that withheld it, are recorded in the call's CloudTrail event, so the evidence pack reads them from the trail.
 
