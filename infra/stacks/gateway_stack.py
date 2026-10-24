@@ -41,6 +41,23 @@ class GatewayStack(cdk.Stack):
                 mode=policy_mode,
             ),
         )
+        # The construct's service role trusts the AgentCore service in two statements: one
+        # with no condition, and one limited to this account and this Gateway's name. Allow
+        # statements are combined, so the unconditioned one makes the limit meaningless.
+        # Keep only the limited statement. Remove this once the construct drops the other
+        # (https://github.com/aws/aws-cdk/issues/38780).
+        self.gateway.role.node.default_child.add_property_override(
+            "AssumeRolePolicyDocument.Statement", [{
+                "Effect": "Allow",
+                "Principal": {"Service": "bedrock-agentcore.amazonaws.com"},
+                "Action": "sts:AssumeRole",
+                "Condition": {
+                    "StringEquals": {"aws:SourceAccount": self.account},
+                    "ArnLike": {"aws:SourceArn": f"arn:{self.partition}:bedrock-agentcore:{self.region}:"
+                                                 f"{self.account}:gateway/{self.gateway.gateway_name}*"},
+                },
+            }])
+
         # Sandbox only: remove the user pool with the stack. A production pool holds
         # identities worth keeping, so leave the construct's default (retain) there.
         self.gateway.user_pool.apply_removal_policy(cdk.RemovalPolicy.DESTROY)
