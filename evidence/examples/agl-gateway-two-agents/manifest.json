@@ -1,0 +1,32 @@
+{
+  "tool": "agentcore-evidence",
+  "version": "0.1.0",
+  "gateway": "agl-gateway",
+  "region": "us-east-1",
+  "start": "T+00:00:00",
+  "end": "T+23:59:59",
+  "collectedAt": "T+1d 00:00:15",
+  "caller": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+  "redacted": true,
+  "files": {
+    "callers.json": "0ad0ae69d89f9c07ce68deb68e357dc96cc19aee40633350aabcacd6d68affe9",
+    "changes.json": "eb249829045e839c1abf43ba3652c380badc96ad5b3e4a3f44f1f2cc527f17ec",
+    "checks.json": "62d0053726160b3632baad92567f8bd9067286cdb095caaae130f76f427039ce",
+    "decisions.json": "706e8cf016e8022bb9bdaf0a12d8611520d09c0bad1ed34ec63e0c32aa10c5dd",
+    "enforcement.json": "3801dffc412614e61227ed3f2e0307971c07683a2b5dc757ebb536ab973961b1",
+    "identity.json": "c962be0c1c7df98619cd6b86e5b663a54180b91bafed6e7b0b90118545340435",
+    "inventory.json": "8330b85fa977d7f90ffe20ebba3d3ac4aebb91f7c6559101b5e4f01cb337a7cc",
+    "policies/ops_forbid_purge.cedar": "6ec190ce0859b826783cb12309a0a928634685954a0a5de58a617e99c8e4db3c",
+    "policies/ops_permit_read_tools.cedar": "f0f227ed34133113b2c6eb60f3ddfae2f39e6e5b670691ebab8c848dc9ce273d",
+    "policies/ops_screen_contact_details.cedar": "4e6c727f4781f51819614e48aab4d87bcdb6252547f0c152150a239c21adaa02",
+    "policies/ops_screen_financial.cedar": "e49469727f5a40b75df8b66a5ff0b6a02741931cd26fd0181c846463e94c519b",
+    "policies/ops_screen_government_ids.cedar": "af644ce55970ae1995cc5c6d2a5d2afc8b1e2e592028a4979ccfbf480f76636f",
+    "policies/ops_screen_health_ids.cedar": "b304c90f677018f945fab04ec5f310e780629eaee2075d6ede3a530ed1ba101a",
+    "policies/support_permit_tools.cedar": "2dbd9f7331db3623657ef55d595d180323c605e046717a388d79c2faabf82602",
+    "policies/support_screen_financial.cedar": "a25f4e2329b22236d046182d2197bff72ebd296b3dcb0b4a8420c9909b162c79",
+    "policies/support_screen_government_ids.cedar": "af03602b2e702de40bda9828c026f70b23a9ff40ec389304645e71083520374a",
+    "policies.json": "4103e85eb250976e206121c4869017ae8a0d6dd96cafa25a215e4c322cc6ac2f",
+    "retention.json": "81d214a7b0b73caeded0971531a9309ce88a7f6250d257ee9fe3fd51f696cc20",
+    "summary.md": "dd2ed427a2c451174fe2a80b42ea9bfa1b6043315857b04702aa3f93f35a2d7a"
+  }
+}

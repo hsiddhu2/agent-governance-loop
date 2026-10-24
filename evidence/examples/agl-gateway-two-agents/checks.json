@@ -1,0 +1,74 @@
+{
+  "inventory.gateway_listed": {
+    "status": "PASS",
+    "finding": "2 target(s) on the Gateway, 2 runtime(s)"
+  },
+  "inventory.registered": {
+    "status": "PASS",
+    "finding": "3 of 3 named in approved records (agl-registry)"
+  },
+  "identity.gateway_jwt": {
+    "status": "PASS",
+    "finding": "JWT inbound, 2 allowed client(s)"
+  },
+  "identity.runtimes_jwt": {
+    "status": "PASS",
+    "finding": "2 runtime(s), each accepting named clients only"
+  },
+  "policies.engine_attached": {
+    "status": "PASS",
+    "finding": "engine agl_engine-mmk18ak0rd"
+  },
+  "policies.forbid_present": {
+    "status": "PASS",
+    "finding": "active forbid: ops_forbid_purge"
+  },
+  "enforcement.enforced": {
+    "status": "PASS",
+    "finding": "Gateway mode ENFORCE, 3 permit and forbid policies ACTIVE. Screens, judged apart: ops_screen_contact_details LOG_ONLY, ops_screen_financial LOG_ONLY, ops_screen_government_ids ACTIVE, ops_screen_health_ids LOG_ONLY, support_screen_financial ACTIVE, support_screen_government_ids ACTIVE"
+  },
+  "enforcement.screens_active": {
+    "status": "PASS",
+    "finding": "withholding: ops_screen_government_ids, support_screen_financial, support_screen_government_ids. LOG_ONLY, withholding nothing: ops_screen_contact_details, ops_screen_financial, ops_screen_health_ids"
+  },
+  "decisions.recorded": {
+    "status": "PASS",
+    "finding": "ALLOW 186, DENY 46, SUPPRESSED 37"
+  },
+  "decisions.deny_names_policy": {
+    "status": "PASS",
+    "finding": "18 deny(s) naming ops_forbid_purge-zlncpdalfy"
+  },
+  "callers.recorded": {
+    "status": "PASS",
+    "finding": "378 call(s) in trail agl-gateway-tool-calls"
+  },
+  "callers.identified": {
+    "status": "PASS",
+    "finding": "every call names its token subject (2 distinct)"
+  },
+  "callers.suppression_names_policy": {
+    "status": "PASS",
+    "finding": "37 response(s) withheld, naming ops_screen_government_ids-1ylf7yzw40, support_screen_financial-65zhg33em0, support_screen_government_ids-ztrepe3u56"
+  },
+  "changes.recorded": {
+    "status": "PASS",
+    "finding": "81 control-plane write(s) in the window"
+  },
+  "retention.logs_encrypted": {
+    "status": "FAIL",
+    "finding": "no customer managed key: aws/spans"
+  },
+  "retention.logs_bounded": {
+    "status": "PASS",
+    "finding": "4 log group(s)"
+  },
+  "retention.logs_masked": {
+    "status": "FAIL",
+    "finding": "no data masking: aws/spans"
+  },
+  "retention.trail_validated": {
+    "status": "PASS",
+    "finding": "log file validation on"
+  }
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "policyId": "ops_forbid_purge-zlncpdalfy",
+    "name": "ops_forbid_purge",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "cedar",
+    "effects": [
+      "forbid"
+    ],
+    "updatedAt": "T-1d 21:43:55",
+    "sha256": "6ec190ce0859b826783cb12309a0a928634685954a0a5de58a617e99c8e4db3c"
+  },
+  {
+    "policyId": "ops_permit_read_tools-936azu9_en",
+    "name": "ops_permit_read_tools",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "cedar",
+    "effects": [
+      "permit"
+    ],
+    "updatedAt": "T+00:11:47",
+    "sha256": "f0f227ed34133113b2c6eb60f3ddfae2f39e6e5b670691ebab8c848dc9ce273d"
+  },
+  {
+    "policyId": "ops_screen_contact_details-q39ju9cfqs",
+    "name": "ops_screen_contact_details",
+    "status": "ACTIVE",
+    "enforcementMode": "LOG_ONLY",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+00:28:38",
+    "sha256": "4e6c727f4781f51819614e48aab4d87bcdb6252547f0c152150a239c21adaa02"
+  },
+  {
+    "policyId": "ops_screen_financial-8g330k10ot",
+    "name": "ops_screen_financial",
+    "status": "ACTIVE",
+    "enforcementMode": "LOG_ONLY",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+00:28:48",
+    "sha256": "e49469727f5a40b75df8b66a5ff0b6a02741931cd26fd0181c846463e94c519b"
+  },
+  {
+    "policyId": "ops_screen_government_ids-1ylf7yzw40",
+    "name": "ops_screen_government_ids",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+00:30:40",
+    "sha256": "af644ce55970ae1995cc5c6d2a5d2afc8b1e2e592028a4979ccfbf480f76636f"
+  },
+  {
+    "policyId": "ops_screen_health_ids-m1i1_ow284",
+    "name": "ops_screen_health_ids",
+    "status": "ACTIVE",
+    "enforcementMode": "LOG_ONLY",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+00:29:05",
+    "sha256": "b304c90f677018f945fab04ec5f310e780629eaee2075d6ede3a530ed1ba101a"
+  },
+  {
+    "policyId": "support_permit_tools-ramhclk2a4",
+    "name": "support_permit_tools",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "cedar",
+    "effects": [
+      "permit"
+    ],
+    "updatedAt": "T+15:38:11",
+    "sha256": "2dbd9f7331db3623657ef55d595d180323c605e046717a388d79c2faabf82602"
+  },
+  {
+    "policyId": "support_screen_financial-65zhg33em0",
+    "name": "support_screen_financial",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+15:45:28",
+    "sha256": "a25f4e2329b22236d046182d2197bff72ebd296b3dcb0b4a8420c9909b162c79"
+  },
+  {
+    "policyId": "support_screen_government_ids-ztrepe3u56",
+    "name": "support_screen_government_ids",
+    "status": "ACTIVE",
+    "enforcementMode": "ACTIVE",
+    "definedAs": "policy",
+    "effects": [
+      "suppressOutput"
+    ],
+    "updatedAt": "T+15:45:38",
+    "sha256": "af03602b2e702de40bda9828c026f70b23a9ff40ec389304645e71083520374a"
+  }
+]

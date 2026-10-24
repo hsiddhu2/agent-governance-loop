@@ -1,0 +1,3795 @@
+{
+  "source": "aws/spans, suppressions from CloudTrail",
+  "counts": {
+    "ALLOW": 186,
+    "SUPPRESSED": 37,
+    "DENY": 46
+  },
+  "decisions": [
+    {
+      "time": "T+00:13:01",
+      "requestId": "264518f6-32b1-4e98-aff7-3522a690bdfa",
+      "traceId": "6adab93b59ec7a295848eced526f284a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+00:13:03",
+      "requestId": "28baa48a-95c3-4a3d-803c-7c2bb967179d",
+      "traceId": "6adab93c75b2abba2780abe742f5e2bf",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+00:19:54",
+      "requestId": "04b37d12-5bb4-4eb5-9932-9d6369822461",
+      "traceId": "6adabad72430208063cb30c052218511",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+00:19:57",
+      "requestId": "b4a78b7d-5e4f-4337-8c5a-26b782dce66b",
+      "traceId": "6adabadb6f0b96e4775c2b0b37b3884b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+00:31:20",
+      "requestId": "635fbe05-ca72-427a-83cb-e73a16b06759",
+      "traceId": "6adabd85096fdb3e41ca47e3343adc50",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+01:40:58",
+      "requestId": "c6e4b86a-41b2-47e2-af5d-4f614f45d27a",
+      "traceId": "6adacdd80ad28fdc59268e9e4260261b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+01:41:30",
+      "requestId": "1f469012-67e8-453f-a013-23bc4dc63ae6",
+      "traceId": "6adacdf7572e46c60fb0d9e078b9fbb8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+01:42:01",
+      "requestId": "a063ca93-6d50-4bd0-9ee1-92c6fb2da10b",
+      "traceId": "6adace167db0879f681bdccb3f587335",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+01:42:32",
+      "requestId": "f97a9af0-d2fd-4b10-886b-6ffc8bdd6920",
+      "traceId": "6adace367eb3c3e7497ac5f571cfb17d",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+01:43:03",
+      "requestId": "468ec928-f66d-478d-8005-bffce9cdb678",
+      "traceId": "6adace54509723d816a437b26d31777e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:48",
+      "requestId": "0d6c859a-07eb-47c3-aab9-a716fcb756d8",
+      "traceId": "6adb93261daa6fcb2a1799dd4bce416f",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:50",
+      "requestId": "30d3638c-29fd-4b2c-aad7-c33f7497e191",
+      "traceId": "6adb9327313184a01169be4c1d0953c6",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:50",
+      "requestId": "a9921094-60f4-4a14-984a-fa1deb9d10ac",
+      "traceId": "6adb9327554f03bf49de90fc021917ec",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:50",
+      "requestId": "2c56a219-8082-493d-9135-a7bf142c9b6b",
+      "traceId": "6adb93284e1ebc757e24fc0260536beb",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:52",
+      "requestId": "fe85d3e7-977e-4b46-a0e8-9097f401ed79",
+      "traceId": "6adb932929a262b21476bac33ebd48b4",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:52",
+      "requestId": "fea1039f-e484-41a1-95bd-02ad1f2d1262",
+      "traceId": "6adb932a33cb07cf4408071135119e50",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:53",
+      "requestId": "f1349138-47be-4335-985f-bea025162edc",
+      "traceId": "6adb932a17ead8306ec4dc650792b4aa",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:53",
+      "requestId": "d1ab0d38-8413-4caa-82c9-49975fca8eb0",
+      "traceId": "6adb932a65aedb34129636fc5622d20b",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:53",
+      "requestId": "d0bdc42d-01c4-4cd7-bb89-9f9af06fdcc3",
+      "traceId": "6adb932b326a2ecd24e53f9d581d463f",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:53",
+      "requestId": "b4f3f46e-7a08-494e-9bfb-58a582aaf71e",
+      "traceId": "6adb932b6a0f335405af06776e1cd4c6",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:54",
+      "requestId": "292ff363-7dd6-4c2b-92fc-5656f59f56f2",
+      "traceId": "6adb932b63ec274a0b510f9a34b31b94",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:42:54",
+      "requestId": "f756ad3a-f31a-4c0e-b081-2302939df6ad",
+      "traceId": "6adb932b1588e5f5127d56555bc1c74e",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:17",
+      "requestId": "87003bee-e951-4fd3-adba-934ae4b72443",
+      "traceId": "6adb934201fdf6545cb2827d10270b07",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:17",
+      "requestId": "bc08ff12-f431-498f-9723-d504ed7f9f16",
+      "traceId": "6adb934343d7c0311a8d02c661d765dd",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:18",
+      "requestId": "bc9db1db-6abd-4cc5-87d9-d8b2eb5e4017",
+      "traceId": "6adb93392687c89263cfe9f11ba4857a",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:18",
+      "requestId": "7c65b89d-f297-487d-9e41-9ea68438f4de",
+      "traceId": "6adb934375fda82f0ac38aa8125276de",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:18",
+      "requestId": "bad704ef-7546-4d7c-aef1-54f72010872d",
+      "traceId": "6adb9344003db2de45437e885f2df230",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:19",
+      "requestId": "826431af-9c1c-4ee1-926f-0814aea543b6",
+      "traceId": "6adb934403f8b6787209ce7d3a62c217",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:20",
+      "requestId": "41a98895-bed7-45e1-aae9-b4825d09b2f3",
+      "traceId": "6adb93392687c89263cfe9f11ba4857a",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:33",
+      "requestId": "02f79e87-f81e-414d-8e08-d12bd2d0c5b6",
+      "traceId": "6adb934b5308f77b601617d840378049",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:35",
+      "requestId": "858c85f0-c836-4238-b3c2-c0093b384846",
+      "traceId": "6adb934b5308f77b601617d840378049",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:50",
+      "requestId": "a157fe06-8a66-449c-9dc5-9ece4213d0f9",
+      "traceId": "6adb935b49859fe7512822a56e3e795b",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:43:52",
+      "requestId": "fc0a34f8-5d82-4a45-96bf-1ec3f47375b9",
+      "traceId": "6adb935b49859fe7512822a56e3e795b",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:07",
+      "requestId": "69b59d46-7638-4950-838d-d9ed816719f9",
+      "traceId": "6adb936c7ea30a285b27a0b76070d38f",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:09",
+      "requestId": "c342ed64-fb41-41d5-92b7-243f18c068fa",
+      "traceId": "6adb936c7ea30a285b27a0b76070d38f",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:22",
+      "requestId": "1c4bb9fc-2829-48bb-9f8b-5e8ed41e8ead",
+      "traceId": "6adb937c6eee2daf1b4f35a952a7844d",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:25",
+      "requestId": "470292f7-b501-424a-ba0e-065c4ac5b2a4",
+      "traceId": "6adb937c6eee2daf1b4f35a952a7844d",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:38",
+      "requestId": "806f1314-517c-417f-b275-2e233de04861",
+      "traceId": "6adb938c49dd525d7cabffaa76f87cc1",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:40",
+      "requestId": "751e8871-63da-4ca8-9ca3-96128562c7aa",
+      "traceId": "6adb938c49dd525d7cabffaa76f87cc1",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:54",
+      "requestId": "7a8cc6af-fbd7-465e-8fd1-294862e95bf7",
+      "traceId": "6adb939b129c35e01d29a39504eb7cb5",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:44:56",
+      "requestId": "3d9357f5-0665-4cb6-82f2-558fe4cb7a46",
+      "traceId": "6adb939b129c35e01d29a39504eb7cb5",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:09",
+      "requestId": "a771eaa2-525e-41c9-b579-842f0e614eec",
+      "traceId": "6adb93ab1c0ce9280f8551d3391578dc",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:10",
+      "requestId": "54ebb671-9491-443a-8b88-9b9c5b001884",
+      "traceId": "6adb93ab1c0ce9280f8551d3391578dc",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:24",
+      "requestId": "41269d0f-0fd7-4f5a-9550-7fa0adc2f537",
+      "traceId": "6adb93ba3c19e36a1b8f845b37e6d13c",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:25",
+      "requestId": "ae0a298d-819c-48b7-a7da-2d8752b9d92f",
+      "traceId": "6adb93ba3c19e36a1b8f845b37e6d13c",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:38",
+      "requestId": "1145f6cf-b6bb-4778-889f-b7e0d94f1d2a",
+      "traceId": "6adb93c909d23bf8037cb4397c90ff60",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:41",
+      "requestId": "e312052d-8835-400a-b03a-d2c39ef88997",
+      "traceId": "6adb93c909d23bf8037cb4397c90ff60",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:55",
+      "requestId": "c4f919e8-18e6-4000-a582-f4d96179496c",
+      "traceId": "6adb93e14a7e55b770c7b6a44eda69a5",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:45:56",
+      "requestId": "88cb81ee-0e3c-4b61-a974-5885afde829b",
+      "traceId": "6adb93e119b84af25adb3d9e49ac2824",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "support_screen_government_ids-ztrepe3u56"
+      ]
+    },
+    {
+      "time": "T+15:45:56",
+      "requestId": "522697f4-c109-4109-970a-e6f141501817",
+      "traceId": "6adb93e2328a1a0d006ceaad502a46e7",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "support_screen_financial-65zhg33em0"
+      ]
+    },
+    {
+      "time": "T+15:45:57",
+      "requestId": "e07c62d1-699b-4ec7-916e-5abbba48ad40",
+      "traceId": "6adb93e31b9029ef6ce6d4225f278084",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "support_screen_government_ids-ztrepe3u56",
+        "support_screen_financial-65zhg33em0"
+      ]
+    },
+    {
+      "time": "T+15:45:58",
+      "requestId": "936b4bc2-dcef-41d3-b943-ac2ab26b06f6",
+      "traceId": "6adb93e35a5ca0a30500af1b70d69c9f",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:46:55",
+      "requestId": "bb051720-6ba1-43c8-a4bd-d50159c1d1d0",
+      "traceId": "6adb941028f5c96a669a5b210ba400d8",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:46:56",
+      "requestId": "479b8d58-fc24-4672-9e0b-cb7a5769725e",
+      "traceId": "6adb941028f5c96a669a5b210ba400d8",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+15:47:02",
+      "requestId": "10d2159c-6bb4-4a5c-8c19-e85ca107feda",
+      "traceId": "6adb942449a610560a1db8f42d488b89",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:20",
+      "requestId": "f147f5bb-3448-419e-be75-eecfb7e2e96f",
+      "traceId": "6adbd3f62382bcf55e95702546d19aa7",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:23",
+      "requestId": "ac6ff31c-c55a-4543-a029-d2e43ab8b199",
+      "traceId": "6adbd3f80e1df5ab19ee50b9336ec1c7",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:34",
+      "requestId": "5339b5d7-ce36-42c2-a553-5fc89aec7a8f",
+      "traceId": "6adbd4030c7c0ce2354a709b1d552ba9",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:35",
+      "requestId": "3fd9806f-845a-452c-8d59-2cebaa1a3bd2",
+      "traceId": "6adbd4053d15e72c7c2fab4e1f1842e1",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:36",
+      "requestId": "f6307252-b8c8-482d-a387-418bbfe3acb2",
+      "traceId": "6adbd405622a9fbb5933de6104567f0d",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:36",
+      "requestId": "33a28cef-f30c-4c24-a0d0-b4c975ca38ec",
+      "traceId": "6adbd4053f6e22a40b6a93044d0acc7a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:36",
+      "requestId": "174da0d3-56d3-40fd-a117-2ec721da6862",
+      "traceId": "6adbd4064f0c06ad2a41622425e78b27",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:37",
+      "requestId": "82a0f2e5-5673-44e3-b280-bb7fa9b28c00",
+      "traceId": "6adbd40603a7d1e05ddf4a6d1b118945",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:37",
+      "requestId": "e6dacf67-0796-4dd7-a777-f47f93913e61",
+      "traceId": "6adbd4072a0017ea70eb636d1bda16ae",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:37",
+      "requestId": "a85d0167-7a74-4547-8b3e-85687be29c60",
+      "traceId": "6adbd4070e0771b829b8b5f16dbf499c",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:38",
+      "requestId": "9c43ee79-e52e-42c5-9e92-cf3e2d447809",
+      "traceId": "6adbd<account-2>b3d9cca090f1e83",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:38",
+      "requestId": "4dbcc6f5-7908-4940-93f5-cc3f4ff52e45",
+      "traceId": "6adbd407261275f440ae9da0462d15f0",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:38",
+      "requestId": "fe5af85d-211d-402c-9042-312e6e2a7ce8",
+      "traceId": "6adbd408470139de1c7f8aa74db6cb12",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:38",
+      "requestId": "1ea080af-4704-4f6f-bd24-a19705a84f5a",
+      "traceId": "6adbd408392da9e234b6ef4c3dd5a549",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:48",
+      "requestId": "2dd46955-ebfe-4b8a-ae10-28f25b3fd066",
+      "traceId": "6adbd4125f9f9e3b2eb480324cb61135",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:49",
+      "requestId": "dd59f44a-b684-4f3f-a780-b236c001aa11",
+      "traceId": "6adbd4126f9298cb6082d32a0482459f",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:49",
+      "requestId": "ffcc1619-4df1-4e7b-bee7-41125e800171",
+      "traceId": "6adbd4126d37b96e57258eb65db65d42",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:49",
+      "requestId": "a871c8e7-a9b8-41cb-ac5d-5a4268c9d565",
+      "traceId": "6adbd41338b82b7c1d050c6e053150ac",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:50",
+      "requestId": "a6f39629-2a19-48d8-8381-547932122a57",
+      "traceId": "6adbd413028bf79b7e12dafb4f4641cd",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:50",
+      "requestId": "7fdc7d29-a6f8-4f12-8fa4-5423b7f379a3",
+      "traceId": "6adbd4131faa10955ae572956e70c919",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:50",
+      "requestId": "f5a929e6-da00-4a4f-a59d-749c3d9a32f9",
+      "traceId": "6adbd41461ff73bf241267ff4c6f4a73",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:51",
+      "requestId": "2f82d087-ca7c-4f10-b288-fc82320309c2",
+      "traceId": "6adbd4147c0bf6ea5f65612659309e1f",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:51",
+      "requestId": "4c2df9f2-b7e2-4baf-b81d-02614ea4fc4c",
+      "traceId": "6adbd41429656130509496025e17fa20",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:51",
+      "requestId": "7aba23be-b224-416c-89f9-f2abd46a49c8",
+      "traceId": "6adbd41505e757e063c9d7ca10a84ea3",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:51",
+      "requestId": "13129796-3518-438b-9111-69505ba737c4",
+      "traceId": "6adbd41538eb3765577c13a37f810c1e",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:19:52",
+      "requestId": "f4438d6e-f673-447c-9408-f202ffc51784",
+      "traceId": "6adbd4152229140328e4d8eb222db39b",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:34:50",
+      "requestId": "7cd9723c-987c-4acc-ad95-9246868d037a",
+      "traceId": "cbe90f627882a84cb894f6c7642751c9",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:40",
+      "requestId": "167c6306-f874-4dba-9cc0-140395c177a0",
+      "traceId": "a86c9b92ed2d02bf7fb58adbe20a876f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:41",
+      "requestId": "ecf9cb21-9dc3-428a-83a0-20916fea9f75",
+      "traceId": "41fdc8830d72657ea5375c1c2b68d3d3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:41",
+      "requestId": "9ee276de-7096-4f2e-8a3e-174e01712b69",
+      "traceId": "dd13a775904003be42544fb1355ed6ae",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:41",
+      "requestId": "f8a0d19e-fdf7-4d4f-8676-f622d94f76d4",
+      "traceId": "647b730ec1fb87f89257fe14996ca1ec",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:42",
+      "requestId": "93d30f1c-e8a7-4b27-b652-0f08965713ad",
+      "traceId": "77a3d1defdddf144347d4e46b675a2ba",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:42",
+      "requestId": "584a26bb-c7dc-42f9-82b1-5d7b8710913a",
+      "traceId": "4911b5a64505ddb0d5c59a4351a26716",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:43",
+      "requestId": "177bed9d-b2b0-4ac3-b596-e99e9ec19e15",
+      "traceId": "a45ba577c<account-3>a4c901656a7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:44",
+      "requestId": "43825b85-1faf-4a29-85b9-4a80675dd6bf",
+      "traceId": "010845e4ea3fdfbd2b7707914a43c7c3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:44",
+      "requestId": "3982f38f-84a4-4065-b865-c9fda860026f",
+      "traceId": "52d6d378e40a30fbcdd75663e85fd933",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:45",
+      "requestId": "bbe35f8b-4f4c-4ab2-ae23-a048097219ac",
+      "traceId": "da19690b0206c02d4d392e18d619b548",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:46",
+      "requestId": "af1b7fcd-d61a-4a1b-addd-368721a71509",
+      "traceId": "8c363c60a113a406bf35fa7dfc94166a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:46",
+      "requestId": "fd87aa0b-4da3-49b1-8395-56d63db94b35",
+      "traceId": "b6be04d85f6e6e249fed89f9254328f0",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:47",
+      "requestId": "085fee26-fcdc-495a-9c5f-b856f21c99a6",
+      "traceId": "75e1d938701a728febe94fb86b527982",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:47",
+      "requestId": "53af9c43-af50-42d4-b3fe-35cfbfad1bd0",
+      "traceId": "502714b245702102218444dfa7423e7b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:48",
+      "requestId": "23c19c98-eb91-4503-a1aa-f856100955ca",
+      "traceId": "61d5f9d28eee40e85549773cb9b99700",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:48",
+      "requestId": "0a466bcf-9ded-4504-a3d6-9689a3f8c37e",
+      "traceId": "3844ca7bc69a1964cc98f267e4d8a36b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:49",
+      "requestId": "585c49e2-4613-40d8-afdd-0da8e3992a05",
+      "traceId": "163a6af62dfebe968fca1fe0f3652a87",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:49",
+      "requestId": "af83eb27-0afd-436a-b79c-98f59a7e0eed",
+      "traceId": "9f68fff9ee77f0db36e9c5dc2868aee4",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:50",
+      "requestId": "af5828e1-4ff6-4217-bbcc-456d996cac2b",
+      "traceId": "5dd2359a818d301024d106dbbebb7595",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:50",
+      "requestId": "81a7c758-52c7-427b-a1dd-02c94d16df06",
+      "traceId": "c105950500dc38905e616bc0c5f1e205",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:51",
+      "requestId": "bcaf0e00-044f-4ddc-95be-e68a61fb9132",
+      "traceId": "58339046e97503a8c8476af2649d6c43",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:51",
+      "requestId": "3c2d960c-2bb6-4f5f-8ac1-ffc99e75fa3c",
+      "traceId": "50a6f9e9ed8199d90b5326ae81efb98a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:52",
+      "requestId": "437ec922-fee9-44e5-8b79-95294d4c064b",
+      "traceId": "d0a37fcba002240f709f96984ceebc5e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:52",
+      "requestId": "30811e82-6607-4f7f-b27d-8df144044fc6",
+      "traceId": "5c79f2ab86dac6f8d7740f41468e31dc",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:36:53",
+      "requestId": "6b2bbfd7-1662-4844-adfe-bf90adde643f",
+      "traceId": "cf4f94b52ebe3d67fd4822a81587bcb6",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:54",
+      "requestId": "4659d732-2c10-40f7-9e1f-f0301794b830",
+      "traceId": "fcd0823993529a8e417aff63674b9a8b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:54",
+      "requestId": "324deb8b-b944-4609-946e-e25a0e59786f",
+      "traceId": "accd2393eb8004d5c84c57333dba2ce7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:55",
+      "requestId": "1888094a-6a1d-43f7-9e9f-da0634921e65",
+      "traceId": "540a810d2ea08aced8b6fb3acdf7d2d4",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:56",
+      "requestId": "67866486-8af5-4c72-b106-8fd598d25e0e",
+      "traceId": "1c5f1580dea1c2dcbef9d9d673dca4e8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:56",
+      "requestId": "03778f1e-de01-4bf5-962b-11afdea1f992",
+      "traceId": "a4e990f4c90e5198e43497a3563e23c7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:57",
+      "requestId": "8e1b750a-f65b-489e-88c4-1cbaf0dad041",
+      "traceId": "74e7175168a304c6dcbf00199e693390",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:57",
+      "requestId": "70a7862d-69c9-40d4-baf8-fb4475fc98d3",
+      "traceId": "c6870c0ff7ad9350cd50e7765ee86878",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:58",
+      "requestId": "98cf2c49-a465-44bf-ba38-d2fdd34ceaae",
+      "traceId": "6e0931188bd62e158d4f242f63e787cd",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:58",
+      "requestId": "43d88279-6e6b-4ed6-8dbc-1ab881e24a4d",
+      "traceId": "02dd832b831152ff384c2dbf7943ea37",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:59",
+      "requestId": "beae0336-9bfd-4410-9ded-b8e8d29a529e",
+      "traceId": "5af5e2e9dbf5bf68a5c8eddf9355491b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:36:59",
+      "requestId": "a4faab26-96b3-4740-a5a1-3f89f227b466",
+      "traceId": "0aaea05ebc9e5a824c6548c136580def",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:00",
+      "requestId": "fc181b6a-9990-4eac-9673-eafe7e5ca5ba",
+      "traceId": "31c4f7af0f2fe6bf5275de9ce3f0e0cc",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:00",
+      "requestId": "871f989f-9198-44d0-a9b8-1ee7d8e21dbd",
+      "traceId": "5d3f2dfab0479fdd03c613bbf78da58b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:01",
+      "requestId": "06e92a27-c16d-4aed-a8cd-5de6bee36429",
+      "traceId": "dcf15270ce2588b07beb2098bc033ac3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:01",
+      "requestId": "cfec0d03-1d16-4571-8110-4a56e6b29260",
+      "traceId": "a6149a2da2f3b5a22df88a668c17ce2d",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:02",
+      "requestId": "095e04b5-3f4c-4df2-9340-0c5ae1e03363",
+      "traceId": "caaca26732d26bb47b7573e6c071ef57",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:02",
+      "requestId": "8d51edd3-81dc-4f61-82e5-92892a13560f",
+      "traceId": "501547e7a4b923a776355709d6338d5f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:03",
+      "requestId": "1d57cfb5-a87e-4c46-a6cc-6d2ea4f13ef1",
+      "traceId": "729e6f8aa5aa6fc75f1ec9a9163d2547",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:03",
+      "requestId": "2db7a78a-f716-4c6d-b031-ac8e893e8e10",
+      "traceId": "70c9f2a219c0c93fc862fc8662f8333c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:04",
+      "requestId": "8ee2af73-f256-41bd-a664-416552f4e5d1",
+      "traceId": "1aff2dd38416840e38584e579ede0562",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:04",
+      "requestId": "8ad4c487-47aa-4d3d-b56c-4d7188786c11",
+      "traceId": "5a2a3e2ee03f4184c7986ade30f81f8e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:05",
+      "requestId": "7e51cf06-213c-4deb-a202-a4b1b2c817bf",
+      "traceId": "0fe6d3beb33c7e6ac7f1b5a90f1c41d9",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:05",
+      "requestId": "ea532b6a-5278-4756-835f-f5a88e11f3f9",
+      "traceId": "0f88d87089295cfe854821287a99dd71",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:05",
+      "requestId": "b3ad9661-0661-4b99-8286-6d107833975d",
+      "traceId": "8e7845f311b6ae383a2b385b5d6c9cd3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:06",
+      "requestId": "0387e5f2-6ea6-4ced-a34a-02c9efae21eb",
+      "traceId": "c6cc3fb6918810c4ee9566f531fd0528",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:06",
+      "requestId": "1d342c9c-5d95-4123-ad13-9800ddc2a462",
+      "traceId": "8023d9c50774895b0597406c07c7cc16",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:07",
+      "requestId": "d873e701-9330-40c1-9fc5-aaf7036f0f55",
+      "traceId": "6513188e33053763c21e7b79d12d35c3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:07",
+      "requestId": "8bf123e4-348d-49a8-a99b-c971c5380d11",
+      "traceId": "06e5025a79a56c7ad374e70e7d9341bd",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:08",
+      "requestId": "1b850fa0-ed56-4d41-a302-9f83fa1eb16e",
+      "traceId": "77cb8ac1c888051f93f9475917b7e1b4",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:08",
+      "requestId": "d96c246e-1087-4d87-bf03-81ab2151ef03",
+      "traceId": "bc83121509d7280e8f72e3df7e5d9f07",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:09",
+      "requestId": "2c5ab88d-813e-40b3-9021-855b6996e927",
+      "traceId": "bb3350d4b752588a73be18ecd1bc4684",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:09",
+      "requestId": "4d728c2d-506e-43ea-8a17-79a73b8f4a07",
+      "traceId": "c573f8ed9d83d42abf40ee4db4627c7f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:10",
+      "requestId": "3f75829d-3304-4d5f-8c3a-40680afd14f6",
+      "traceId": "e10dac6d8b010f4af7a3247cde0a729a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:10",
+      "requestId": "a1769aa8-60f8-4013-a550-2d14b881cad7",
+      "traceId": "a527b4656ce7695e70e180257f223fa4",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:37:10",
+      "requestId": "01d936b9-0432-47d5-9b75-c237ca5e0cda",
+      "traceId": "342912e02dbe5732cec2c04ceaf3d757",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:47:40",
+      "requestId": "b58dc8af-882b-4e91-b3e5-bc9d9201098f",
+      "traceId": "0e4afb5c72755fc6f6e02bf3350e8829",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:26",
+      "requestId": "6ad1d033-dbc0-42b8-a5dd-56b1fe0a6464",
+      "traceId": "2519926a31a08ab3fa76515be9c8561d",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:27",
+      "requestId": "217034ad-24d9-4871-9463-c44ea8abc1b6",
+      "traceId": "108a7abfe2132649d260c0dbeb995e7e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:27",
+      "requestId": "33757e18-06a5-43d6-9538-19174ce7de7e",
+      "traceId": "324f0529014c08a7cb8763713df2e08b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:28",
+      "requestId": "bb414b52-72ec-46d1-9d99-f0a1e3ca3c3a",
+      "traceId": "034e95b4b6bc08947a33a5db274b2b84",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:28",
+      "requestId": "8c241866-0f83-4842-99b6-405a7a0807bb",
+      "traceId": "0bfbe61981d22ff105cd27f898c47093",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:29",
+      "requestId": "40f959c8-273c-4aa3-aa9e-500519bdf5b6",
+      "traceId": "e68cec96ed910df3208dd9fdbfaaa152",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:29",
+      "requestId": "0f16d183-0da8-4947-aa45-72eaebd84124",
+      "traceId": "7e7978f2f7448abbf68a2eaaa6adf164",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:30",
+      "requestId": "5684d738-ebf1-4d84-aaa1-95f12c03c4f5",
+      "traceId": "efd0b4c59b947ccab29702958d35332e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:30",
+      "requestId": "bb87f688-ae44-4a5e-9a94-a87e74abf266",
+      "traceId": "8c38a5d0bcaca54f26eb343deac9120c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:31",
+      "requestId": "716a3368-72ee-4b8a-8327-89f31bd72177",
+      "traceId": "9ac873eb82328d5fdbffc02f0a16ac76",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:31",
+      "requestId": "f82dbbc3-14d5-424b-bebc-55465d090ff0",
+      "traceId": "b7e9c4df5005a9e98f703210651d7772",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:32",
+      "requestId": "441c0651-531f-4aab-b8ba-fb712ede0635",
+      "traceId": "f1824c2adc4f527961db5c72b9b00dbe",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:32",
+      "requestId": "c468091d-3111-4d9e-b0ea-cd11f1965af1",
+      "traceId": "68795af504640ef5546cbc719c8f2cf3",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:33",
+      "requestId": "5bea4a93-47c3-4c65-bc45-efd4685c8572",
+      "traceId": "83d322945e274006debbe2a38306613b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:33",
+      "requestId": "c9617aed-332f-428c-a335-750c3166a1a1",
+      "traceId": "17fe32e00e652ba2d9541ac669a68694",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:33",
+      "requestId": "96a79a92-8b55-4ea0-944e-ef56d8c07562",
+      "traceId": "c8a03a12572d1166ce366840d8081273",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:34",
+      "requestId": "5fb8fe1b-0115-4a9b-8d2b-197da7903df6",
+      "traceId": "49c0b9dc28aad500c5dee4e4a7d816aa",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:34",
+      "requestId": "d6d554c7-660a-44db-8caa-bf5cdcfcfb73",
+      "traceId": "0449dbfbd0a6db3f427417f37bd4c980",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:35",
+      "requestId": "b498dc7c-6bcc-4b3e-82fd-7bbde6020c9a",
+      "traceId": "905a23755c251b95f51d2e6b3adadda7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:35",
+      "requestId": "e731aa17-5fe1-4d8a-bb17-3526cd6498e4",
+      "traceId": "e69420c93537a10e<account-4>a151",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:36",
+      "requestId": "b7dd0d92-f61f-4620-bdf5-d03696694181",
+      "traceId": "9f5dad495bee835a304f621c63b939c7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:37",
+      "requestId": "fa26564b-6579-42c4-b9aa-7f2256ba0ad2",
+      "traceId": "4865fdaac6642203f74f3592114e6794",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:37",
+      "requestId": "5606f70e-2dfe-4516-b732-750ccabe6035",
+      "traceId": "a042f4aec4808e6de126228cbf34d45b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:38",
+      "requestId": "d8340abc-4819-4ad0-afdf-1312aa9be8f3",
+      "traceId": "459b4169ee706920b9947c302f95bf67",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:48:39",
+      "requestId": "30ff6bfa-9c23-4ec8-86e7-38896629053b",
+      "traceId": "6845ff1338b516e08740eddb4ef14683",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:39",
+      "requestId": "ea69bea8-15d9-439e-9635-7ab5c8597dfe",
+      "traceId": "be0f5eb10cfca7881490e12bd1b15775",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:40",
+      "requestId": "63dccb22-72d1-42b0-8028-6073f6eddcc4",
+      "traceId": "7b1d33259476b7c0b3c88ebad18ab59f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:40",
+      "requestId": "8beaa167-e3b9-41fa-ac44-607234cfd899",
+      "traceId": "805fb3815faa70e96089a8b09d3d11f0",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:41",
+      "requestId": "41b0a63e-7777-4a57-971a-09cb2e644234",
+      "traceId": "621b533152c76c1cf8876d43c018126a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:41",
+      "requestId": "3da4f94e-e1f1-43c6-a0c2-d743e0b32217",
+      "traceId": "e29ed244a0c0f3fb7f4c80456f21c0da",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:42",
+      "requestId": "76a1b4a1-41bb-401c-b828-1f387d4e832f",
+      "traceId": "68d9d4e2887a33e2c079d2aed1a2791c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:42",
+      "requestId": "fb5fdb10-4b6a-4095-a680-de21500be5e3",
+      "traceId": "98fbe8366b8d5b380f96d4a6a47bec6c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:43",
+      "requestId": "d69fae49-9704-4deb-b445-791f185d0ed4",
+      "traceId": "e3db5d151cb9f9d2f33a44196037b5a2",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:43",
+      "requestId": "9aab4391-2612-44f3-bc26-9c3a5a8e6e1b",
+      "traceId": "7ec5ce4a88030ba6a60a4e0ed046a9f6",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:44",
+      "requestId": "a6cdf3f6-174b-4fe4-982a-5d88a25a10aa",
+      "traceId": "11b6b3f275358dc32fd65dff316d7df8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:44",
+      "requestId": "c02e0f2a-9478-401a-8eaf-212b9ed9151a",
+      "traceId": "4c1638137042c8b1c2d85ee5ad1a4a78",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:45",
+      "requestId": "212f0e00-9635-4426-9ec2-ae46c5c9c6d3",
+      "traceId": "ed98769bbc8101946a5263dae028c1e2",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:45",
+      "requestId": "ee1d0669-3c3d-4557-96d3-71f9b624a73a",
+      "traceId": "b98ae241a02ad91af34f01af3fcba560",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:46",
+      "requestId": "0ea9e335-d71b-4d50-9299-99ff96a17dce",
+      "traceId": "69f3c769782f2be2c1dcec83f9fe9537",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:46",
+      "requestId": "b3d79838-176b-4e73-8bc0-b9c4a1d868cd",
+      "traceId": "0624969b0b7350d8e08ae89b3fd63d10",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:47",
+      "requestId": "fe600908-0586-42c9-926e-3c8411f44800",
+      "traceId": "29d316a82baafec7f2d2a66920eeb6cd",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:47",
+      "requestId": "ca34afdc-d402-478b-93c3-7d586b3f8091",
+      "traceId": "0bf2523d9f72badcd4f40c85023e4765",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:48",
+      "requestId": "14f5f414-a859-4c13-9124-eb0c92ee438e",
+      "traceId": "bc67f49e502f1a38ef6369fd27240b5f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:48",
+      "requestId": "5600e3a6-be5c-41e1-8113-72b4e62d28ba",
+      "traceId": "090a9c753ca08ce5a2434def6ff11b02",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:49",
+      "requestId": "55f31928-928c-45d2-b53c-bd331eb545c3",
+      "traceId": "222e4f2da52b61a6b93fce8d44d16ed7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:50",
+      "requestId": "c7ec6e1b-cec3-4b6a-858b-6f1954dd6c12",
+      "traceId": "9ae76af8845b73810bf6be22984bd5a8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:50",
+      "requestId": "b838200d-cec2-434e-b87b-b58d1a7c77bf",
+      "traceId": "b49deb22c9427857f2db4be125d175e7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:51",
+      "requestId": "c34c7c3b-62f0-478d-ac08-28eb959c4de2",
+      "traceId": "831a156a803f35862dcba75eb96ed487",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:51",
+      "requestId": "78fe9c20-d702-4701-b7a0-3047ca234424",
+      "traceId": "9d8a7fdd3dfbf24e8984b9c453e617a8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:52",
+      "requestId": "75ffd687-ae9a-4e5e-99d1-48c481efbeb8",
+      "traceId": "f661716dcce5bdb3bfa8b22dc9acab3f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:52",
+      "requestId": "ba59e0d2-0a64-47a8-9d86-c3aaa0122dba",
+      "traceId": "fea278e624174e8ab08100241161cd60",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:53",
+      "requestId": "eb71a66d-d795-48fe-bb5b-05fa3283e519",
+      "traceId": "ad3564efeb1ec9e949cfc826779facef",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:53",
+      "requestId": "fccff489-b872-4995-b62b-b3fdd1f0b760",
+      "traceId": "de304e963427a881fed7ec98dd95ad09",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:54",
+      "requestId": "10eb93f9-d5b7-483b-8998-828bf48c45b2",
+      "traceId": "f681607541d2316c3b31a413c25a69a8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:55",
+      "requestId": "bedcf68e-d1fe-44e2-9063-4f7e06293598",
+      "traceId": "4a853721663a38d9202e6f94facbe921",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:55",
+      "requestId": "d53ac2cb-7b11-47f7-97d7-64184e6b2e75",
+      "traceId": "fc9e7163cbf60a34d457b413c5f57c40",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:56",
+      "requestId": "f40dad43-7c28-409f-aa8b-ab9f681b8923",
+      "traceId": "a2d11d9571060bbf2ee098f0679e3a6c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:56",
+      "requestId": "c2e0451d-bc8e-41fa-ad45-bbde6893efff",
+      "traceId": "01374352d8c54da4d7c09c969aa6bdfe",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:57",
+      "requestId": "cb611f3b-380a-4a56-8936-5c6bf1c4ec6e",
+      "traceId": "5b3d31d1be734e644da44a4894915a0e",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:58",
+      "requestId": "a39fb3f4-e957-4939-b813-b2f044303a8f",
+      "traceId": "43c9077de686f7f63e224af810f3cfbb",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:48:58",
+      "requestId": "79f3fd2d-1e86-4162-b6ec-24fca29bcea4",
+      "traceId": "6adbdade45217b887169cd0d22dc087a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:49:09",
+      "requestId": "86e6b498-88d2-4d5d-93db-aa20005d1b6d",
+      "traceId": "6adbdaec6ca4f1aa400c5c162078f3c0",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:49:23",
+      "requestId": "919d5d8c-1968-4d56-a419-c88e66ef6a56",
+      "traceId": "6adbdaf71048c33d4193668051b7756a",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:49:35",
+      "requestId": "711d2686-d616-486a-a619-63c8e89adda9",
+      "traceId": "6adbdb0537ba055c1b374b2c04553068",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:49:46",
+      "requestId": "72f11445-8b29-4329-8337-cf39436b5b68",
+      "traceId": "6adbdb101056aa367b63659b161e2ed9",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:50:48",
+      "requestId": "b8cb1602-cf9a-4271-8c1a-c1fc5eec0858",
+      "traceId": "6adbdb56293a6aad3b25b3206bcd523f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+20:50:49",
+      "requestId": "bb649565-362c-4b97-a151-6dfe49de2c8d",
+      "traceId": "6adbdb56190d2682642e04f86766bc50",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:51:20",
+      "requestId": "4b07dffa-d75a-4827-9927-5852886da43d",
+      "traceId": "6adbdb6e2c65a6a823af3a0d1fe410a7",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:51:34",
+      "requestId": "c38b67cc-e8c3-468a-ace9-0ec62f5e7ee0",
+      "traceId": "6adbdb7b3e5501794860f1932eb0285c",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:51:49",
+      "requestId": "d9c17055-9a48-4a11-9b08-bc6fce9c1fa1",
+      "traceId": "6adbdb894b807f0d27ac54013259ce9b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:52:02",
+      "requestId": "752a830c-cc89-4e84-8aa4-fddc2bf73f0e",
+      "traceId": "6adbdb9879bd2a9736b51a07226ee5e8",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+20:52:16",
+      "requestId": "bd2fcd1e-42cb-488f-a7b4-e19dd826c85d",
+      "traceId": "6adbdba6079aa11039b2728406703482",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:15:45",
+      "requestId": "d2034efe-ebfb-47f0-91fc-8ec3098bc33e",
+      "traceId": "6adbe12f26270b99632f3cc906e58631",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:47",
+      "requestId": "d14170c8-47eb-49fe-8f48-e1206904656b",
+      "traceId": "6adbe130401f2fd52d3eab3749183364",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:47",
+      "requestId": "52e81871-2446-42ef-8069-b8dd8131cbe3",
+      "traceId": "6adbe13055fd4def329bb555014c0909",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:47",
+      "requestId": "d2f7d9fa-d0ad-457f-b45a-71a2d6db1a6a",
+      "traceId": "6adbe1310f87fea74016198a1b8e7dae",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:48",
+      "requestId": "e2736970-08bc-40a9-b5ce-2697c613e537",
+      "traceId": "6adbe131123c143a04896e1f1165c3d1",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:48",
+      "requestId": "f4248d3e-6036-4ea1-a661-a45ebb887f1c",
+      "traceId": "6adbe1312613d0f0046a245c5041fc70",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:48",
+      "requestId": "76e692f7-7349-475a-8be0-b26658c1b767",
+      "traceId": "6adbe1326520b3ab0cc599a1321783b1",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:49",
+      "requestId": "557018af-bbcb-42ad-bff9-f695ca95d8b7",
+      "traceId": "6adbe132495f3a905a7daf8e78bdc4e7",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:49",
+      "requestId": "7452119a-474c-4b1d-bdd1-9c0bb5beaf4c",
+      "traceId": "6adbe13231a92edb33c6647947b23cd8",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:49",
+      "requestId": "1886eb99-1f78-4942-81ca-b4b5c75e2c47",
+      "traceId": "6adbe1334e5cc84f0b2b05c674f1e95f",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:49",
+      "requestId": "4a9d286c-331d-4789-ab09-49a6cfa18c22",
+      "traceId": "6adbe1331566b9c05483e4e62c1701fa",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:15:50",
+      "requestId": "94824aa4-e156-4368-93fa-c18271edf0b2",
+      "traceId": "6adbe13330e3ad926b1195291d035510",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:16:57",
+      "requestId": "01abf093-0296-4a88-8e86-0f200a349fa2",
+      "traceId": "6adbe17678f081b0736612b42a919f7b",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:17:17",
+      "requestId": "2e22c3d6-2833-4fc7-bfdd-5c11da680e2f",
+      "traceId": "6adbe1811dd716245873fbb77c136a87",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:17:31",
+      "requestId": "e7cf936c-8d04-4a63-9694-3887910c8db7",
+      "traceId": "6adbe19136481cc901edb86d3175ce4f",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:17:45",
+      "requestId": "b6ccd0e2-b65e-4cce-af21-ec9bb395de31",
+      "traceId": "6adbe19e0b60242e22b5ff643ea64e42",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:17:58",
+      "requestId": "3f4006b7-8037-47f1-8e9f-b5c2a652f161",
+      "traceId": "6adbe1ac45c642cd5df2d9b43f6c8156",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:18:11",
+      "requestId": "7afa4b0e-63d0-46b5-8717-d185ce33844e",
+      "traceId": "6adbe1b9636c24a928ca6fd957a4086b",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": [
+        "ops_screen_government_ids-1ylf7yzw40"
+      ]
+    },
+    {
+      "time": "T+21:31:06",
+      "requestId": "6dd9e213-ee71-4fad-890f-0308e49eb0d4",
+      "traceId": "6adbe4c801982a2c1bab2e5257660427",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:07",
+      "requestId": "4d8620d2-080f-4d06-aa2c-7effa57e6677",
+      "traceId": "6adbe4c941f300664a7b8b1569592046",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:08",
+      "requestId": "7b609031-d6d3-4666-93ce-f487f04a03fa",
+      "traceId": "6adbe4c92e5d5b5c3c8020db7d7e722e",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:08",
+      "requestId": "62859bd0-23ca-43ca-ba62-44fd11aaa52f",
+      "traceId": "6adbe4ca356569505ce3d2b9639557f6",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:09",
+      "requestId": "9e6d06ca-aa8d-4868-be1d-4bd55c3c6ebb",
+      "traceId": "6adbe4ca68bff7095e19725b2f9d0e4d",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:09",
+      "requestId": "ea22d584-33ff-4c41-8cf5-fe593338df9d",
+      "traceId": "6adbe4ca2169226858c2ff2d7e42450a",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:10",
+      "requestId": "08cba6e1-7568-4a56-a4dc-a5aac5f91d66",
+      "traceId": "6adbe4cb0fa0e4a8047751f1728afd6f",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:10",
+      "requestId": "3ef775bc-9481-4000-b015-20e01e6e2453",
+      "traceId": "6adbe4cb2d4118a95c4c2eac680c8488",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:10",
+      "requestId": "d1addebc-614b-484b-8d63-d31f5111d7fb",
+      "traceId": "6adbe4cb79cf96da27a5c1c86bdd0729",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:10",
+      "requestId": "ff083cd6-1ed5-416f-afed-41b371ad146c",
+      "traceId": "6adbe4cc46efb82500e7dbcb40b8f1f8",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:10",
+      "requestId": "8f3fdf5d-0341-4c83-98c5-38cd018a6b2b",
+      "traceId": "6adbe4cc5aee9acb7861ddab461ef030",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+21:31:11",
+      "requestId": "83586114-fab8-455f-a7b5-b6b93a9f7ed8",
+      "traceId": "6adbe4cc0104b32c3db5b2f12104c888",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:04",
+      "requestId": "3322844d-e9a0-4505-8565-25fec9fcfca3",
+      "traceId": "6adbec094e36b82f04a12abd32141af2",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:04",
+      "requestId": "601ff8f4-ed62-409c-ae15-a4d9398fc0a5",
+      "traceId": "6adbec097ce56a757d852ff45fe8d2e7",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:04",
+      "requestId": "d4fc7ccc-551c-4261-9866-79fead72a04d",
+      "traceId": "6adbec0a3e0bd3be7c61db3b3e85362e",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:04",
+      "requestId": "d8645bba-f0ea-4c9c-8cb0-f4db4ff5096c",
+      "traceId": "6adbec0a1c88ec4b1dfdda5605962963",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:05",
+      "requestId": "a5386109-a33e-4817-828d-22e6debf3346",
+      "traceId": "6adbec0b7a615f4c3f16c2ec6bda7df5",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:05",
+      "requestId": "45988b01-8b32-441a-825f-aeef43222aee",
+      "traceId": "6adbec0b05859f376a9f00553a04fc8c",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:06",
+      "requestId": "b1fa96b0-dc1c-4c66-90e0-35af4aa908e4",
+      "traceId": "6adbec0b4f1cd673723c5cce39722c5a",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:06",
+      "requestId": "fbc23928-c9c7-449b-ba4f-24ce667c8487",
+      "traceId": "6adbec0c074b5bfc69be437d37e8bfdc",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:06",
+      "requestId": "f8a610cc-68da-40a3-8e72-c2c5eacac4ec",
+      "traceId": "6adbec0c300c9293776367fc187e0534",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:07",
+      "requestId": "5260544f-3d04-4a62-bec3-af5a006296be",
+      "traceId": "6adbec0c1b84935e68baeb726aa6a1ae",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:07",
+      "requestId": "dedf3af2-e73f-47e9-8580-bd7647ae6f13",
+      "traceId": "6adbec0c50c85e6e3a51946910378c3f",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+22:02:07",
+      "requestId": "59bb5bd7-50e2-4bfd-a89c-471d8fdc1394",
+      "traceId": "6adbec0d7f3989634ac54cc962873767",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:26",
+      "requestId": "fdb6e0bb-44c1-464f-99f9-67f9d46c3a50",
+      "traceId": "6adc06d87fd381804500a9467ee4541c",
+      "tool": "ops___list_env",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:27",
+      "requestId": "73f844ff-5987-4aed-9c3a-a9f078f27d69",
+      "traceId": "6adc06d80c8b3fb67e1babbf17dd6105",
+      "tool": "ops___get_claims_store",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:27",
+      "requestId": "0803740e-7694-45a1-84fc-5d8ba52961e6",
+      "traceId": "6adc06d956ef0f9350a91c75017d5430",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:28",
+      "requestId": "91977d23-fc03-40ea-aa02-11288f0023ff",
+      "traceId": "6adc06d93107c1680001ad9453dabdcc",
+      "tool": "ops___get_claim_record",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "ops_permit_read_tools-936azu9_en"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:28",
+      "requestId": "a9533614-8061-4cb8-af28-8c51fd59dc5d",
+      "traceId": "6adc06da2d7ff9d31239578d36ce8c82",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:28",
+      "requestId": "19b98e06-c75f-48ab-b342-63475ca0ce15",
+      "traceId": "6adc06da7471f24774719ae34eeac538",
+      "tool": "support___get_ticket",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body, context.output.subject, context.output.body.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:29",
+      "requestId": "5bf5abda-e5c7-48ca-a968-d039fe958433",
+      "traceId": "6adc06da6994153a2bf548e53e548036",
+      "tool": "ops___list_env",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:29",
+      "requestId": "829792c8-29f1-4c93-8993-56338885021c",
+      "traceId": "6adc06db4992600c0017c6ef7bd7116e",
+      "tool": "ops___get_claims_store",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "No policy applies to the request (denied by default).",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:29",
+      "requestId": "9f8df131-2e75-4d85-91f9-fca979713bad",
+      "traceId": "6adc06db1b11db6531a9e6651c50e27e",
+      "tool": "ops___get_claim",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:30",
+      "requestId": "1634ab11-d516-4b3e-8a18-449ed4116cb1",
+      "traceId": "6adc06db73c33303494dbe0e3c2b580a",
+      "tool": "ops___get_claim_record",
+      "decision": "DENY",
+      "determiningPolicies": [],
+      "reason": "Authorization denied: request missing field(s) required for guardrail evaluation: context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health, context.output.policyholder, context.output.health.",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:30",
+      "requestId": "188a5ce2-ad59-4f86-b771-b40126624caf",
+      "traceId": "6adc06db1279f4e17edbf0096d762882",
+      "tool": "ops___purge_claims",
+      "decision": "DENY",
+      "determiningPolicies": [
+        "ops_forbid_purge-zlncpdalfy"
+      ],
+      "reason": "Policy evaluation denied due to ops_forbid_purge-zlncpdalfy",
+      "mode": "ENFORCE",
+      "authorizations": 1,
+      "suppressedBy": null
+    },
+    {
+      "time": "T+23:56:30",
+      "requestId": "b31317b4-f39c-4aea-955f-802d7442ac46",
+      "traceId": "6adc06dc6ec6491d527f9e5a47062062",
+      "tool": "support___get_ticket",
+      "decision": "ALLOW",
+      "determiningPolicies": [
+        "support_permit_tools-ramhclk2a4"
+      ],
+      "reason": null,
+      "mode": "ENFORCE",
+      "authorizations": 2,
+      "suppressedBy": null
+    }
+  ]
+}

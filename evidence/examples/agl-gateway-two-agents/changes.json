@@ -1,0 +1,873 @@
+{
+  "source": "CloudTrail management events (LookupEvents)",
+  "changes": [
+    {
+      "time": "T+23:59:01",
+      "eventName": "DeleteGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-errtest-hx62riasn7",
+        "agl-errtest-hx62riasn7"
+      ],
+      "errorCode": null,
+      "eventId": "d21ff404-9bdb-4115-be1e-c157854fef79"
+    },
+    {
+      "time": "T+23:58:52",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-errtest-hx62riasn7",
+        "agl-errtest-hx62riasn7"
+      ],
+      "errorCode": null,
+      "eventId": "c3674b66-dc50-4f74-8608-0cfdfb6fd60f"
+    },
+    {
+      "time": "T+23:58:48",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-errtest-hx62riasn7",
+        "agl-errtest-hx62riasn7"
+      ],
+      "errorCode": null,
+      "eventId": "b9328c65-10a9-452c-a681-1305e5c6cce0"
+    },
+    {
+      "time": "T+23:58:47",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-errtest-hx62riasn7",
+        "agl-errtest-hx62riasn7",
+        "arn:aws:iam::<account-1>:role/agl-errtest-gw-role"
+      ],
+      "errorCode": null,
+      "eventId": "168dafa9-9a85-46b9-b922-5d782867fd33"
+    },
+    {
+      "time": "T+23:56:46",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-cneh0ygspe"
+      ],
+      "errorCode": null,
+      "eventId": "ada7f6d7-b2f9-47ad-b5b0-27ef39c12d6d"
+    },
+    {
+      "time": "T+23:56:45",
+      "eventName": "DeleteGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-cneh0ygspe"
+      ],
+      "errorCode": null,
+      "eventId": "1756704c-cd8d-4a43-bddf-e0c02aa08082"
+    },
+    {
+      "time": "T+23:56:45",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-cneh0ygspe"
+      ],
+      "errorCode": "ValidationException",
+      "eventId": "387d5ccb-f4b1-4062-ad99-e7e6e5fe0028"
+    },
+    {
+      "time": "T+23:56:40",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-cneh0ygspe",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/trusttest-outside-pattern-cneh0ygspe"
+      ],
+      "errorCode": null,
+      "eventId": "d882d520-d3db-4ba9-9396-a8a527190a5e"
+    },
+    {
+      "time": "T+23:56:39",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/trusttest-outside-pattern-cneh0ygspe",
+        "trusttest-outside-pattern-cneh0ygspe",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "bdccb63e-a748-4170-a101-578f7ff4f779"
+    },
+    {
+      "time": "T+23:53:50",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-mv4hnkfxuk"
+      ],
+      "errorCode": null,
+      "eventId": "48e058ab-a77a-4212-9067-5d00f7523cf3"
+    },
+    {
+      "time": "T+23:53:49",
+      "eventName": "DeleteGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "trusttest-outside-pattern-mv4hnkfxuk"
+      ],
+      "errorCode": null,
+      "eventId": "1fa98a93-66ad-4c27-a6a1-8f1402935749"
+    },
+    {
+      "time": "T+23:53:44",
+      "eventName": "DeleteGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/trusttest-outside-pattern-mv4hnkfxuk",
+        "trusttest-outside-pattern-mv4hnkfxuk"
+      ],
+      "errorCode": null,
+      "eventId": "21674c04-6c01-4d21-aa82-f8a400ecce9b"
+    },
+    {
+      "time": "T+23:53:35",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/trusttest-outside-pattern-mv4hnkfxuk",
+        "trusttest-outside-pattern-mv4hnkfxuk"
+      ],
+      "errorCode": null,
+      "eventId": "6361caac-6022-4fca-9b0c-d7913a784861"
+    },
+    {
+      "time": "T+23:53:30",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/trusttest-outside-pattern-mv4hnkfxuk",
+        "trusttest-outside-pattern-mv4hnkfxuk"
+      ],
+      "errorCode": null,
+      "eventId": "9d945375-35cc-4bcc-8201-1c67db972676"
+    },
+    {
+      "time": "T+23:53:29",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/trusttest-outside-pattern-mv4hnkfxuk",
+        "trusttest-outside-pattern-mv4hnkfxuk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "6416d8ce-c3f6-43ad-acdc-986c4ed5ef8a"
+    },
+    {
+      "time": "T+22:11:03",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-modetest-yximf3tj2e"
+      ],
+      "errorCode": null,
+      "eventId": "6decc1c6-7852-49f8-a4b7-e4de59581587"
+    },
+    {
+      "time": "T+22:11:02",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/agl-modetest-operator-role/<session-2>",
+      "target": "agl-gateway-modetest-yximf3tj2e",
+      "resources": [
+        "agl-gateway-modetest-yximf3tj2e",
+        "arn:aws:iam::<account-1>:role/agl-modetest-gateway-role"
+      ],
+      "errorCode": "AccessDenied",
+      "eventId": "ae909e73-e1d6-4410-a286-de9336bc1cf0"
+    },
+    {
+      "time": "T+22:11:02",
+      "eventName": "DeleteGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-modetest-yximf3tj2e"
+      ],
+      "errorCode": null,
+      "eventId": "ca645aa1-0998-45c9-a13c-db8b3b0be0dc"
+    },
+    {
+      "time": "T+22:10:57",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/agl-modetest-operator-role/<session-2>",
+      "target": "agl-gateway-modetest-yximf3tj2e",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-modetest-yximf3tj2e",
+        "agl-gateway-modetest-yximf3tj2e",
+        "arn:aws:iam::<account-1>:role/agl-modetest-gateway-role"
+      ],
+      "errorCode": null,
+      "eventId": "8ad9185e-4fd7-4a24-9344-cb5520f68c40"
+    },
+    {
+      "time": "T+22:10:56",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/agl-modetest-operator-role/<session-2>",
+      "target": "agl-gateway-modetest-yximf3tj2e",
+      "resources": [
+        "agl-gateway-modetest-yximf3tj2e",
+        "arn:aws:iam::<account-1>:role/agl-modetest-gateway-role"
+      ],
+      "errorCode": "AccessDenied",
+      "eventId": "ce058d55-d218-4340-ab02-8e2fb79d6fac"
+    },
+    {
+      "time": "T+22:10:51",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-modetest-yximf3tj2e",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-modetest-yximf3tj2e"
+      ],
+      "errorCode": null,
+      "eventId": "a0d82366-17db-4a3c-921a-313f5a312a75"
+    },
+    {
+      "time": "T+22:10:50",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-modetest-yximf3tj2e",
+        "agl-gateway-modetest-yximf3tj2e",
+        "arn:aws:iam::<account-1>:role/agl-modetest-gateway-role"
+      ],
+      "errorCode": null,
+      "eventId": "58a5a388-e517-43fb-9d1e-a7dc48b503e8"
+    },
+    {
+      "time": "T+22:02:25",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-r2iup8aeoa"
+      ],
+      "errorCode": null,
+      "eventId": "8b250385-bfe8-44f0-9ecd-2c845a4e7a88"
+    },
+    {
+      "time": "T+22:02:24",
+      "eventName": "DeleteGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-r2iup8aeoa"
+      ],
+      "errorCode": null,
+      "eventId": "91f16ddf-f2a2-41a7-a25d-30d6b3434016"
+    },
+    {
+      "time": "T+22:02:19",
+      "eventName": "DeleteGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-r2iup8aeoa",
+        "agl-gateway-sharetest-r2iup8aeoa"
+      ],
+      "errorCode": null,
+      "eventId": "74b5a4b9-9092-4f50-854a-065881b3d5c5"
+    },
+    {
+      "time": "T+22:02:14",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "probe_sharetest_forbid_purge-clx5oaqlnm",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "f840bf18-db0f-4e3a-bf71-876d81c91e3b"
+    },
+    {
+      "time": "T+22:02:08",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "probe_sharetest_permit-f1plw23ty0",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "f3bf7fc0-2bca-4241-a8ea-3f42d3a35b20"
+    },
+    {
+      "time": "T+22:01:53",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "probe_sharetest_forbid_purge",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "afa8c299-274b-42b9-9e04-f1039d45ad3d"
+    },
+    {
+      "time": "T+22:01:43",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "probe_sharetest_permit",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "f788ac59-839c-4d05-ae57-ae2edfb33033"
+    },
+    {
+      "time": "T+22:01:36",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-r2iup8aeoa",
+        "agl-gateway-sharetest-r2iup8aeoa"
+      ],
+      "errorCode": null,
+      "eventId": "f4a05692-6d90-4f06-b94b-08f9aeeb549e"
+    },
+    {
+      "time": "T+22:01:31",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-r2iup8aeoa",
+        "agl-gateway-sharetest-r2iup8aeoa",
+        "arn:aws:iam::<account-1>:role/agl-sharetest-gateway-role"
+      ],
+      "errorCode": null,
+      "eventId": "999af976-c1b0-402a-92b2-36da9627b00c"
+    },
+    {
+      "time": "T+22:01:31",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-r2iup8aeoa",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-sharetest-r2iup8aeoa"
+      ],
+      "errorCode": null,
+      "eventId": "c9bbf5e5-0e7a-45f5-a94e-949b250eed48"
+    },
+    {
+      "time": "T+21:30:52",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp"
+      ],
+      "errorCode": null,
+      "eventId": "c7fcc8eb-5bdf-4da2-a244-df5168d89d6d"
+    },
+    {
+      "time": "T+21:30:51",
+      "eventName": "DeleteGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp"
+      ],
+      "errorCode": null,
+      "eventId": "b46bf6aa-bef7-4f16-bc64-097ab0cc6af1"
+    },
+    {
+      "time": "T+21:30:46",
+      "eventName": "DeleteGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-o8xzqpqicp"
+      ],
+      "errorCode": null,
+      "eventId": "a12a0bce-b605-41e6-9530-9b5502d8892a"
+    },
+    {
+      "time": "T+21:30:38",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-o8xzqpqicp"
+      ],
+      "errorCode": null,
+      "eventId": "2166790d-6884-4781-8f2b-dc40abc35900"
+    },
+    {
+      "time": "T+21:30:32",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-sharetest-o8xzqpqicp",
+        "arn:aws:iam::<account-1>:role/agl-sharetest-gateway-role"
+      ],
+      "errorCode": null,
+      "eventId": "92511b8a-1978-41cf-84de-41463b4909ce"
+    },
+    {
+      "time": "T+21:30:32",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "agl-gateway-sharetest-o8xzqpqicp",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl-gateway-sharetest-o8xzqpqicp"
+      ],
+      "errorCode": null,
+      "eventId": "dea29f12-aeca-4b46-86de-863056637cfb"
+    },
+    {
+      "time": "T+21:29:39",
+      "eventName": "CreateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": "AccessDenied",
+      "eventId": "a780d726-70e2-4378-810b-0bd451af5169"
+    },
+    {
+      "time": "T+21:15:16",
+      "eventName": "UpdateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk"
+      ],
+      "errorCode": null,
+      "eventId": "07b8fb9f-afc0-4395-8d3f-9bf0bce8d671"
+    },
+    {
+      "time": "T+21:15:16",
+      "eventName": "UpdateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk"
+      ],
+      "errorCode": null,
+      "eventId": "49094f3d-e4bf-4e25-b94a-5a32dc11eeb4"
+    },
+    {
+      "time": "T+20:16:40",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/registry-jQeBIfGHD82O72Og",
+        "registry-jQeBIfGHD82O72Og"
+      ],
+      "errorCode": null,
+      "eventId": "02290bde-d5b7-4175-9ce2-d0022522f40c"
+    },
+    {
+      "time": "T+20:10:36",
+      "eventName": "DeleteWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "registry-1eJ9HyMLwz9s98v1"
+      ],
+      "errorCode": null,
+      "eventId": "0d5cbaaa-1aac-4262-b67b-a7ebbb05dc5d"
+    },
+    {
+      "time": "T+20:08:55",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/registry-1eJ9HyMLwz9s98v1",
+        "registry-1eJ9HyMLwz9s98v1"
+      ],
+      "errorCode": null,
+      "eventId": "a6b7407e-ebb0-432b-af9f-922f1a392885"
+    },
+    {
+      "time": "T+15:45:33",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "support_screen_government_ids-ztrepe3u56",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "4a076610-a64a-4408-b426-8f767d6c2023"
+    },
+    {
+      "time": "T+15:45:21",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "support_screen_financial-65zhg33em0",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "7df9840d-c5ae-4e4e-a50a-ee7aaf7a736c"
+    },
+    {
+      "time": "T+15:41:55",
+      "eventName": "CreateAgentRuntime",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_support_agent-tmmsEUBl5n",
+        "agl_support_agent-tmmsEUBl5n",
+        "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-xf9PWsvzWfoW"
+      ],
+      "errorCode": null,
+      "eventId": "5876a01d-45ad-4b40-a962-fce7031bfba5"
+    },
+    {
+      "time": "T+15:41:54",
+      "eventName": "CreateWorkloadIdentity",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-tmmsEUBl5n",
+        "agl_support_agent-tmmsEUBl5n"
+      ],
+      "errorCode": null,
+      "eventId": "e71d9b97-cf0b-4c27-8fd5-97ce68fa4eb3"
+    },
+    {
+      "time": "T+15:40:00",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "agl-gateway-hxhwh522lk",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "6a61ab21-5bf1-4ae8-bce5-d6ae6a4d6739"
+    },
+    {
+      "time": "T+15:38:25",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "support_screen_government_ids",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "46016af2-b13f-453f-bbff-6244ea4d1c53"
+    },
+    {
+      "time": "T+15:38:15",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "support_screen_financial",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "a38c14c1-aa36-479c-9fca-d1d1cd40be67"
+    },
+    {
+      "time": "T+15:38:04",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "support_permit_tools",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "795dc3a0-a8a3-4e4b-a6eb-41e6996a0b06"
+    },
+    {
+      "time": "T+15:36:15",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "agl-gateway-hxhwh522lk",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "bf86878e-062d-4a76-8dfd-5230c97899af"
+    },
+    {
+      "time": "T+15:34:52",
+      "eventName": "CreateGatewayTarget",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk"
+      ],
+      "errorCode": null,
+      "eventId": "a6c957ab-26b5-4e53-b61e-11e151a1e5e2"
+    },
+    {
+      "time": "T+15:34:50",
+      "eventName": "CreateOauth2CredentialProvider",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": null,
+      "resources": [
+        "agl-support-agent-gateway",
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:token-vault/default/oauth2credentialprovider/agl-support-agent-gateway"
+      ],
+      "errorCode": null,
+      "eventId": "506cb958-654a-46da-a4d5-898419d6348a"
+    },
+    {
+      "time": "T+15:34:44",
+      "eventName": "UpdateGateway",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "agl-gateway-hxhwh522lk",
+      "resources": [
+        "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+        "agl-gateway-hxhwh522lk",
+        "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV"
+      ],
+      "errorCode": null,
+      "eventId": "1052b139-0888-4fc6-af70-0b9d5a1f60ff"
+    },
+    {
+      "time": "T+00:30:34",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_government_ids-1ylf7yzw40",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "58cf5119-cdd0-4e57-a327-7a793781d317"
+    },
+    {
+      "time": "T+00:28:59",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_health_ids-m1i1_ow284",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e65f1456-3251-41f1-ab0e-e45140f9d985"
+    },
+    {
+      "time": "T+00:28:52",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_government_ids-1ylf7yzw40",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1b0bc25f-9deb-4200-a4fa-2992228db814"
+    },
+    {
+      "time": "T+00:28:42",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_financial-8g330k10ot",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "49c00d5d-3cbf-4e49-8ded-b5b4fa187a0c"
+    },
+    {
+      "time": "T+00:28:27",
+      "eventName": "UpdatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_contact_details-q39ju9cfqs",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "3cc8fd9c-f9ce-4a58-a8a7-b097168f7c3c"
+    },
+    {
+      "time": "T+00:25:31",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "agl_probe6_gov-jrniprasjx",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "6692613e-a843-4589-bb05-2750f0b3bcd3"
+    },
+    {
+      "time": "T+00:19:26",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "agl_probe6_gov",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "796216d3-b9d9-4900-b755-b4364c08dc95"
+    },
+    {
+      "time": "T+00:12:19",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_permit_reads-yyxe66ig1w",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "32a472bd-c3d3-461c-9489-88f30d6fbfb0"
+    },
+    {
+      "time": "T+00:12:10",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_health_ids",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "e7cc1f01-ae46-422a-8207-a2ff84686777"
+    },
+    {
+      "time": "T+00:12:04",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_government_ids",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "3d837fe9-1923-40c7-96de-cd3de7bfc9ab"
+    },
+    {
+      "time": "T+00:11:57",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_financial",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "1989c7d9-0cc2-41e9-b64b-11d2309b9581"
+    },
+    {
+      "time": "T+00:11:51",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_contact_details",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "d28cd1f4-b957-477f-b5fe-eee68ffb3f6b"
+    },
+    {
+      "time": "T+00:11:40",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_permit_read_tools",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "f505fd59-76a9-4c55-befd-5ef8c1c341f9"
+    },
+    {
+      "time": "T+00:08:10",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "agl_probe5_permit-abqkrtiy6t",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "75673f6e-bd52-4618-ae4e-05d041d2196d"
+    },
+    {
+      "time": "T+00:07:59",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/AWSReservedSSO_AdministratorAccess_<sso-role-1>/<session-1>",
+      "target": "agl_probe5_permit",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b66baeb5-a5b6-47bd-85e4-5fafdf2c52c3"
+    },
+    {
+      "time": "T+00:04:11",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_contact_details-9fnnmvs1ge",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "0a765f6c-2516-487e-bfce-c60f2a01a15b"
+    },
+    {
+      "time": "T+00:04:11",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_health_ids-zeo4zhifhn",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "10a8ec2a-d124-4142-9e0a-23e159e43051"
+    },
+    {
+      "time": "T+00:04:11",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_permit_read_tools-nwjd6vupe4",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "70d3edb1-7677-4e02-8e1c-7e2b78d75056"
+    },
+    {
+      "time": "T+00:04:11",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_financial-v3txn0gyy3",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b3d29229-7e25-4f1a-be8f-e968e75c8c22"
+    },
+    {
+      "time": "T+00:04:11",
+      "eventName": "DeletePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_government_ids-7arqwtpcm0",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "b5f5c13b-0fe3-4c73-a1a3-184f91b2f329"
+    },
+    {
+      "time": "T+00:04:03",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_health_ids",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "481edd16-6ea8-4e4b-bb4b-799c4ccdda56"
+    },
+    {
+      "time": "T+00:04:03",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_permit_read_tools",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "543f43f3-7299-4487-a2aa-cfe3b5676a87"
+    },
+    {
+      "time": "T+00:04:03",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_financial",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "7362ebbe-243c-49fa-9295-c827e30ad30e"
+    },
+    {
+      "time": "T+00:03:53",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_contact_details",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "53edc822-0230-4c8f-b7ed-401915c40e30"
+    },
+    {
+      "time": "T+00:03:53",
+      "eventName": "CreatePolicy",
+      "actor": "arn:aws:sts::<account-1>:assumed-role/cdk-hnb659fds-cfn-exec-role-<account-1>-us-east-1/<session-3>",
+      "target": "ops_screen_government_ids",
+      "resources": [],
+      "errorCode": null,
+      "eventId": "5986feab-5b80-4520-9302-3a72c74e5143"
+    }
+  ]
+}

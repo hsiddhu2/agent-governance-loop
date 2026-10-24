@@ -1,0 +1,148 @@
+{
+  "catalog": {
+    "status": "OK",
+    "registries": [
+      {
+        "name": "agl-registry",
+        "arn": "arn:aws:agent-registry:us-east-1:<account-1>:registry/jQeBIfGHD82O72Og",
+        "status": "READY"
+      }
+    ],
+    "records": [
+      {
+        "registry": "agl-registry",
+        "name": "agl-claims-gateway",
+        "recordType": "MCP",
+        "status": "APPROVED",
+        "names": [
+          "gateway agl-gateway"
+        ]
+      },
+      {
+        "registry": "agl-registry",
+        "name": "agl-support-agent",
+        "recordType": "CUSTOM",
+        "status": "APPROVED",
+        "names": [
+          "gateway agl-gateway",
+          "runtime agl_support_agent"
+        ]
+      },
+      {
+        "registry": "agl-registry",
+        "name": "agl-ops-agent",
+        "recordType": "CUSTOM",
+        "status": "APPROVED",
+        "names": [
+          "gateway agl-gateway",
+          "runtime agl_ops_agent"
+        ]
+      }
+    ]
+  },
+  "gateway": {
+    "gatewayId": "agl-gateway-hxhwh522lk",
+    "name": "agl-gateway",
+    "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk",
+    "status": "READY",
+    "protocol": "MCP",
+    "roleArn": "arn:aws:iam::<account-1>:role/AglGateway-GatewayServiceRole162DEA77-RrnWlUJJgwgV",
+    "updatedAt": "T+15:40:02"
+  },
+  "targets": [
+    {
+      "targetId": "IHNRU8MNND",
+      "name": "support",
+      "status": "READY",
+      "type": "LAMBDA",
+      "configuration": {
+        "mcp": {
+          "lambda": {
+            "lambdaArn": "arn:aws:lambda:us-east-1:<account-1>:function:agl-support-tools",
+            "toolSchema": {
+              "s3": {
+                "uri": "s3://cdk-hnb659fds-assets-<account-1>-us-east-1/ef7c265b68c9fa200d845ed12fa3254f8906c47e528957ff5206e004883748b6.json"
+              }
+            }
+          }
+        }
+      },
+      "credentialProviders": [
+        {
+          "credentialProviderType": "GATEWAY_IAM_ROLE"
+        }
+      ],
+      "updatedAt": "T+21:15:20"
+    },
+    {
+      "targetId": "ZK1B1A1OL8",
+      "name": "ops",
+      "status": "READY",
+      "type": "LAMBDA",
+      "configuration": {
+        "mcp": {
+          "lambda": {
+            "lambdaArn": "arn:aws:lambda:us-east-1:<account-1>:function:agl-ops-tools",
+            "toolSchema": {
+              "s3": {
+                "uri": "s3://cdk-hnb659fds-assets-<account-1>-us-east-1/5dc972a6cf97af4f92c0e1c3eaf566f6cf85fbcc6c1f21c7d4f7502091b96474.json"
+              }
+            }
+          }
+        }
+      },
+      "credentialProviders": [
+        {
+          "credentialProviderType": "GATEWAY_IAM_ROLE"
+        }
+      ],
+      "updatedAt": "T+21:15:21"
+    }
+  ],
+  "runtimes": [
+    {
+      "agentRuntimeId": "agl_support_agent-tmmsEUBl5n",
+      "name": "agl_support_agent",
+      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_support_agent-tmmsEUBl5n",
+      "version": "1",
+      "status": "READY",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-SupportAgentExecutionRole7F40270B-xf9PWsvzWfoW",
+      "network": "PUBLIC",
+      "authorizer": {
+        "customJWTAuthorizer": {
+          "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/<user-pool-1>/.well-known/openid-configuration",
+          "allowedClients": [
+            "<client-1>"
+          ],
+          "allowedScopes": [
+            "agl-support-agent/invoke"
+          ]
+        }
+      },
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_support_agent-tmmsEUBl5n",
+      "updatedAt": "T+15:42:08"
+    },
+    {
+      "agentRuntimeId": "agl_ops_agent-Uy4VNRDuho",
+      "name": "agl_ops_agent",
+      "arn": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:runtime/agl_ops_agent-Uy4VNRDuho",
+      "version": "7",
+      "status": "READY",
+      "roleArn": "arn:aws:iam::<account-1>:role/AglAgents-OpsAgentExecutionRoleEEF638BA-iDLqPykYJvYU",
+      "network": "PUBLIC",
+      "authorizer": {
+        "customJWTAuthorizer": {
+          "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/<user-pool-1>/.well-known/openid-configuration",
+          "allowedClients": [
+            "<client-2>"
+          ],
+          "allowedScopes": [
+            "agl-ops-agent/invoke"
+          ]
+        }
+      },
+      "workloadIdentity": "arn:aws:bedrock-agentcore:us-east-1:<account-1>:workload-identity-directory/default/workload-identity/agl_ops_agent-Uy4VNRDuho",
+      "updatedAt": "T-09:13:22"
+    }
+  ]
+}

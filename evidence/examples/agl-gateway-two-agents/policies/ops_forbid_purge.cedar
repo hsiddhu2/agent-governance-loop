@@ -1,0 +1,14 @@
+// Purging claim records is never allowed through this Gateway, in any environment.
+// The rule keys on the tool alone. It does not trust anything the agent says
+// about which environment it is acting on.
+// Explicit, so a denied call names this policy instead of falling to default deny.
+// Any principal: narrowing a forbid would only weaken it.
+// The analyzer reports this rule as overly restrictive, which is correct: it denies
+// every purge_claims call on purpose. A forbid also holds if a broader permit is
+// added later, which default deny alone would not.
+// validation: IGNORE_ALL_FINDINGS because denying every call to this tool is the intent
+forbid(
+  principal,
+  action == AgentCore::Action::"ops___purge_claims",
+  resource == AgentCore::Gateway::"arn:aws:bedrock-agentcore:us-east-1:<account-1>:gateway/agl-gateway-hxhwh522lk"
+);
