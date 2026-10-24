@@ -3,11 +3,42 @@ import os
 import time
 
 import boto3
+from botocore.exceptions import ClientError
 
 ddb = boto3.client("dynamodb")
 PREFIX = os.environ["TABLE_PREFIX"]
 MAX_ATTEMPTS = 6
 TOOLS = ("list_env", "get_claims_store", "get_claim", "get_claim_record", "purge_claims")
+
+
+# The output fields each screened tool's screens read (policies/cedar/ops_screen_*).
+SCREENED = {"get_claim_record": ("claim_id", "status", "policyholder", "health")}
+
+
+class NotFound(LookupError):
+    """What the caller asked for does not exist. Its message is returned to the caller."""
+
+
+def tool_error(message: str) -> dict:
+    # The Gateway passes a result in this shape through as an MCP tool error with this
+    # text. An exception reaches the caller only as "An internal error occurred. Please
+    # retry later.", which reads as an outage. Measured, not documented.
+    return {"isError": True, "content": [{"type": "text", "text": message}]}
+
+
+def not_found(tool: str, event: dict, message: str) -> dict:
+    """A not-found the caller can read, in the shape its screens can check.
+
+    A screen reads named output fields and withholds any result that lacks them, an
+    error result included, and the detector refuses an empty field. So a screened tool
+    answers in its declared shape, every field filled, status not_found and the message
+    in error.
+    """
+    fields = SCREENED.get(tool)
+    if not fields:
+        return tool_error(message)
+    return {**dict.fromkeys(fields, "Not found."), "claim_id": event.get("claim_id", ""),
+            "status": "not_found", "error": message}
 
 
 def _tool_name(context) -> str:
@@ -51,7 +82,7 @@ def _purge(table: str, context) -> tuple[int, bool]:
 def _claim(env: str, claim_id: str) -> dict:
     item = ddb.get_item(TableName=f"{PREFIX}{env}", Key={"pk": {"S": claim_id}}).get("Item")
     if item is None:
-        raise ValueError(f"no claim {claim_id} in {env}")
+        raise NotFound(f"No claim {claim_id} in {env}. Claim ids look like claim#12.")
     return item
 
 
@@ -107,7 +138,18 @@ def handler(event, context):
     # Which tool ran and for which request. Arguments and results are not logged:
     # tools behind this Gateway may handle customer data.
     print(json.dumps({"tool": tool, "request_id": context.aws_request_id}))
+    try:
+        return _run(tool, event, context)
+    except NotFound as e:
+        return not_found(tool, event, str(e))
+    except ClientError as e:
+        if e.response["Error"]["Code"] != "ResourceNotFoundException":
+            raise
+        return tool_error(f"No claims store for environment {event.get('environment')}. "
+                          "Call list_env for the environments.")
 
+
+def _run(tool: str, event: dict, context) -> dict:
     if tool == "list_env":
         names = [t for t in ddb.list_tables()["TableNames"] if t.startswith(PREFIX)]
         return {"environments": [n.removeprefix(PREFIX) for n in names]}

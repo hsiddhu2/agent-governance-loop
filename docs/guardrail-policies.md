@@ -36,6 +36,14 @@ In the decision record, the same detection scores appear once for each `||` term
 
 In the account this was built in, policies created or updated together in one engine were refused for naming an action "that does not exist on the target gateway", while each was accepted on its own. The cause is not documented. So the policy stack makes each policy wait for the one before it: permits first, then forbids, then screens.
 
+## A screened tool reports errors in its declared shape
+
+A Lambda tool that raises an exception reaches the caller as "An internal error occurred. Please retry later.", whatever the exception said. Returning an MCP tool result, `{"isError": true, "content": [{"type": "text", "text": "..."}]}`, passes the tool's own message through as a tool error. The tools here do that for a claim or a store that does not exist. Neither behavior is on the Lambda target page. Both were measured here.
+
+On a tool with a screen, that error result is withheld. The screen reads named output fields, such as `context.output.policyholder`, and refuses a result without them: "request missing field(s) required for guardrail evaluation". An empty field is refused too, by the detector: "Member must have length greater than or equal to 1". So `get_claim_record` and `get_ticket` answer a not-found in their declared shape instead: every field filled with "Not found.", `status` set to `not_found`, and the message in an `error` field. The screen checks the fields, finds nothing, and the caller reads why. A real withhold is unchanged.
+
+The Gateway did not check results against a tool's `outputSchema`: a result missing a required field was passed through. The schema tells the caller what to expect. It does not enforce it.
+
 ## What cannot be screened
 
 The policy language accepts a fixed list of sensitive-information categories ([Guardrails in policies](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-guardrails-in-policies.html)). Two kinds of data in a life or health claim file have none:

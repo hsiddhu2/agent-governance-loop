@@ -47,9 +47,12 @@ def test_get_ticket_returns_the_schema_fields_only(handler):
     assert handler.ddb.calls == [("agl-tickets-production", "ticket#1")]
 
 
-def test_unknown_ticket_is_an_error(handler):
-    with pytest.raises(ValueError):
-        handler.handler({"environment": "production", "ticket_id": "ticket#9"}, context("x___get_ticket"))
+def test_unknown_ticket_comes_back_in_the_screened_shape(handler):
+    # get_ticket is screened, so a not-found keeps the fields its screens read.
+    out = handler.handler({"environment": "production", "ticket_id": "9"}, context("x___get_ticket"))
+    assert out == {"ticket_id": "9", "claim_id": "Not found.", "status": "not_found", "subject": "Not found.",
+                   "body": "Not found.",
+                   "error": "No ticket 9 in production. Ticket ids look like ticket#7."}
 
 
 def test_unknown_tool_is_refused(handler):
