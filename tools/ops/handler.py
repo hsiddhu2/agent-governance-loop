@@ -30,7 +30,8 @@ def not_found(tool: str, event: dict, message: str) -> dict:
     """A not-found the caller can read, in the shape its screens can check.
 
     A screen reads named output fields and withholds any result that lacks them, an
-    error result included, and the detector refuses an empty field. So a screened tool
+    error result included, and the detector refuses a result whose screened fields are
+    all empty. So a screened tool
     answers in its declared shape, every field filled, status not_found and the message
     in error.
     """
