@@ -14,6 +14,10 @@ PREFIXES = [
     "/aws/bedrock-agentcore/runtimes/agl_support_agent-",
     # Groups Lambda named after the stack. Stack-owned groups are lower case, agl-.
     "/aws/lambda/Agl",
+    # CDK's deploy-time functions run once more while their stack is deleted, after the
+    # stack has removed their log group, so Lambda creates it again with no key and no
+    # retention. Nothing else writes these names once the stacks are gone.
+    "/aws/lambda/agl-deploy-",
 ]
 
 logs_client = boto3.client("logs", region_name=REGION)
