@@ -10,7 +10,7 @@ Bedrock Guardrails in policy screen what a tool returns at the Gateway. Six scre
 
 [docs/scaling.md](docs/scaling.md) covers growing from one team to many: a Gateway and a policy engine per team, the service limits, and keeping every Gateway enforced.
 
-Status: under construction.
+Status: working in a sandbox account. Deployed there from an empty account and checked end to end: each agent against each tool, the catalog, every screen and each attack scenario gave the results described below. A full `make deploy` took about 19 minutes, and `make destroy` about 8.
 
 ## What it proves
 
