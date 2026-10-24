@@ -303,6 +303,18 @@ def test_redaction_masks_accounts_and_people():
     assert out["account"] == "<account-1>" and "<account-1>" in out["role"]
 
 
+def test_redaction_masks_the_identity_center_role_suffix():
+    # The name format and example suffix from the IAM Identity Center user guide.
+    role = "AWSReservedSSO_DatabaseAdministrator_1234567890abcdef"
+    out = Redactor().value({
+        "caller": f"arn:aws:sts::{ACCOUNT}:assumed-role/{role}/{PERSON}",
+        "role": f"arn:aws:iam::{ACCOUNT}:role/aws-reserved/sso.amazonaws.com/{role}",
+    })
+    assert "1234567890abcdef" not in json.dumps(out)
+    assert "AWSReservedSSO_DatabaseAdministrator_<sso-role-1>/<session-1>" in out["caller"]
+    assert out["role"].endswith("AWSReservedSSO_DatabaseAdministrator_<sso-role-1>")
+
+
 def test_redaction_turns_times_into_offsets():
     origin = datetime(2030, 1, 2, 3, 0, 0, tzinfo=UTC)
     later = (origin + timedelta(minutes=15, seconds=32)).isoformat()

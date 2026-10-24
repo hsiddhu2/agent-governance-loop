@@ -13,7 +13,7 @@ pip install -e collector
 agentcore-evidence collect --gateway <name or id> --region us-east-1 --since 24h --out ./evidence/run1
 ```
 
-`--redact` replaces account ids, client ids, user pool ids, email addresses, IP addresses and sign-in session names with stable placeholders, so a pack can leave the account. `--controls <file>` maps findings to your own controls instead of the bundled `controls.yaml`. `--profile` picks the AWS profile.
+`--redact` replaces account ids, client ids, user pool ids, email addresses, IP addresses, sign-in session names and the generated suffix of IAM Identity Center role names with stable placeholders, so a pack can leave the account. `--controls <file>` maps findings to your own controls instead of the bundled `controls.yaml`. `--profile` picks the AWS profile.
 
 The output directory must be empty or new, so no file from an earlier run mixes in.
 

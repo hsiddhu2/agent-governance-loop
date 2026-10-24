@@ -18,6 +18,9 @@ PATTERNS = [
 ]
 # The session part of an assumed-role ARN is often a person's sign-in name.
 SESSION = re.compile(r"(assumed-role/[^/\s\"]+/)([^\s\"]+)")
+# IAM Identity Center names each role AWSReservedSSO_<permission set>_<unique suffix>. The
+# suffix is generated per account and assignment, so it identifies the organization.
+SSO_ROLE = re.compile(r"(AWSReservedSSO_[\w+=,.@-]+_)([0-9a-f]{16})\b")
 KEEP = {"sha256"}
 TIMESTAMP = re.compile(r"\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?")
 
@@ -54,6 +57,7 @@ class Redactor:
             if value in s:
                 s = s.replace(value, self.placeholder(kind, value))
         s = SESSION.sub(lambda m: m.group(1) + self.placeholder("session", m.group(2)), s)
+        s = SSO_ROLE.sub(lambda m: m.group(1) + self.placeholder("sso-role", m.group(2)), s)
         for kind, pattern in PATTERNS:
             s = pattern.sub(lambda m, k=kind: self.placeholder(k, m.group(0)), s)
         return s
