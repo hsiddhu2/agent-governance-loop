@@ -7,9 +7,11 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from constructs import Construct
 
-# The Cedar templates are read, not the rendered policies, so this stack is the same
+from stacks.policy_stack import POLICY_DIRS
+
+# The policy templates are read, not the rendered policies, so this stack is the same
 # before and after `make discover`.
-TEMPLATES = Path("policies/cedar")
+TEMPLATES = Path("policies")
 TOOL_SCHEMAS = (Path("tools/ops/schema.json"), Path("tools/support/schema.json"))
 SERVICE_ROLE = "aws-service-role/agent-registry.amazonaws.com/AWSServiceRoleForAgentRegistry"
 
@@ -25,7 +27,8 @@ def declared_policy(agent: str, templates: Path = TEMPLATES) -> dict:
     to every caller. Each list is sorted so the record does not change between synths.
     """
     permitted, forbidden, screens = set(), set(), {}
-    for tmpl in sorted(templates.glob("*.cedar.tmpl")):
+    for tmpl in sorted((t for d in POLICY_DIRS for t in Path(templates, d).glob("*.cedar.tmpl")),
+                       key=lambda t: t.name):
         text = tmpl.read_text()
         effect = EFFECT.search(text)
         if not effect:

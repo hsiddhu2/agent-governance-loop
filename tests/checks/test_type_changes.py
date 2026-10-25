@@ -1,3 +1,4 @@
+"""A deploy stops when a resource would change type under the same logical id."""
 from check_type_changes import type_changes
 
 

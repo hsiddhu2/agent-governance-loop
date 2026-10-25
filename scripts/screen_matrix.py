@@ -25,8 +25,8 @@ from discover_tools import STACK, cfn_outputs, gateway_mode, gateway_token
 from spans import query_spans
 from synthetic import probes
 
-TOOL_NAMES = Path("policies/cedar/tool_names.json")
-TEMPLATES = Path("policies/cedar")
+TOOL_NAMES = Path("policies/tool_names.json")
+TEMPLATES = Path("policies/guardrails")
 TOOL = "get_claim_record"
 SPAN_WAIT_SECONDS = 600
 

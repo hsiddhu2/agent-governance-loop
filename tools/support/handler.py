@@ -1,3 +1,9 @@
+"""The support tool behind the Gateway: get_ticket, which reads one ticket from the
+ticket store for one environment.
+
+The Gateway calls this function with the tool's arguments as the event and the tool's
+name in the client context.
+"""
 import json
 import os
 

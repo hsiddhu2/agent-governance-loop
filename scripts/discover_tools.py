@@ -1,7 +1,14 @@
 """Ask the deployed Gateway for its tool names and save them for policy rendering.
 
+Writes policies/tool_names.json (each schema tool's name as the Gateway lists it) and
+policies/gateway.json (the Gateway's ARN and each agent's client id, its Cedar
+principal). scripts/render_policy.py fills the templates from both.
+
 The Gateway prefixes each tool with its target name. The exact prefix format is
 not assumed here: each listed name is matched to a schema tool by suffix.
+
+Also the shared helpers the other scripts import: stack outputs, an agent's Gateway
+token, one MCP call, and the Gateway's live policy mode.
 """
 import json
 import sys
@@ -12,8 +19,8 @@ import requests
 
 REGION = "us-east-1"
 STACK = "AglGateway"
-OUT = Path("policies/cedar/tool_names.json")
-GATEWAY_OUT = Path("policies/cedar/gateway.json")
+OUT = Path("policies/tool_names.json")
+GATEWAY_OUT = Path("policies/gateway.json")
 
 
 def cfn_outputs(stack: str) -> dict:

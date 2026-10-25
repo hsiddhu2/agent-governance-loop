@@ -38,7 +38,7 @@ check: package
 	python scripts/check_outputs.py
 	python scripts/check_stable_synth.py $(CDK_CTX) -c nag=true
 
-# Offline checks for the scripts that read spans and gate enforcement. No AWS calls.
+# Offline tests: policies, stacks, tool handlers, checks and the evidence collector. No AWS calls.
 test:
 	python -m pytest tests collector/tests -q
 

@@ -1,4 +1,11 @@
-"""Render every *.cedar.tmpl into a .cedar file using discovered tool names and Gateway ARN."""
+"""Render every policy template into the file the policy stack deploys.
+
+Templates live in policies/cedar (permits and forbids) and policies/guardrails (output
+screens). Each *.cedar.tmpl is rendered next to itself as a .cedar file, with the tool
+names and Gateway ARN that `make discover` read from the live Gateway and the agents'
+principals. A rendered file whose template is gone is removed, so it cannot keep
+enforcing.
+"""
 import argparse
 import json
 import re
@@ -9,6 +16,8 @@ TOOL = re.compile(r"\{\{TOOL:(\w+)\}\}")
 GATEWAY = "{{GATEWAY_ARN}}"
 PRINCIPAL = re.compile(r"\{\{PRINCIPAL:(\w+)\}\}")
 ANY_PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
+# Permits and forbids, then output screens. The policy stack reads the same two folders.
+POLICY_DIRS = ("cedar", "guardrails")
 
 
 def render(template: str, tool_names: dict[str, str], gateway_arn: str,
@@ -36,28 +45,26 @@ def render(template: str, tool_names: dict[str, str], gateway_arn: str,
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--names", default="policies/cedar/tool_names.json")
-    p.add_argument("--gateway", default="policies/cedar/gateway.json")
-    p.add_argument("--templates", default="policies/cedar")
-    p.add_argument("--out", default="policies/cedar")
+    p.add_argument("--names", default="policies/tool_names.json")
+    p.add_argument("--gateway", default="policies/gateway.json")
+    p.add_argument("--root", default="policies", help="the folder that holds the policy folders")
     a = p.parse_args()
 
     names = json.loads(Path(a.names).read_text())
     gateway = json.loads(Path(a.gateway).read_text())
     gateway_arn, principals = gateway["arn"], gateway.get("principals", {})
-    out_dir = Path(a.out)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    dirs = [Path(a.root, d) for d in POLICY_DIRS]
     # Render everything before writing anything, so one bad template changes no file.
     outputs = {}
-    for tmpl in sorted(Path(a.templates).glob("*.cedar.tmpl")):
+    for tmpl in sorted(t for d in dirs for t in d.glob("*.cedar.tmpl")):
         try:
-            target = out_dir / tmpl.name.removesuffix(".tmpl")
+            target = tmpl.with_name(tmpl.name.removesuffix(".tmpl"))
             outputs[target] = render(tmpl.read_text(), names, gateway_arn, principals)
         except (KeyError, ValueError) as e:
             sys.exit(f"{tmpl}: {e}")
     # Every rendered file becomes a live policy, so one left over from a removed or
     # renamed template would keep enforcing. Remove those first.
-    for path in stale_outputs(out_dir, set(outputs)):
+    for path in (p for d in dirs for p in stale_outputs(d, set(outputs))):
         path.unlink()
         print(f"removed {path}: no template renders it")
     for target, rendered in outputs.items():

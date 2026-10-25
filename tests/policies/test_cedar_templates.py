@@ -1,4 +1,4 @@
-"""Rules every Cedar template must follow before it reaches the policy engine.
+"""Rules every policy template, in both policy folders, must follow before it reaches the policy engine.
 
 AgentCore rejects a policy whose resource is left open, and the analyzer judges
 policies by the principal, action and resource they name. These checks catch the
@@ -11,7 +11,7 @@ import pytest
 
 from render_policy import render
 
-TEMPLATES = sorted(Path(__file__).resolve().parent.parent.glob("policies/cedar/*.cedar.tmpl"))
+TEMPLATES = sorted(Path(__file__).resolve().parents[2].glob("policies/*/*.cedar.tmpl"))
 SCOPE = re.compile(r"\b(permit|forbid|suppressOutput)\s*\((.*?)\)\s*(when|unless|;)", re.S)
 GATEWAY_RESOURCE = 'resource == AgentCore::Gateway::"{{GATEWAY_ARN}}"'
 FAKE_GATEWAY = "arn:aws:bedrock-agentcore:us-east-1:example:gateway/g"

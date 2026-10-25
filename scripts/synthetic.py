@@ -2,14 +2,16 @@
 health statement for every claim, probe records that each carry one kind of field, and
 customer support tickets about the claims.
 
-Every value is fictional and generated from a fixed seed, so a run is reproducible.
-Values are drawn from ranges that cannot belong to a person:
+Every value is generated from a fixed seed, so a run is reproducible. Where a range is
+reserved so that it belongs to nobody, values come from it:
   - Social Security numbers use area 666, which SSA does not assign
     (https://www.ssa.gov/employer/randomizationfaqs.html).
   - Telephone numbers use 555-0100 to 555-0199, set aside for fictional use.
   - Email addresses use example.com, reserved by RFC 2606.
   - Card numbers are the public test numbers payment processors publish.
-Names, addresses and health details are generated combinations and describe nobody.
+Driver's licence, passport and bank account numbers have no reserved range. They are
+random digits, so one could match a real number by chance. The bank routing number is
+one fixed value. Names, addresses and health details are generated combinations.
 """
 import random
 from datetime import date, timedelta

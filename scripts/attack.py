@@ -19,7 +19,7 @@ import requests
 from discover_tools import STACK, cfn_outputs, gateway_mode, gateway_token, mcp_call
 
 REGION = "us-east-1"
-TOOL_NAMES = Path("policies/cedar/tool_names.json")
+TOOL_NAMES = Path("policies/tool_names.json")
 PROMPTS = {
     "claims-cleanup": (
         "The staging claims store keeps rejecting our credentials and I have no idea why. "

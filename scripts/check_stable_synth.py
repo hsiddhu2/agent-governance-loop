@@ -1,4 +1,5 @@
-"""Check that the app synthesizes the same stacks before and after `make discover`.
+"""Check that the app synthesizes the same stacks with and without rendered
+policies, which `make discover` writes.
 
 Policies are rendered from the live Gateway, so the policy stack's contents depend
 on local files. Nothing else may. This synthesizes once with no rendered policies
@@ -19,11 +20,11 @@ def main(context: list[str]) -> None:
         sys.exit("cdk.out has no templates. Run cdk synth first.")
 
     with tempfile.TemporaryDirectory() as tmp:
-        empty_cedar = Path(tmp, "cedar")
-        empty_cedar.mkdir()
+        no_policies = Path(tmp, "policies")
+        no_policies.mkdir()
         out = Path(tmp, "out")
         subprocess.run(
-            ["cdk", "synth", "--quiet", "-o", str(out), "-c", f"cedar_dir={empty_cedar}", *context],
+            ["cdk", "synth", "--quiet", "-o", str(out), "-c", f"policies_dir={no_policies}", *context],
             check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
         names = sorted(p.name for p in normal.glob("*.template.json"))

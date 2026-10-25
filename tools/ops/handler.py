@@ -1,3 +1,10 @@
+"""The claims operations tools behind the Gateway: list_env, get_claims_store, get_claim,
+get_claim_record and purge_claims.
+
+The Gateway calls this function with the tool's arguments as the event and the tool's
+name in the client context. The purge is reachable here on purpose. The Cedar policy at
+the Gateway is the control that stops it.
+"""
 import json
 import os
 import time

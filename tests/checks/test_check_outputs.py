@@ -1,3 +1,4 @@
+"""No stack output may carry a secret, because anyone who can describe a stack reads its outputs."""
 from check_outputs import secret_outputs
 
 

@@ -1,7 +1,8 @@
 """Put the claim records and tickets back after a scenario run.
 
 A purge deletes records, not tables: the tables have deletion protection. So a reset
-only checks both tables are there and active, then writes the synthetic rows again.
+only checks that the four tables, claims and tickets in each environment, are there and
+active, then writes the synthetic rows again.
 Seeding overwrites rows by key, so running it on an untouched table changes nothing.
 """
 import subprocess

@@ -6,7 +6,8 @@ stops the command rather than guessing a mode.
 
 `check` runs before enforcement is switched on:
   1. every rendered .cedar file exists in the engine as an ACTIVE policy, and
-  2. a fresh tools/list, evaluated in LOG_ONLY, shows at least one allowed tool.
+  2. a fresh tools/list shows at least one allowed tool in its policy span, in the
+     mode the Gateway runs in (LOG_ONLY on a first deploy).
 With default deny, an engine that allows nothing would hide every tool the moment
 it enforces. The second check reads that from the policy span, not from config.
 """
@@ -22,7 +23,8 @@ from spans import query_spans
 
 REGION = "us-east-1"
 GATEWAY_NAME = "agl-gateway"
-CEDAR_DIR = Path("policies/cedar")
+# The rendered policies, in the two folders scripts/render_policy.py writes.
+POLICY_DIRS = (Path("policies/cedar"), Path("policies/guardrails"))
 SPAN_WAIT_SECONDS = 300
 
 control = boto3.client("bedrock-agentcore-control", region_name=REGION)
@@ -48,7 +50,7 @@ def current() -> None:
 
 
 def check_policies(engine_id: str) -> None:
-    expected = {p.stem for p in CEDAR_DIR.glob("*.cedar")}
+    expected = {p.stem for d in POLICY_DIRS for p in d.glob("*.cedar")}
     if not expected:
         sys.exit("No rendered .cedar files. Run `make discover` first.")
     live = {}

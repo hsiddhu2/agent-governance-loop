@@ -1,3 +1,11 @@
+"""The CDK app: every stack of the pattern and the order they depend on each other.
+
+`cdk.json` runs this file. Context values it reads: `expires` (required, the date every
+resource is tagged to expire), `policy_mode` (ENFORCE or LOG_ONLY, ENFORCE by default),
+`policies_dir` (where the rendered policies are, `policies` by default), `model_id` and
+`model_regions` (the agents' model and where it may run), and `nag` (`true` runs the
+cdk-nag rule packs).
+"""
 import sys
 from pathlib import Path
 
@@ -19,7 +27,7 @@ app = cdk.App()
 # Fixed on purpose. This project only runs in us-east-1.
 env = cdk.Environment(region="us-east-1")
 expires = app.node.try_get_context("expires")
-cedar_dir = Path(app.node.try_get_context("cedar_dir") or "policies/cedar")
+policies_dir = Path(app.node.try_get_context("policies_dir") or "policies")
 # ENFORCE unless asked otherwise, so a deploy without the flag is never permissive.
 # LOG_ONLY records every decision and applies none of them.
 mode_name = app.node.try_get_context("policy_mode") or "ENFORCE"
@@ -50,7 +58,7 @@ agents = AgentsStack(app, "AglAgents", gateway=gw.gateway, model_id=model_id,
 # The policy stack always exists so every synth produces the same set of stacks.
 # Its contents come from the .cedar files `make discover` renders from the live
 # Gateway; before that it deploys empty.
-policy = PolicyStack(app, "AglPolicy", engine=gw.engine, cedar_dir=cedar_dir,
+policy = PolicyStack(app, "AglPolicy", engine=gw.engine, policies_dir=policies_dir,
                      targets=[gw.ops_target, gw.support_target], env=env)
 # The catalog. Each agent's record names its runtime, its Gateway principal and what
 # its policy templates declare for it.
@@ -71,8 +79,8 @@ registry = RegistryStack(app, "AglRegistry", gateway_url=gw.gateway.gateway_url,
      "model_id": model_id,
      "data_handled": ["support tickets, which can carry identifiers customers paste", "claim summaries"]},
 ], env=env)
-if not rendered_policies(cedar_dir):
-    print(f"AglPolicy has no policies: no rendered .cedar files in {cedar_dir}. "
+if not rendered_policies(policies_dir):
+    print(f"AglPolicy has no policies: no rendered .cedar files under {policies_dir}. "
           "Run `make discover`.", file=sys.stderr)
 
 for s in [keys, audit, network, *data, tools, gw, policy, agents, registry]:

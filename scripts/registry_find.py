@@ -3,9 +3,9 @@
 Discovery and permission are separate. The catalog lists every tool the Gateway
 offers, the purge included, and anyone allowed to search it can find that tool.
 Finding it grants nothing: the call still goes through the Gateway, where policy
-decides. This searches the catalog for a destructive tool, takes the Gateway and the
-tool from the record it returns, and calls the tool with the support agent's own
-credential. Runs only while the Gateway enforces.
+decides. This searches the catalog for a destructive tool, takes the Gateway from the record
+it returns and the tool's Gateway name from policies/tool_names.json, and calls the tool
+with the support agent's own credential. Runs only while the Gateway enforces.
 """
 import argparse
 import json
@@ -19,7 +19,7 @@ from access_matrix import outcome
 from discover_tools import STACK, cfn_outputs, gateway_mode, gateway_token, mcp_call
 
 REGION = "us-east-1"
-TOOL_NAMES = Path("policies/cedar/tool_names.json")
+TOOL_NAMES = Path("policies/tool_names.json")
 SEARCH_SECONDS = 120
 
 

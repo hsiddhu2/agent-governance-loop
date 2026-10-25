@@ -1,4 +1,8 @@
-"""A claim or store that does not exist comes back as a tool error the caller can read."""
+"""A claim or store that does not exist comes back as a message the caller can read.
+
+A plain tool answers with an MCP error result. A screened tool answers in its declared shape,
+because a screen withholds an error result.
+"""
 import importlib.util
 import sys
 from pathlib import Path
@@ -7,7 +11,7 @@ from types import SimpleNamespace
 import pytest
 from botocore.exceptions import ClientError
 
-HANDLER = Path(__file__).resolve().parent.parent / "tools/ops/handler.py"
+HANDLER = Path(__file__).resolve().parents[2] / "tools/ops/handler.py"
 NO_TABLE = {"Error": {"Code": "ResourceNotFoundException", "Message": "no table"}}
 
 

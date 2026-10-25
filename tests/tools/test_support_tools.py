@@ -1,4 +1,4 @@
-"""The support tool returns one ticket as stored, and nothing else."""
+"""The support tool returns one ticket's declared fields, and answers an unknown ticket in the same shape."""
 import importlib.util
 import sys
 from pathlib import Path
@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
-HANDLER = Path(__file__).resolve().parent.parent / "tools/support/handler.py"
+HANDLER = Path(__file__).resolve().parents[2] / "tools/support/handler.py"
 
 
 class FakeDynamo:

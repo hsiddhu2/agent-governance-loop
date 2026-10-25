@@ -16,6 +16,7 @@ node_modules/
 build/
 # Rendered from the live Gateway by `make discover`. The .tmpl files are the source.
 policies/cedar/*.cedar
-policies/cedar/tool_names.json
-policies/cedar/gateway.json
+policies/guardrails/*.cedar
+policies/tool_names.json
+policies/gateway.json
 *.egg-info/

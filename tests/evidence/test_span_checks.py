@@ -117,7 +117,7 @@ def test_check_policies_rejects_policy_not_active(tmp_path):
     (tmp_path / "b.cedar").write_text("")
     control = engine_with([{"name": "a", "status": "ACTIVE"}, {"name": "b", "status": "CREATING"}])
     with mock.patch.object(policy_mode, "control", control), \
-         mock.patch.object(policy_mode, "CEDAR_DIR", tmp_path):
+         mock.patch.object(policy_mode, "POLICY_DIRS", (tmp_path,)):
         with pytest.raises(SystemExit) as e:
             policy_mode.check_policies("engine")
     assert "b" in str(e.value.code)
@@ -126,7 +126,7 @@ def test_check_policies_rejects_policy_not_active(tmp_path):
 def test_check_policies_rejects_missing_policy(tmp_path):
     (tmp_path / "a.cedar").write_text("")
     with mock.patch.object(policy_mode, "control", engine_with([])), \
-         mock.patch.object(policy_mode, "CEDAR_DIR", tmp_path):
+         mock.patch.object(policy_mode, "POLICY_DIRS", (tmp_path,)):
         with pytest.raises(SystemExit) as e:
             policy_mode.check_policies("engine")
     assert "missing ['a']" in str(e.value.code)
@@ -135,7 +135,7 @@ def test_check_policies_rejects_missing_policy(tmp_path):
 def test_check_policies_accepts_all_active(tmp_path):
     (tmp_path / "a.cedar").write_text("")
     with mock.patch.object(policy_mode, "control", engine_with([{"name": "a", "status": "ACTIVE"}])), \
-         mock.patch.object(policy_mode, "CEDAR_DIR", tmp_path):
+         mock.patch.object(policy_mode, "POLICY_DIRS", (tmp_path,)):
         policy_mode.check_policies("engine")
 
 

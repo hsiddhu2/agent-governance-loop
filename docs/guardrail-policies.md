@@ -13,7 +13,7 @@ CreatePolicy takes a `definition` that holds either a `cedar` statement or a `po
 
 The service rejects a `suppressOutput` statement when `//` comment lines come before the effect, and reports it as an invalid effect: `policy effect must be permit or forbid, found suppressOutput`. The message points at the effect, not at the comments.
 
-The files in `policies/cedar/` keep their comment headers, because those say why each policy exists. At synth time `load_policy_statement` in [`infra/stacks/policy_stack.py`](../infra/stacks/policy_stack.py) drops every line that starts with `//`, drops leading blank lines, and refuses a file whose statement does not then start with `permit`, `forbid` or `suppressOutput`. Line breaks inside the statement are kept. Guardrail policies are sent stripped. Plain Cedar policies are sent as written, since Cedar accepts comments and the live policy then carries its reasons.
+The policy files in `policies/cedar/` and `policies/guardrails/` keep their comment headers, because those say why each policy exists. At synth time `load_policy_statement` in [`infra/stacks/policy_stack.py`](../infra/stacks/policy_stack.py) drops every line that starts with `//`, drops leading blank lines, and refuses a file whose statement does not then start with `permit`, `forbid` or `suppressOutput`. Line breaks inside the statement are kept. Guardrail policies are sent stripped. Plain Cedar policies are sent as written, since Cedar accepts comments and the live policy then carries its reasons.
 
 ## How the policy stack chooses
 

@@ -5,7 +5,7 @@ import pytest
 
 from stacks.policy_stack import load_policy_statement
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SCREEN = """suppressOutput(
   principal,
   action == AgentCore::Action::"ops___get_claim_record",
@@ -42,7 +42,7 @@ def test_a_file_with_no_effect_is_refused(tmp_path):
         load_policy_statement(write(tmp_path, "// only a comment\nprincipal, action, resource;\n"))
 
 
-@pytest.mark.parametrize("path", sorted(ROOT.glob("policies/cedar/*.cedar.tmpl")), ids=lambda p: p.name)
+@pytest.mark.parametrize("path", sorted(ROOT.glob("policies/*/*.cedar.tmpl")), ids=lambda p: p.name)
 def test_every_template_starts_at_its_effect(path):
     assert load_policy_statement(path).startswith(("permit", "forbid", "suppressOutput"))
 
@@ -56,16 +56,19 @@ def test_policies_are_created_one_after_another(tmp_path):
     from stacks.policy_stack import PolicyStack
 
     gw = 'resource == AgentCore::Gateway::"g"'
-    (tmp_path / "b_screen.cedar").write_text(
+    cedar, guardrails = tmp_path / "cedar", tmp_path / "guardrails"
+    cedar.mkdir()
+    guardrails.mkdir()
+    (guardrails / "b_screen.cedar").write_text(
         "// validation: IGNORE_ALL_FINDINGS because opaque\n"
         f'suppressOutput(principal, action == AgentCore::Action::"t", {gw}) when guardrails {{ x }};')
-    (tmp_path / "c_forbid.cedar").write_text(f"forbid(principal, action, {gw});")
-    (tmp_path / "z_permit.cedar").write_text(f"permit(principal, action, {gw});")
+    (cedar / "c_forbid.cedar").write_text(f"forbid(principal, action, {gw});")
+    (cedar / "z_permit.cedar").write_text(f"permit(principal, action, {gw});")
     app = cdk.App()
     env = cdk.Environment(region="us-east-1")
     holder = cdk.Stack(app, "Holder", env=env)
     engine = ac.PolicyEngine(holder, "Engine", policy_engine_name="e")
-    stack = PolicyStack(app, "P", engine=engine, cedar_dir=tmp_path,
+    stack = PolicyStack(app, "P", engine=engine, policies_dir=tmp_path,
                         targets=[Construct(holder, "T")], env=env)
     resources = Template.from_stack(stack).to_json()["Resources"]
     by_name = {r["Properties"]["Name"]: (k, r) for k, r in resources.items()

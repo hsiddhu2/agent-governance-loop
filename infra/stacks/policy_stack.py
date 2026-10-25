@@ -46,8 +46,14 @@ def creation_order(path: Path) -> tuple[int, str]:
     return EFFECTS.index(effect), path.name
 
 
-def rendered_policies(cedar_dir: Path) -> list[Path]:
-    return sorted(p for p in cedar_dir.glob("*.cedar") if p.is_file())
+# Permits and forbids, then output screens. scripts/render_policy.py writes the same two.
+POLICY_DIRS = ("cedar", "guardrails")
+
+
+def rendered_policies(policies_dir: Path) -> list[Path]:
+    """Every rendered policy file, from both policy folders, ordered by file name."""
+    return sorted((p for d in POLICY_DIRS for p in Path(policies_dir, d).glob("*.cedar") if p.is_file()),
+                  key=lambda p: p.name)
 
 
 def validation_mode(cedar: str, name: str) -> ac.PolicyValidationMode:
@@ -82,14 +88,14 @@ def enforcement_mode(cedar: str, name: str) -> str:
 
 
 class PolicyStack(cdk.Stack):
-    """One AgentCore Policy per rendered Cedar file, added to the Gateway's engine.
+    """One AgentCore Policy per rendered policy file, added to the Gateway's engine.
 
     Each file holds a single statement, and the file name becomes the policy
     name, so the determining policy in a trace maps straight back to a file.
     """
 
     def __init__(self, scope: Construct, id: str, engine: ac.IPolicyEngine,
-                 cedar_dir: Path, targets: list[Construct], **kw):
+                 policies_dir: Path, targets: list[Construct], **kw):
         super().__init__(scope, id, **kw)
 
         # No files yet means no policies yet: the engine then denies everything,
@@ -100,7 +106,7 @@ class PolicyStack(cdk.Stack):
         # gateway", while each was accepted on its own. The cause is not documented. Each
         # policy waits for the one before it: permits first, then forbids, then screens.
         previous = None
-        for path in sorted(rendered_policies(cedar_dir), key=creation_order):
+        for path in sorted(rendered_policies(policies_dir), key=creation_order):
             cedar = path.read_text()
             statement = load_policy_statement(path)
             mode = enforcement_mode(cedar, path.name)

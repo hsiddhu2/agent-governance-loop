@@ -10,7 +10,7 @@ from pathlib import Path
 
 from discover_tools import STACK, cfn_outputs, gateway_mode, gateway_token, mcp_call
 
-TOOL_NAMES = Path("policies/cedar/tool_names.json")
+TOOL_NAMES = Path("policies/tool_names.json")
 ENV = "production"
 ARGS = {
     "list_env": {},
