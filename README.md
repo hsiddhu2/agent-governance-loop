@@ -2,26 +2,68 @@
 
 Independent community project. Not sponsored, endorsed, or maintained by AWS.
 
-A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys two agents on AgentCore Runtime behind a Gateway with Cedar policy, an approved catalog of the agents and the Gateway's tools, a decision record in CloudWatch that names the policy behind each allow and deny, and claims and ticket stores kept as stores of record.
+## Summary
 
-An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)). A redacted sample from a full deploy is in [evidence/examples/agl-gateway-two-agents/](evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`.
+An AI agent can call any tool its credentials reach, and the model decides which. This pattern puts one chokepoint between agents and their tools: an Amazon Bedrock AgentCore Gateway with a policy engine. Cedar policy decides which agent may call which tool, guardrail screens in the same engine withhold responses that carry sensitive data, and every decision is recorded with the policy that made it. An evidence collector turns those records into a pack an auditor can read.
 
-Bedrock Guardrails in policy screen what a tool returns at the Gateway. Six screens are deployed. On the full claim file, the government identifier screen is enforced and withholds a response it matches, and three others record what they would withhold without withholding it. On support tickets, the government identifier and financial screens are both enforced. See [docs/guardrail-policies.md](docs/guardrail-policies.md), and [docs/screen-coverage.md](docs/screen-coverage.md) for what each screen catches, field by field.
-
-[docs/scaling.md](docs/scaling.md) covers growing from one team to many: a Gateway and a policy engine per team, the service limits, and keeping every Gateway enforced.
+It deploys with one command into a sandbox account and was tested there end to end. Two agents, a claims operations agent and a support agent, are the test bench. They exist to exercise the controls, not as a product.
 
 Status: working in a sandbox account. Deployed there from an empty account and checked end to end: each agent against each tool, the catalog, every screen and each attack scenario gave the results described below. A full `make deploy` took about 19 minutes, and `make destroy` about 8.
 
-## What it proves
+## When to use it
 
-Control gaps that block agents in regulated operations, reproduced with synthetic claims data on real infrastructure.
+- Agents call tools that change or expose data you are accountable for, and you need a control that holds whatever the model decides.
+- Several agents share tools, and each may use only some of them.
+- Someone outside the team, an auditor or a risk function, needs evidence of who called what and what was allowed.
 
-- A claims operations agent reaches a tool that can purge every claim record. The claims stores are protected as stores of record: deletion protection, point-in-time recovery, daily backups and a customer-managed key. None of that stops a purge, and IAM allows it. Cedar policy at the Gateway denies it whatever the model decides, and the CloudWatch trace names the policy that made the decision.
-- Two tools read the same claim. `get_claim` returns what an agent needs to answer a status question: status, type, amount, the last four digits of the Social Security number and the birth year. `get_claim_record` returns the whole claim file, with every identifier and health detail in it. It is deliberately not minimized, to show what a guardrail does and does not catch when an API returns too much. Guardrails in policy screen its response at the Gateway. When the government identifier screen matches, the Gateway withholds the whole response, not only the identifier, and the caller gets an error that names the screen. Some of what a claim file holds cannot be screened at all (see Limitations). So the control is the tool that returns only what the caller needs, as `get_claim` does. The screen is the backstop when an API gets that wrong.
-- A support agent reads customer tickets. It is its own Cedar principal, may call only `get_ticket` and `get_claim`, and is denied every other tool (`make matrix` checks each agent against each tool). One ticket carries instructions telling whoever reads it to purge the claims store. The purge tool is not listed to the support agent, so the injected call never reached the Gateway, and the same call made directly with the support agent's credential is denied by the forbid. A ticket where a customer pasted a Social Security or card number is withheld by the ticket screens.
-- The agents and the Gateway's tools are recorded in an Agent Registry catalog. Each record is published as a draft and approved only when it matches what is deployed (`make approve-catalog`). Finding a tool in the catalog grants nothing: `make find` searches for the purge tool and calls it as the support agent, and the Gateway denies it.
+When not to use it as is:
 
-[docs/controls-map.md](docs/controls-map.md) maps what insurance, financial and AI regulators ask of agents to the control here that produces evidence for each ask, with sources.
+- To limit how often or how much a tool is called. That is a quota, not an authorization. See [Related resources](#related-resources).
+- To screen data that has no guardrail category, such as a date of birth or a diagnosis. See [Design review points](#design-review-points).
+- As a replacement for least-privilege roles on the tools. The policy is a second control, not the only one.
+
+## The pattern
+
+```
+agent (AgentCore Runtime)
+  -> AgentCore Gateway  -- inbound: JWT, one client per agent
+       policy engine:   Cedar permit and forbid decide the call
+                        guardrail screens decide the response
+  -> tool (Lambda)       -- outbound: the Gateway's role
+records: decision spans in CloudWatch, every call in a CloudTrail trail
+evidence: make evidence reads both and writes a pack
+```
+
+What each part controls:
+
+| Part | Controls | Where |
+|---|---|---|
+| Gateway inbound auth | Which agent is calling. Each agent has its own client, and its client id is its Cedar principal | [infra/stacks/gateway_stack.py](infra/stacks/gateway_stack.py) |
+| Cedar policy | Which tools each agent may call. Default deny, plus an explicit forbid on the destructive tool so a trace names it | [policies/cedar/](policies/cedar/) |
+| Guardrail screens | Which responses are withheld, by sensitive-data category | [docs/guardrail-policies.md](docs/guardrail-policies.md) |
+| Decision record and call trail | Who called what, what was decided, and by which policy | [collector/](collector/README.md) |
+| Agent Registry catalog | Which agents and tools are approved and discoverable. Finding a tool grants nothing | [infra/stacks/registry_stack.py](infra/stacks/registry_stack.py) |
+
+The test bench, with synthetic data on real infrastructure:
+
+- The ops agent reaches a tool that can purge every claims store. IAM allows the purge on purpose. The Cedar forbid at the Gateway denies it, whatever the model decides.
+- The support agent reads tickets, one of which tells its reader to purge the claims store. The purge is not listed to the support agent, and the same call made directly with its credential is denied.
+- One tool returns a whole claim file, deliberately not minimized, to show what a screen catches and what it cannot.
+
+## What this pattern shows
+
+Each lesson below was measured in a live sandbox account, and each links to evidence in this repo. "Measured once" means a single run that the repo describes but does not reproduce with a script.
+
+1. **A denied call and a withheld response look different on the wire.** A deny comes back as HTTP 200 with JSON-RPC error -32002. A withheld response comes back as HTTP 403 with the same code. A client that checks only the status code misses every deny. Evidence: the sample pack's [callers.json](evidence/examples/agl-gateway-two-agents/callers.json).
+2. **Under ENFORCE, discovery hides what policy does not allow.** tools/list returns only the tools the caller may call, so the forbidden purge is invisible to every agent. Adding or renaming a tool needs LOG_ONLY first, or it disappears. Evidence: [Quickstart](#quickstart), [scripts/policy_mode.py](scripts/policy_mode.py).
+3. **A withheld response leaves no decision in the trace.** The trace shows only the request's ALLOW. The withhold, and the screen that did it, are in the call's CloudTrail event. A dashboard built on decision spans undercounts screens. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), the sample pack's `suppressedBy` fields.
+4. **A screen is not a block.** The tool runs and reads the data, then the Gateway withholds its response. Keeping data out of a response is the tool's job. The screen is the backstop. Measured once.
+5. **Guardrail statements are not plain Cedar.** They must be created in the API's `policy` member, not `cedar`, and comment lines before the effect make the create fail. Evidence: [docs/guardrail-policies.md](docs/guardrail-policies.md), [tests/test_policy_statement.py](tests/test_policy_statement.py).
+6. **`count()` fires on any personal data.** The detector reports every category it finds, whatever the call asks for. Test each category by name. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), `scripts/screen_matrix.py`.
+7. **A tool behind a screen needs an error contract.** A Lambda tool that raises reaches the caller as "An internal error occurred". Only an MCP `isError` result keeps the tool's message, and a screen withholds that result because it has none of the fields the screen reads. The Gateway does not enforce the tool's `outputSchema`. Measured once. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
+8. **The CDK Gateway construct's role can be used by any Gateway in the account** until its trust policy is replaced ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). Evidence: [tests/test_gateway_role_trust.py](tests/test_gateway_role_trust.py).
+9. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. One IAM condition key keeps every Gateway in ENFORCE, though an AWS page says no such key exists. Measured once. See [docs/scaling.md](docs/scaling.md).
+10. **A deny on a screened tool may not name the forbid.** It can report missing guardrail fields instead. Read the decision's determining policies, not its message. Evidence: the sample pack's [decisions.json](evidence/examples/agl-gateway-two-agents/decisions.json).
 
 ## Quickstart
 
@@ -59,21 +101,44 @@ Enforcement changes only through `make enforce` and `make log-only`. Every other
 
 Under ENFORCE, tools/list hides tools that no policy allows, including the forbidden purge. Re-running `make deploy` keeps the names the last discovery read, as long as every tool still listed has the same name. To add or rename a tool, run `make log-only` first.
 
-## Checks
+## Evidence for an auditor
+
+`make evidence` reads the live account and writes a pack that maps what regulators ask of agents to what the account shows, as PASS, FAIL or GAP. See [collector/](collector/README.md). A redacted sample from a full deploy is in [evidence/examples/agl-gateway-two-agents/](evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`. [docs/controls-map.md](docs/controls-map.md) gives the sources for each ask.
+
+A pack supports evidence for a control. It does not show compliance on its own.
+
+## Built to production practice
+
+What the pattern sets by default:
+
+- Customer managed keys on the stores, logs, trail and catalog. Data masking and a set retention on every log group the stacks own.
+- Claims stores kept as stores of record: deletion protection, point-in-time recovery and daily backups.
+- A trail of every call to the Gateway, with log file validation.
+- Tool functions in private subnets whose only route out is the DynamoDB endpoint.
+- Each agent's runtime accepts only tokens issued to its own console client. No secret is in agent code or in a stack output.
+- Enforcement changes only through `make enforce` and `make log-only`.
+
+Every `make check` and every deploy reviews each resource with two [cdk-nag](https://github.com/cdklabs/cdk-nag) rule packs, AWS Solutions and NIST SP 800-53 Rev 5, plus CloudFormation template validation. A finding stops the build unless the code accepts it next to the resource with a written reason.
 
 `make check` runs after every change and needs no AWS account:
 
 - `ruff` lint and the offline tests in `tests/`.
 - A clean synth reviewed by two [cdk-nag](https://github.com/cdklabs/cdk-nag) rule packs: AWS Solutions, and NIST SP 800-53 Rev 5. Every finding is either fixed or acknowledged next to the resource with the reason it stands. Template validation issues also fail the synth.
-- A check that every acknowledged rule appears in the deviations table below, and that the table lists nothing that is no longer acknowledged.
+- A check that every acknowledged rule appears in the table under [Design review points](#design-review-points), and that the table lists nothing that is no longer acknowledged.
 - A check that no stack output carries a secret. CDK passes values between stacks as outputs, which anyone who can describe the stack can read.
 - A synth with no rendered policies, compared with the normal one. Only the policy stack may differ.
 
 Deploys run the same rule packs, so nothing ships without them. Each deploy also compares its templates with the live stacks and stops if a resource would change type under the same logical id, which CloudFormation cannot update. The templates it checked are the ones it deploys.
 
-## Deviations from production
+## Design review points
 
-Each row is a rule this repo does not meet, and why. `make check` fails if a rule is acknowledged in code and missing here, or listed here and no longer acknowledged. [docs/known-gaps.md](docs/known-gaps.md) explains each row and each limitation below in plain terms: what happens, why, what blocks a fix, and what a production team does.
+Where this pattern does not meet a rule, or stops short of production, the reason is below. Review each one before you build your own. [docs/design-review.md](docs/design-review.md) explains each in plain terms: what happens, why, what blocks a fix, and what a production team does. They fall into three kinds:
+
+- **Choices to change for production.** For example, the ops tool role may purge every claims store on purpose, the trail stays in one account, and no person signs in to the console.
+- **Limits from AWS and the CDK.** For example, `bedrock:InvokeGuardrailChecks` cannot be limited to one resource, and some data has no guardrail category.
+- **Rules that do not fit.** For example, password and MFA rules on user pools that have no human users.
+
+Rules not met. `make check` fails if a rule accepted in code is missing from this table, or the table lists one that is no longer accepted.
 
 | Rule | Where | Why it stands |
 |---|---|---|
@@ -93,29 +158,32 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 | `AwsSolutions-COG2` | Gateway and operator user pools | MFA. Same reason. |
 | `AwsSolutions-COG8` | Gateway and operator user pools | Sign-in threat protection. Same reason. |
 
-## Limitations
+## Troubleshooting
 
-Each limitation is explained with an example in [docs/known-gaps.md](docs/known-gaps.md).
+| Issue | Cause | What to do |
+|---|---|---|
+| An agent sees no tools after a deploy | Under ENFORCE, discovery hides tools no policy allows. A renamed tool has no policy yet | `make log-only`, `make deploy`, then `make enforce` |
+| A tool call returns "Output blocked by policy" for a record that does not exist | The tool returned an error result, which has no fields for the screen to read | Answer a not-found in the tool's declared shape, every field filled. See [docs/guardrail-policies.md](docs/guardrail-policies.md) |
+| A guardrail policy fails to create with "policy effect must be `permit` or `forbid`" | Comment lines before the effect | Remove them, or create it as the `policy` member without comments |
+| The evidence pack shows a GAP on calls right after a deploy | A new trail takes several minutes to deliver to CloudWatch Logs | Collect again after a few minutes |
+| CreateGateway fails naming GenesisPolicyEngineCheck | The new Gateway's role may not call AuthorizeAction on the new Gateway | Give the role AuthorizeAction on the new Gateway's ARN. See [docs/scaling.md](docs/scaling.md) |
 
-This is a sandbox pattern. The claims stores are real and their records can be purged. Rows are synthetic. No number in this repo is a production claim.
+## Cost
 
-The ops console is a service that calls the agent with the client-credentials flow. No person signs in in front of it, so a request is tied to the console, not to the person who asked. A production deployment puts user sign-in with MFA in front of the console.
+What this deploys is billed by use: model calls from the agents, AgentCore Runtime, Gateway and Policy requests, Lambda, DynamoDB on demand, CloudTrail data events, and CloudWatch Logs. KMS keys and backups have a monthly charge while they exist. There is no NAT gateway, and the only VPC endpoint is the DynamoDB gateway endpoint, which has no charge. Every resource is tagged `project=agl`, so Cost Explorer can show what it costs in your account. Run `make destroy` when you are done.
 
-Keys, log groups, user pool and claims stores are removed with the stacks so the sandbox can be torn down. A production deployment retains them, and keeps logs for its audit period instead of 30 days. `make destroy` turns deletion protection off and empties the backup vaults first, on purpose. AgentCore creates the runtime's own log group, so the stacks set its key, masking and retention at deploy time but do not own it, and `make destroy` deletes it last. CDK's deploy-time functions write to log groups the stacks own, with the same key, masking and retention. Any group Lambda created for them earlier, named after its stack, is deleted last as well.
+Pricing: [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/pricing/), [AWS CloudTrail](https://aws.amazon.com/cloudtrail/pricing/), [AWS KMS](https://aws.amazon.com/kms/pricing/).
 
-Calls to the Gateway are CloudTrail data events, which no trail records unless asked. This pattern adds its own trail for them, in the same account, with log file validation, its own key, and a copy in CloudWatch Logs. Each event names the tool and the caller's token claims, with arguments and results redacted by the service. Management events stay with the trail the account already has. A production deployment adds the Gateway data events to its organization trail, which delivers to a central log archive account, and keeps the files under Object Lock for its audit period instead of 30 days.
+## Related resources
 
-Trace spans in `aws/spans`, where the Gateway's policy decisions land, are encrypted with the AWS owned key and have no data masking. A production deployment sets a customer managed key for X-Ray, which is an account-wide setting. Whether a masking policy can be set on `aws/spans` has not been tested here.
+- [Governing AI agent tool quotas with AWS Agent Registry and Amazon Bedrock AgentCore Gateway](https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/govern-tool-access-with-aws-agent-registry-metadata.html), an AWS Prescriptive Guidance pattern for rate and cost limits per tool. It complements this one, which governs who may call a tool and what may come back.
+- [Enforce content safety with guardrails in AgentCore Policy](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore), an AWS sample of guardrails in policy.
+- [Policy in Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html) and [Guardrails in policies](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-guardrails-in-policies.html).
+- [docs/scaling.md](docs/scaling.md): from one team to many.
 
-Guardrails in policy have no category for a date of birth or for US health information, such as a medical record number, a diagnosis or an ICD-10 code. Neither can be screened. See [docs/guardrail-policies.md](docs/guardrail-policies.md#what-cannot-be-screened).
+## Notices
 
-On the full claim file, only the government identifier screen is enforced. The contact details, financial and health identifier screens run in LOG_ONLY: they record what they would withhold and withhold nothing.
-
-Catalog approval is automated: `make approve-catalog` checks each record against the deployed resources. A production team runs that step under a role that can change a record's status and cannot publish one, or puts a person in it.
-
-In its default form, the CDK Gateway construct's service role can be used by any Gateway in the account ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). The Gateway stack replaces the role's trust policy with the statement limited to this Gateway, until the construct is fixed.
-
-When a screen withholds a response, the trace shows only the request's ALLOW. The withheld response, and the screen that withheld it, are recorded in the call's CloudTrail event, so the evidence pack reads them from the trail.
+This repository is shared for information and learning. It runs on real infrastructure with synthetic data, and no number in it is a production claim. It is not intended for production accounts or production data as it stands. Test, secure and adapt it to your own standards before you rely on any part of it. Deploying it creates AWS resources that are billed to your account. AWS services change, so check each behavior described here against the current AWS documentation.
 
 ## License
 

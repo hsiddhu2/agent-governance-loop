@@ -5,7 +5,7 @@ from check_deviations import acknowledged_rules, disclosed_rules, problems
 
 README = """# x
 
-## Deviations from production
+## Design review points
 
 | Rule | Why |
 |---|---|

@@ -8,8 +8,8 @@ def acknowledge(scope: IConstruct, findings: dict[str, str]) -> None:
     Keys are finding ids as `make check` prints them, for example
     `AwsSolutions-IAM5[Resource::*]` or `NIST.800.53.R5-IAMNoInlinePolicy`.
     The rule pack is the part before the first hyphen. Every finding needs its own
-    entry, and every rule acknowledged anywhere must be listed in the README's
-    deviations table, which scripts/check_deviations.py checks.
+    entry, and every rule acknowledged anywhere must be listed in the table under the
+    README's design review points, which scripts/check_deviations.py checks.
     """
     cdk.Validations.of(scope).acknowledge(*[
         cdk.Acknowledgment(id=f"{finding.split('-', 1)[0]}::{finding}", reason=reason)

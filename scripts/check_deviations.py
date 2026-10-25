@@ -1,7 +1,7 @@
 """Check that every acknowledged rule finding is disclosed in the README.
 
 A finding acknowledged in code is a decision not to meet a rule. Each such rule must
-appear in the README's deviations table, and the table may not list rules that are no
+appear in the table under the README's design review points, and the table may not list rules that are no
 longer acknowledged. Reads the acknowledgements cdk synth records in cdk.out, so run it
 after a synth with -c nag=true.
 """
@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 README = Path("README.md")
-SECTION = "## Deviations from production"
+SECTION = "## Design review points"
 # The rule id is the backticked first cell of each table row.
 RULE = re.compile(r"^\|\s*`([^`]+)`", re.M)
 
@@ -35,9 +35,9 @@ def disclosed_rules(readme: str) -> set[str]:
 
 
 def problems(acknowledged: set[str], disclosed: set[str]) -> list[str]:
-    out = [f"acknowledged but not in the README deviations table: {r}"
+    out = [f"acknowledged but not in the README design review table: {r}"
            for r in sorted(acknowledged - disclosed)]
-    out += [f"in the README deviations table but no longer acknowledged: {r}"
+    out += [f"in the README design review table but no longer acknowledged: {r}"
             for r in sorted(disclosed - acknowledged)]
     return out
 
