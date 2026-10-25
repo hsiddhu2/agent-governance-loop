@@ -4,7 +4,7 @@ Independent community project. Not sponsored, endorsed, or maintained by AWS.
 
 A deployable governance pattern for AI agents on Amazon Bedrock AgentCore. One command deploys two agents on AgentCore Runtime behind a Gateway with Cedar policy, an approved catalog of the agents and the Gateway's tools, a decision record in CloudWatch that names the policy behind each allow and deny, and claims and ticket stores kept as stores of record.
 
-An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)).
+An evidence pack answers an auditor's questions from the live account (`make evidence`, see [collector/](collector/README.md)). A redacted sample from a full deploy is in [evidence/examples/agl-gateway-two-agents/](evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`.
 
 Bedrock Guardrails in policy screen what a tool returns at the Gateway. Six screens are deployed. On the full claim file, the government identifier screen is enforced and withholds a response it matches, and three others record what they would withhold without withholding it. On support tickets, the government identifier and financial screens are both enforced. See [docs/guardrail-policies.md](docs/guardrail-policies.md), and [docs/screen-coverage.md](docs/screen-coverage.md) for what each screen catches, field by field.
 
@@ -73,7 +73,7 @@ Deploys run the same rule packs, so nothing ships without them. Each deploy also
 
 ## Deviations from production
 
-Each row is a rule this repo does not meet, and why. `make check` fails if a rule is acknowledged in code and missing here, or listed here and no longer acknowledged.
+Each row is a rule this repo does not meet, and why. `make check` fails if a rule is acknowledged in code and missing here, or listed here and no longer acknowledged. [docs/known-gaps.md](docs/known-gaps.md) explains each row and each limitation below in plain terms: what happens, why, what blocks a fix, and what a production team does.
 
 | Rule | Where | Why it stands |
 |---|---|---|
@@ -82,7 +82,7 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 | `NIST.800.53.R5-IAMNoInlinePolicy` | Gateway, Runtime, flow log, trail delivery and deploy-time function roles | The constructs write their own grants as inline default policies. Permissions this repo adds are in managed policies. |
 | `NIST.800.53.R5-LambdaDLQ` | Tool function, deploy-time function | Both are invoked synchronously. A dead-letter queue receives only failed asynchronous events, so failures go back to the caller and to the logs. |
 | `NIST.800.53.R5-LambdaConcurrency` | Deploy-time functions | CDK's custom resource function, once in the Gateway stack to hand the generated client secret to AgentCore Identity, and once in the agents stack to configure the runtime's log group. It runs only during a deploy. The tool function has a concurrency limit. |
-| `NIST.800.53.R5-LambdaInsideVPC` | Deploy-time functions | Same functions. They call Cognito and CloudWatch Logs APIs during a deploy. The tool function runs in private subnets. |
+| `NIST.800.53.R5-LambdaInsideVPC` | Deploy-time functions | Same functions. A choice, not a limit: inside the VPC they would need interface endpoints for Cognito and CloudWatch Logs, billed for every hour they exist, for calls that last seconds per deploy. The tool functions run in private subnets. |
 | `F3002` | VPC flow log, registry | Template validation findings. The flow log one is acknowledged by aws-cdk-lib itself: the flow log destination options are accepted in camelCase. The registry's encryption key property is in the live CloudFormation schema but not yet in the one aws-cdk-lib bundles. |
 | `F3003` | VPC flow log | Same acknowledgement, from aws-cdk-lib. |
 | `W3010` | Network stack | Acknowledged by aws-cdk-lib: availability zones read from the stack. |
@@ -94,6 +94,8 @@ Each row is a rule this repo does not meet, and why. `make check` fails if a rul
 | `AwsSolutions-COG8` | Gateway and operator user pools | Sign-in threat protection. Same reason. |
 
 ## Limitations
+
+Each limitation is explained with an example in [docs/known-gaps.md](docs/known-gaps.md).
 
 This is a sandbox pattern. The claims stores are real and their records can be purged. Rows are synthetic. No number in this repo is a production claim.
 
