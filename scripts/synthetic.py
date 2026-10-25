@@ -10,8 +10,8 @@ reserved so that it belongs to nobody, values come from it:
   - Email addresses use example.com, reserved by RFC 2606.
   - Card numbers are the public test numbers payment processors publish.
 Driver's licence, passport and bank account numbers have no reserved range. They are
-random digits, so one could match a real number by chance. The bank routing number is
-one fixed value. Names, addresses and health details are generated combinations.
+random digits, so one could match a real number by chance. The bank routing number
+starts with a prefix no bank is assigned. Names, addresses and health details are generated combinations.
 """
 import random
 from datetime import date, timedelta
@@ -57,7 +57,10 @@ def policyholder(rng: random.Random) -> dict:
                           f"{rng.randint(1000, 9999)}",
         "passport": f"{rng.randint(100000000, 999999999)}",
         "bank_account": f"{rng.randint(10**9, 10**10 - 1)}",
-        "bank_routing": "011000015",
+        # A routing number's first two digits must be 00-12, 21-32, 61-72 or 80
+        # (https://en.wikipedia.org/wiki/ABA_routing_transit_number). 50 is in none of them,
+        # so no bank holds this number. Its check digit is valid, so it still reads as one.
+        "bank_routing": "500000005",
         "card": rng.choice(TEST_CARDS),
     }
 
