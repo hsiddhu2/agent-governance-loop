@@ -16,11 +16,13 @@ Status: working in a sandbox account. Deployed there from an empty account and c
 - Several agents share tools, and each may use only some of them.
 - Someone outside the team, an auditor or a risk function, needs evidence of who called what and what was allowed.
 
-When not to use it as is:
+### What it does not do
 
-- To limit how often or how much a tool is called. That is a quota, not an authorization. See [Related resources](#related-resources).
-- To screen data that has no guardrail category, such as a date of birth or a diagnosis. See [Design review points](#design-review-points).
-- As a replacement for least-privilege roles on the tools. The policy is a second control, not the only one.
+The pattern decides who may call a tool and what may come back. It does not cover these on its own:
+
+- **Rate and cost limits.** How often or how much a tool is called is a quota, not an authorization. The AWS pattern in [Related resources](#related-resources) covers it.
+- **Data with no guardrail category.** A date of birth or a diagnosis cannot be screened. Keep it out of the tool's response. See [Design review points](#design-review-points).
+- **Least privilege on the tools.** The policy is a second control. Each tool's own role should still allow only what it needs.
 
 ## The pattern
 
@@ -34,36 +36,76 @@ records: decision spans in CloudWatch, every call in a CloudTrail trail
 evidence: make evidence reads both and writes a pack
 ```
 
-What each part controls:
+What each part controls, in the order it is set up:
 
-| Part | Controls | Where |
+| # | Part | Controls | Set up by | Where |
+|---|---|---|---|---|
+| 1 | Call trail | Every call to the Gateway, with the caller's token claims, in its own CloudTrail trail | `make deploy-base` | [infra/stacks/audit_stack.py](infra/stacks/audit_stack.py) |
+| 2 | Tools | What each tool can reach. Each runs as its own role in a private network | `make deploy-base` | [tools/](tools/), [infra/stacks/tools_stack.py](infra/stacks/tools_stack.py) |
+| 3 | Gateway and its inbound auth | Which agent is calling. Each agent has its own client, and its client id is its Cedar principal. The policy engine is attached here, with decision spans sent to CloudWatch | `make deploy-base` | [infra/stacks/gateway_stack.py](infra/stacks/gateway_stack.py) |
+| 4 | Cedar policy | Which tools each agent may call. Default deny, plus an explicit forbid on the destructive tool so a trace names it | `make discover`, `make deploy-policy` | [policies/cedar/](policies/README.md) |
+| 5 | Guardrail screens | Which responses are withheld, by sensitive-data category | `make discover`, `make deploy-policy` | [policies/guardrails/](policies/README.md), [docs/guardrail-policies.md](docs/guardrail-policies.md) |
+| 6 | Enforcement | Whether the policy engine applies its decisions or only records them | `make enforce` | [scripts/policy_mode.py](scripts/policy_mode.py) |
+| 7 | Agents | Who may invoke each agent. Each runtime accepts only tokens issued to its own console | `make deploy-agents` | [infra/stacks/agents_stack.py](infra/stacks/agents_stack.py) |
+| 8 | Agent Registry catalog | Which agents and tools are approved and discoverable. Finding a tool grants nothing | `make deploy-registry`, `make approve-catalog` | [infra/stacks/registry_stack.py](infra/stacks/registry_stack.py) |
+| 9 | Evidence pack | What an auditor can read: decisions and calls, mapped to what regulators ask | `make evidence` | [collector/](collector/README.md) |
+
+## The test bench
+
+Two agents and their data exist to exercise the controls above, on real infrastructure with synthetic data. They are not a product.
+
+| | Ops agent | Support agent |
 |---|---|---|
-| Gateway inbound auth | Which agent is calling. Each agent has its own client, and its client id is its Cedar principal | [infra/stacks/gateway_stack.py](infra/stacks/gateway_stack.py) |
-| Cedar policy | Which tools each agent may call. Default deny, plus an explicit forbid on the destructive tool so a trace names it | [policies/](policies/README.md) |
-| Guardrail screens | Which responses are withheld, by sensitive-data category | [policies/guardrails/](policies/guardrails/), [docs/guardrail-policies.md](docs/guardrail-policies.md) |
-| Decision record and call trail | Who called what, what was decided, and by which policy | [collector/](collector/README.md) |
-| Agent Registry catalog | Which agents and tools are approved and discoverable. Finding a tool grants nothing | [infra/stacks/registry_stack.py](infra/stacks/registry_stack.py) |
+| Role | Answers claims operations questions | Reads customer tickets and drafts replies |
+| May call | `list_env`, `get_claims_store`, `get_claim`, `get_claim_record` | `get_ticket`, `get_claim` |
+| Denied | `purge_claims`, by default deny and by an explicit forbid. `get_ticket` | Every other tool, the purge included |
+| Reads | The claims stores, staging and production | The ticket stores, and claim summaries through `get_claim` |
 
-The test bench, with synthetic data on real infrastructure:
+The data, written by `make seed`: 50 synthetic claims in each claims store, 20 probe records in staging that each carry one kind of sensitive field, and 12 tickets in each ticket store. See [scripts/synthetic.py](scripts/synthetic.py).
 
-- The ops agent reaches a tool that can purge every claims store. IAM allows the purge on purpose. The Cedar forbid at the Gateway denies it, whatever the model decides.
-- The support agent reads tickets, one of which tells its reader to purge the claims store. The purge is not listed to the support agent, and the same call made directly with its credential is denied.
-- One tool returns a whole claim file, deliberately not minimized, to show what a screen catches and what it cannot.
+Two tools read the same claim on purpose. `get_claim` returns only what a status question needs. `get_claim_record` returns the whole claim file, deliberately not minimized, to show what a screen catches and what it cannot.
 
-## What this pattern shows
+The scenarios, and the control each one exercises:
 
-Each lesson below was measured in a live sandbox account, and each links to evidence in this repo. "Measured once" means a single run that the repo describes but does not reproduce with a script.
+| Command | What happens | Control it shows |
+|---|---|---|
+| `make attack SCENARIO=claims-cleanup` | The ops agent is asked to purge the staging claims store. IAM allows the purge on purpose | The Cedar forbid denies it, whatever the model decides, and the trace names the policy |
+| `make attack SCENARIO=ticket-injection` | The support agent reads a ticket that tells its reader to purge the claims store | The purge is not listed to the support agent, and the same call made directly with its credential is denied |
+| `make attack SCENARIO=claim-file` | The ops agent asks for a full claim file that carries a Social Security number | The government identifier screen withholds the whole response and names itself |
+| `make matrix` | Each agent's credential calls each tool, without the model | Each agent reaches only its own tools |
+| `make find` | The support agent finds the purge tool in the catalog, then calls it | Finding a tool grants nothing |
 
-1. **A denied call and a withheld response look different on the wire.** A deny comes back as HTTP 200 with JSON-RPC error -32002. A withheld response comes back as HTTP 403 with the same code. A client that checks only the status code misses every deny. Evidence: the sample pack's [callers.json](evidence/examples/agl-gateway-two-agents/callers.json).
-2. **Under ENFORCE, discovery hides what policy does not allow.** tools/list returns only the tools the caller may call, so the forbidden purge is invisible to every agent. Adding or renaming a tool needs LOG_ONLY first, or it disappears. Evidence: [Quickstart](#quickstart), [scripts/policy_mode.py](scripts/policy_mode.py).
-3. **A withheld response leaves no decision in the trace.** The trace shows only the request's ALLOW. The withhold, and the screen that did it, are in the call's CloudTrail event. A dashboard built on decision spans undercounts screens. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), the sample pack's `suppressedBy` fields.
-4. **A screen is not a block.** The tool runs and reads the data, then the Gateway withholds its response. Keeping data out of a response is the tool's job. The screen is the backstop. Measured once.
-5. **Guardrail statements are not plain Cedar.** They must be created in the API's `policy` member, not `cedar`, and comment lines before the effect make the create fail. Evidence: [docs/guardrail-policies.md](docs/guardrail-policies.md), [tests/test_policy_statement.py](tests/policies/test_policy_statement.py).
-6. **`count()` fires on any personal data.** The detector reports every category it finds, whatever the call asks for. Test each category by name. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), `scripts/screen_matrix.py`.
+## Things to know before you build
+
+What we found while building and testing this pattern in a live sandbox account. Each point links to evidence in this repo. "Measured once" means a single run that the repo describes but does not reproduce with a script. The groups follow the order the parts are set up.
+
+### Gateway
+
+1. **Under ENFORCE, discovery hides what policy does not allow.** tools/list returns only the tools the caller may call, so the forbidden purge is invisible to every agent. Adding or renaming a tool needs LOG_ONLY first, or it disappears. Evidence: [Quickstart](#quickstart), [scripts/policy_mode.py](scripts/policy_mode.py).
+2. **A denied call and a withheld response look different on the wire.** A deny comes back as HTTP 200 with JSON-RPC error -32002. A withheld response comes back as HTTP 403 with the same code. A client that checks only the status code misses every deny. Evidence: the sample pack's [callers.json](evidence/examples/agl-gateway-two-agents/callers.json).
+
+### Policy engine
+
+3. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. One IAM condition key keeps every Gateway in ENFORCE, though an AWS page says no such key exists. Measured once. See [docs/scaling.md](docs/scaling.md).
+
+### Guardrail screens
+
+4. **Guardrail statements are not plain Cedar.** They must be created in the API's `policy` member, not `cedar`, and comment lines before the effect make the create fail. Evidence: [docs/guardrail-policies.md](docs/guardrail-policies.md), [tests/policies/test_policy_statement.py](tests/policies/test_policy_statement.py).
+5. **`count()` fires on any personal data.** The detector reports every category it finds, whatever the call asks for. Test each category by name. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), `scripts/screen_matrix.py`.
+6. **A screen is not a block.** The tool runs and reads the data, then the Gateway withholds its response. Keeping data out of a response is the tool's job. The screen is the backstop. Measured once.
+
+### Tools behind the Gateway
+
 7. **A tool behind a screen needs an error contract.** A Lambda tool that raises reaches the caller as "An internal error occurred". Only an MCP `isError` result keeps the tool's message, and a screen withholds that result because it has none of the fields the screen reads. The Gateway does not enforce the tool's `outputSchema`. Measured once. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
-8. **The CDK Gateway construct's role can be used by any Gateway in the account** until its trust policy is replaced ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). Evidence: [tests/test_gateway_role_trust.py](tests/infra/test_gateway_role_trust.py).
-9. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. One IAM condition key keeps every Gateway in ENFORCE, though an AWS page says no such key exists. Measured once. See [docs/scaling.md](docs/scaling.md).
-10. **A deny on a screened tool may not name the forbid.** It can report missing guardrail fields instead. Read the decision's determining policies, not its message. Evidence: the sample pack's [decisions.json](evidence/examples/agl-gateway-two-agents/decisions.json).
+
+### Observability and evidence
+
+8. **A withheld response leaves no decision in the trace.** The trace shows only the request's ALLOW. The withhold, and the screen that did it, are in the call's CloudTrail event. A dashboard built on decision spans undercounts screens. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), the sample pack's `suppressedBy` fields.
+9. **A deny on a screened tool may not name the forbid.** It can report missing guardrail fields instead. Read the decision's determining policies, not its message. Evidence: the sample pack's [decisions.json](evidence/examples/agl-gateway-two-agents/decisions.json).
+
+### Building with the CDK
+
+10. **The CDK Gateway construct's role can be used by any Gateway in the account** until its trust policy is replaced ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). Evidence: [tests/infra/test_gateway_role_trust.py](tests/infra/test_gateway_role_trust.py).
 
 ## Quickstart
 
