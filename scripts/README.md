@@ -36,7 +36,7 @@ Every script runs from the repo root, which is how `make` runs them. Each one sa
 
 | Script | Run by | What it does | Changes AWS |
 |---|---|---|---|
-| `attack.py` | `make attack SCENARIO=<name>` | Runs a scenario through the agent (`MODE=agent`, the default) or calls the tool directly with the agent's credential (`MODE=direct`). Scenarios: `claims-cleanup`, `ticket-injection`, `claim-file` | Under LOG_ONLY the purge really runs on staging. A direct call asks for `CONFIRM=purge` first |
+| `attack.py` | `make attack SCENARIO=<name>` | Runs a scenario through the agent (`MODE=agent`, the default) or calls the tool directly with the agent's credential (`MODE=direct`). Scenarios: `claims-cleanup`, `ticket-injection`, `claim-file` | Under LOG_ONLY the purge could really run on staging, so a purge scenario asks for `CONFIRM=purge` first, in either mode |
 | `access_matrix.py` | `make matrix` | Calls every tool with each agent's credential, without the model, and fails if any decision differs from the expected one. Runs only under ENFORCE | No |
 | `registry_find.py` | `make find` | Finds the purge tool in the catalog and calls it as the support agent, to show that finding a tool grants nothing | No |
 | `screen_matrix.py` | `python scripts/screen_matrix.py` | Reads each probe record through the full claim tool, joins each call to its policy decision, and writes the table in [docs/screen-coverage.md](../docs/screen-coverage.md). Raw results go to `evidence/` | No |

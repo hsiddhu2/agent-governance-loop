@@ -9,7 +9,7 @@ Each folder holds the tests for one part of the pattern.
 | [`policies/`](policies/) | The rules the policy engine gets | `policies/*/*.cedar.tmpl`, `scripts/render_policy.py`, `scripts/discover_tools.py`, `infra/stacks/policy_stack.py` |
 | [`infra/`](infra/) | What the stacks build | `infra/stacks/` |
 | [`tools/`](tools/) | What the tools return, and the synthetic data they read | `tools/ops/handler.py`, `tools/support/handler.py`, `scripts/synthetic.py` |
-| [`checks/`](checks/) | The checks that stop a bad build or deploy | `scripts/check_*.py` |
+| [`checks/`](checks/) | The checks that stop a bad build, deploy or test run | `scripts/check_*.py`, the purge guard in `scripts/attack.py` |
 | [`evidence/`](evidence/) | The scripts that read decisions back and decide whether enforcement is safe | `scripts/policy_mode.py`, `scripts/policy_trace.py`, `scripts/spans.py`, `scripts/screen_matrix.py` |
 
 ## What each file checks
@@ -28,6 +28,7 @@ Each folder holds the tests for one part of the pattern.
 | `tools/test_ops_tools.py` | A claim or store that does not exist comes back as a message the caller can read, in the shape a screen can check |
 | `tools/test_support_tools.py` | `get_ticket` returns only its declared fields, and an unknown ticket in the same shape |
 | `tools/test_synthetic_tickets.py` | The synthetic tickets carry what the support scenarios need |
+| `checks/test_attack_guard.py` | A scenario that targets the purge runs under LOG_ONLY only when confirmed, through the agent or directly |
 | `checks/test_check_outputs.py` | No stack output carries a secret |
 | `checks/test_deviations.py` | The README's design review table and the rules accepted in code match |
 | `checks/test_type_changes.py` | A deploy stops when a resource would change type under the same logical id |

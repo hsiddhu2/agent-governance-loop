@@ -4,6 +4,9 @@ agent   send the scenario prompt to the scenario's agent on AgentCore Runtime, a
         agent's console, with the console's own token.
 direct  call the scenario's tool through the Gateway with the same client credentials
         the agent uses, without the model. Shows what policy decides, whatever the model does.
+
+Under LOG_ONLY nothing is enforced, so a scenario whose tool is destructive can really
+run it, in either mode: the agent may make the call too. Such a run needs CONFIRM=purge.
 """
 import argparse
 import json
@@ -45,6 +48,9 @@ DIRECT_CALLS = {
     "ticket-injection": ("purge_claims", {"environment": "staging"}),
     "claim-file": ("get_claim_record", {"environment": "staging", "claim_id": "claim#0"}),
 }
+# Tools that change or delete data. A scenario that targets one is refused unless the
+# Gateway enforces, or the caller confirms.
+DESTRUCTIVE = {"purge_claims"}
 # Stack outputs for each agent's runtime and the console that calls it.
 CONSOLES = {
     "ops": ("OpsRuntimeArn", "OpsConsoleClientId", "OperatorScope"),
@@ -103,16 +109,20 @@ def direct(scenario: str) -> None:
     print(json.dumps(body, indent=2) if isinstance(body, dict) else body)
 
 
+def needs_confirmation(scenario: str, mode: str, confirm: str | None) -> bool:
+    """True when the scenario's tool is destructive, the Gateway is not enforcing, and
+    the caller has not confirmed. Applies to both modes."""
+    return DIRECT_CALLS[scenario][0] in DESTRUCTIVE and mode != "ENFORCE" and confirm != "purge"
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--scenario", required=True, choices=PROMPTS)
     p.add_argument("--mode", choices=["agent", "direct"], default="agent")
     a = p.parse_args()
-    # Under LOG_ONLY nothing is enforced, so a direct call really runs the tool. Make
-    # that a deliberate choice.
-    if a.mode == "direct" and gateway_mode() != "ENFORCE" and os.environ.get("CONFIRM") != "purge":
-        sys.exit("The Gateway is not enforcing, so this call will really run. "
-                 "Set CONFIRM=purge to go ahead.")
+    if needs_confirmation(a.scenario, gateway_mode(), os.environ.get("CONFIRM")):
+        sys.exit(f"The Gateway is not enforcing, so {DIRECT_CALLS[a.scenario][0]} may really run, "
+                 "through the agent or directly. Set CONFIRM=purge to go ahead.")
     (direct if a.mode == "direct" else via_agent)(a.scenario)
 
 
