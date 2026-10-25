@@ -26,6 +26,7 @@ One engine shared by several Gateways also works, and it was tested here with a 
 
 - The second Gateway was accepted with the engine attached in ENFORCE and was ready in about 5 seconds.
 - CreateGateway first checks that the new Gateway's role may call `bedrock-agentcore:AuthorizeAction` on the new Gateway, and refuses the create otherwise.
+- With a policy engine attached, CreateGateway also assumes the role, so a role whose trust policy names a different Gateway is refused at create time. Without an engine, no trust check happens until a target is added.
 - None of the first Gateway's policies applied on the second. The agent saw no tools there, and both an allowed tool and the purge were denied by default, not by the forbid.
 - A permit and a forbid naming the second Gateway then worked there. From the create call to the first allowed tool call took about 31 seconds, policies created one at a time. The first Gateway's access matrix stayed 12 of 12 throughout.
 - The engine does not list the Gateways attached to it.
