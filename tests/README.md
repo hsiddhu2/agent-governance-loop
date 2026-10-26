@@ -19,10 +19,10 @@ Each folder holds the tests for one part of the pattern.
 | `policies/test_cedar_templates.py` | Every template names the Gateway as its resource, a permit names exactly one principal, and every placeholder can be filled. An unknown tool or principal stops the render |
 | `policies/test_policy_statement.py` | The policy stack drops each file's comment header, refuses a file with no effect, and creates the policies one after another: permits, then forbids, then screens |
 | `policies/test_policy_validation_mode.py` | Only a forbid or a screen may skip the analyzer's semantic checks, and only by saying why |
-| `policies/test_render_stale.py` | A rendered policy whose template is gone is removed at the next render |
+| `policies/test_render_stale.py` | A rendered policy whose template is gone is found as stale, and the next render removes it |
 | `policies/test_discover_hint.py` | Discovery explains what to do when the Gateway does not list a tool |
 | `infra/test_audit_trail.py` | The Gateway trail records Gateway calls only, signs its files, and accepts files from itself only |
-| `infra/test_gateway_role_trust.py` | The Gateway's role can be used only by this Gateway |
+| `infra/test_gateway_role_trust.py` | The Gateway's role has one trust statement, limited to this account and to Gateways whose name starts with agl-gateway |
 | `infra/test_tool_role_order.py` | A tool function is not updated before its role's permissions are in place |
 | `infra/test_registry.py` | Each catalog record says what the templates and schemas say, and the reviewer approves only a match |
 | `tools/test_ops_tools.py` | A claim or store that does not exist comes back as a message the caller can read, in the shape a screen can check |

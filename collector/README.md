@@ -13,15 +13,15 @@ pip install -e collector
 agentcore-evidence collect --gateway <name or id> --region us-east-1 --since 24h --out ./evidence/run1
 ```
 
-`--redact` replaces account ids, client ids, user pool ids, email addresses, IP addresses, sign-in session names and the generated suffix of IAM Identity Center role names with stable placeholders, so a pack can leave the account. `--controls <file>` maps findings to your own controls instead of the bundled `controls.yaml`. `--profile` picks the AWS profile.
+`--redact` replaces account ids, client ids, user pool ids, email and IP addresses, assumed-role session names and the IAM Identity Center role suffix with stable placeholders, and writes timestamps as offsets from the window start, so a pack can leave the account. `--controls <file>` maps findings to your own controls instead of the bundled `controls.yaml`. `--profile` picks the AWS profile.
 
 The output directory must be empty or new, so no file from an earlier run mixes in.
 
-A redacted pack from this repo's own deployment, with both agents, the catalog and the screens, is in [`evidence/examples/agl-gateway-two-agents/`](../evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`. Its window opens just before a full `make deploy` into an empty account, so it records the deploy's control-plane writes and every call made after it. With `--redact`, times are offsets from the start of the window, such as `T+12:46:38`.
+A redacted pack from this repo's own deployment, with both agents, the catalog and the screens, is in [`evidence/examples/agl-gateway-two-agents/`](../evidence/examples/agl-gateway-two-agents/summary.md). Start with `summary.md`. Its window opens just before a full `make deploy` into an account with no pattern resources left, so it records the deploy's control-plane writes and every call made after it. With `--redact`, times are offsets from the start of the window, such as `T+13:00:09`.
 
 ## Permissions
 
-Every call is a read. [`iam-policy.json`](iam-policy.json) lists them. Two choices keep the collector from ever holding a secret:
+Every call is a read. [`iam-policy.json`](iam-policy.json) lists them. Three choices keep secrets and detail a team did not mean to share out of the pack:
 
 - Caller identity comes from the authorizer configuration on the Gateway and each runtime, never from the identity provider. A Cognito client description includes the client secret.
 - Runtime environment variables are read by `GetAgentRuntime` but never written to the pack.
@@ -35,7 +35,7 @@ Every call is a read. [`iam-policy.json`](iam-policy.json) lists them. Two choic
 | `identity.json` | Who may call the Gateway and each runtime? | Their JWT authorizer configuration |
 | `policies.json`, `policies/*.cedar` | What may each caller do? | Every policy in the Gateway's engine, with a SHA-256 of each statement as it appears in the pack, after any redaction |
 | `enforcement.json` | Is policy enforced? | The Gateway's engine mode and each policy's own mode. Either can record without applying |
-| `decisions.json` | What did the agents do? | Policy spans in `aws/spans`, joined to the tool span by request id for the tool name |
+| `decisions.json` | What did the agents do? | Policy spans in `aws/spans`, joined to the tool span by request id for the tool name. Withheld responses come from CloudTrail |
 | `callers.json` | Who made each call? | A CloudTrail trail that records Gateway data events and sends them to CloudWatch Logs |
 | `changes.json` | What changed, and who changed it? | CloudTrail management events for AgentCore configuration calls |
 | `retention.json` | Is the record protected? | Key, retention and masking of each log group, and file validation of each trail |
@@ -53,7 +53,7 @@ A control takes the status of its weakest check. A PASS supports an ask. It does
 ## Limits
 
 - One Gateway per run, in one Region.
-- Tool arguments and results are never collected. The spans do not carry them and CloudTrail redacts them.
+- Tool arguments and results are never collected. CloudTrail redacts them, and the collector reads only the decision fields of each span.
 - Trails that deliver only to S3 show as a GAP for callers. This version reads trails sent to CloudWatch Logs.
-- Logs Insights returns at most 10,000 rows per query, so a busy Gateway needs a shorter window.
+- The collector asks Logs Insights for at most 10,000 rows per query, so a busy Gateway needs a shorter window.
 - Spans name the policy behind a decision, not the caller. The caller comes from CloudTrail.
