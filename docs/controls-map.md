@@ -20,7 +20,7 @@ Quotes are short and verbatim. Follow the link for context.
 | Identity | Two agents. Each has its own client and token. Each Runtime accepts only its caller's client, and the Gateway sees each agent as its own Cedar principal | Built |
 | Enforce | Cedar policy at the Gateway. Default deny, an explicit forbid on the destructive tool | Built |
 | Filter | Bedrock Guardrails in policy screen what a tool returns to the agent. Four screens on the full claim file, one enforced and three recording only. Two on support tickets, both enforced | Partial: date of birth and US health information cannot be screened |
-| Trace | Each allow and deny recorded in the trace with the policy that made it. A withheld response is recorded in CloudTrail with the screen that withheld it. Log groups the stacks own are encrypted with a customer managed key, masked and retained. `aws/spans` uses the AWS owned key and is not masked | Built |
+| Trace | Each allow and deny is recorded in the trace. A deny by a forbid names that forbid, and a default deny names no policy. A withheld response is recorded in CloudTrail with the screen that withheld it. Log groups the stacks own are encrypted with a customer managed key, masked and retained. `aws/spans` uses the AWS owned key and is not masked | Built |
 | Change control | Policy as code. A rule runs in log-only before it enforces. Enforcement changes only through one make target | Built |
 | Stop | A policy-level stop: a forbid denies every call to a tool at the Gateway, whatever the model decides | Partial: no approval step for individual actions |
 
