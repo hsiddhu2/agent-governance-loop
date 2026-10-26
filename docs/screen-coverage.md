@@ -35,10 +35,10 @@ At the time of the run the Gateway was in ENFORCE. `ops_screen_government_ids` w
 
 What the results show:
 
-- Every field with a category was caught every time, by the screen that tests that category and by no other.
-- Ten of the twenty fields have no category, so no screen can catch them. Nine of them are health details. The tool that returns them is the control: `get_claim` never puts them in a response.
+- Every field with a category was caught every time. Each of the eight fields caught in LOG_ONLY matched only the screen that tests its category. For the three withheld fields, other screens' matches are not recorded.
+- Nine of the twenty fields have no guardrail category: date of birth and eight health details. No screen can catch them. The tool that returns them is the control: `get_claim` never puts them in a response.
 - `ops_screen_health_ids` matched nothing. Its two categories are Canadian and UK health numbers, and a US claim file has neither.
-- A withheld response leaves no output decision in `aws/spans`. The withhold is recorded in the caller's error, which names the screen, in the Gateway's tool span (HTTP 403, JSON-RPC error -32002) and in CloudTrail. What the detector found in a withheld response is not recorded anywhere.
+- A withheld response leaves no output decision in `aws/spans`, and no span names the screen. The withhold is recorded in the caller's error, which names the screen (HTTP 403, JSON-RPC error -32002), and in the call's CloudTrail event. What the detector found in a withheld response is not in the spans, the caller's error or CloudTrail.
 - Each probe holds one value from synthetic data. Real text, where an identifier sits inside a sentence or is written another way, can score differently. Measure on your own data before relying on a screen.
 
 ## Against the HIPAA Safe Harbor identifiers
@@ -66,4 +66,4 @@ The Safe Harbor method of de-identification lists 18 identifiers that are remove
 | (Q) Full face photographs | none | a text screen cannot see them |
 | (R) Any other unique identifying number or code | none in general | `icd10` and the other health fields: no category |
 
-Four of the 18 have no category at all (C for dates, H, I, R), and two cannot appear in text (P, Q). For a health or life claim these are the identifiers that matter most. A screen at the Gateway is a backstop for them at best. The control is the shape of the tool: return only what the caller needs, as `get_claim` does.
+Six of the 18 have no category at all (C for dates, H, I, P, Q, R), and two of those, P and Q, cannot appear in text. Fax numbers (E) have no category of their own. For a health or life claim these are the identifiers that matter most. A screen at the Gateway is a backstop for them at best. The control is the shape of the tool: return only what the caller needs, as `get_claim` does.

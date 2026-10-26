@@ -27,7 +27,7 @@ Some points are not rule findings. They are things the pattern does not do. They
 | [The tool role can purge every claims store](#the-tool-role-can-purge-every-claims-store) | Choice, on purpose | It is the gap the policy closes |
 | [The trail bucket has no access logs or copy](#the-trail-bucket-has-no-access-logs-or-copy) | Choice, sandbox | A production trail goes to a separate log archive account |
 | [Deploy-time functions run outside the network](#deploy-time-functions-run-outside-the-network) | Choice, sandbox | Moving them in needs private endpoints that cost money every hour |
-| [Trace data uses the AWS owned key](#trace-data-uses-the-aws-owned-key) | Choice, sandbox | The setting applies to the whole account |
+| [Trace data has no customer managed key](#trace-data-has-no-customer-managed-key) | Choice, sandbox | The setting applies to the whole account |
 | [The trail stays in the same account](#the-trail-stays-in-the-same-account) | Choice, sandbox | A production trail goes to a separate log archive account |
 | [Everything is deleted on teardown](#everything-is-deleted-on-teardown) | Choice, sandbox | So the sandbox can be removed completely |
 | [No person signs in to the console](#no-person-signs-in-to-the-console) | Choice, sandbox | A request is tied to the console, not to a person |
@@ -54,7 +54,7 @@ What happens: the ops tool function is allowed to delete every row in every clai
 
 Why: this is the point of the pattern. Tool permissions are often broader than any one agent should use. The Cedar policy at the Gateway is what stops the ops agent from calling the purge, and the access test shows it doing so. With a narrow role there would be nothing for the policy to prove.
 
-In production: give each tool role only what its tools need, and keep the Gateway policy as a second, independent control. The support tool role here is already narrow: it can read one ticket.
+In production: give each tool role only what its tools need, and keep the Gateway policy as a second, independent control. The support tool role here is already narrow: its only DynamoDB action is GetItem, on the ticket tables.
 
 ### The trail bucket has no access logs or copy
 
@@ -70,7 +70,7 @@ In production: send the Gateway's data events to the organization trail. It deli
 
 Rule: `NIST.800.53.R5-LambdaInsideVPC`. It asks that functions run inside a private network.
 
-What happens: the two deploy-time functions run outside the network. The tool functions run inside it, in private subnets with no route to the internet.
+What happens: the deploy-time functions run outside the network. The tool functions run inside it, in private subnets with no route to the internet.
 
 Why: inside the network, the functions would need private routes to the AWS services they call. Those are Cognito and CloudWatch Logs, plus S3, where CloudFormation collects each function's answer. Cognito and CloudWatch Logs need interface endpoints, which charge for every hour they exist in every availability zone, plus a charge per GB ([pricing](https://aws.amazon.com/privatelink/pricing/)). The functions run for a few seconds per deploy.
 
@@ -78,11 +78,11 @@ This is a choice, not a limit: `AwsCustomResource` accepts a network setting.
 
 In production: if the account requires every function inside a network, add interface endpoints for Cognito and CloudWatch Logs and a gateway endpoint for S3, then give the deploy-time functions the private subnets.
 
-### Trace data uses the AWS owned key
+### Trace data has no customer managed key
 
 This is not a rule finding. The evidence pack reports it as a failed check.
 
-What happens: trace data in `aws/spans`, where the Gateway's policy decisions land, is encrypted with a key AWS owns and manages, and has no data masking.
+What happens: trace data in `aws/spans`, where the Gateway's policy decisions land, has no customer managed key and no data masking. CloudWatch Logs encrypts it by default.
 
 Why: the setting for a customer managed key covers X-Ray for the whole account, not one application. A sandbox pattern does not change account-wide settings. Whether masking can be set on `aws/spans` has not been tested.
 
@@ -98,7 +98,7 @@ In production: add the Gateway's data events to the organization trail, which de
 
 ### Everything is deleted on teardown
 
-What happens: `make destroy` removes keys, logs, user pools and claims stores. It turns off deletion protection and empties the backup vaults first. Logs are kept for 30 days.
+What happens: `make destroy` schedules keys for deletion after 7 days, and removes logs, user pools and claims stores. It turns off deletion protection and empties the backup vaults first. Logs are kept for 30 days.
 
 Why: so the sandbox can be removed completely, with nothing left that costs money.
 
@@ -185,7 +185,7 @@ What blocks a fix: the CDK.
 
 Rules: `F3002`, `F3003`, `W3010`. They come from the check that a template matches CloudFormation's published description of each resource type.
 
-What happens here: three findings. Two are on the network's flow log and its availability zones. The CDK library acknowledges those itself. The third is on the catalog: the setting that encrypts it with this pattern's own key.
+What happens here: four findings. Three come from aws-cdk-lib on the network: two on the flow log and one on the availability zones. The fourth is on the catalog: the setting that encrypts it with this pattern's own key.
 
 Why: the CDK carries a copy of CloudFormation's resource descriptions, and its copy is older than the live one. The live description has the catalog's encryption setting, and a deploy is checked against the live one, so the setting works.
 
@@ -193,11 +193,11 @@ What blocks a fix: a newer CDK release that updates its copy.
 
 ### The Gateway role's trust policy is replaced
 
-This is not a rule finding. It is listed in the README's Limitations.
+This is not a rule finding. It is point 10 under Things to know before you build in the README.
 
-What happens: the role the Gateway uses to call the tools trusts the AgentCore service. In its default form, the CDK construct adds a second statement with no condition, so any Gateway in the account can use the role. This was tested: a second Gateway, with a name outside this pattern, called a tool with this role.
+What happens: the role the Gateway uses to call the tools trusts the AgentCore service. In its default form, the CDK construct adds a second statement with no condition. This was tested: a Gateway named outside the condition's pattern called a tool with this role.
 
-What the pattern does: it replaces the trust policy with the single statement that names this Gateway. After the change the same test was refused.
+What the pattern does: it replaces the trust policy with the single statement whose condition allows only Gateways named `agl-gateway*` in this account. After the change the same test was refused.
 
 What blocks a clean fix: the CDK. The problem is [aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780). Remove the replacement once the construct is fixed.
 
@@ -205,7 +205,7 @@ What blocks a clean fix: the CDK. The problem is [aws-cdk#38780](https://github.
 
 What happens: a claim file holds a date of birth, a medical record number, a diagnosis and an ICD-10 code. None of them can be screened.
 
-Why: a screen uses the categories Bedrock Guardrails can detect, and none exists for these. The full list of fields and results is in [screen-coverage.md](screen-coverage.md).
+Why: a screen uses the categories Policy in AgentCore accepts, and none exists for these. The full list of fields and results is in [screen-coverage.md](screen-coverage.md).
 
 What blocks a fix: AWS. Until a category exists, keep these fields out of tool output, in the tool's own code.
 
@@ -215,7 +215,7 @@ What happens: when a screen withholds a response, the trace shows only that the 
 
 Where it is recorded: the caller's error names the screen, and so does the call's CloudTrail event. The evidence pack reads withholds from CloudTrail for this reason.
 
-What blocks a fix: AWS. A dashboard built only on trace decisions will undercount withholds.
+What blocks a fix: AWS. A dashboard built only on trace decisions will undercount withholds. AgentCore also publishes a SuppressOutputs metric, the "Number of outputs suppressed by policies using the `suppressOutput` effect", to the AWS/Bedrock-AgentCore namespace.
 
 ## Rules that do not fit
 

@@ -8,7 +8,7 @@ An AI agent can call any tool its credentials reach, and the model decides which
 
 It deploys with one command into a sandbox account and was tested there end to end. Two agents, a claims operations agent and a support agent, are the test bench. They exist to exercise the controls, not as a product.
 
-Status: working in a sandbox account. Deployed there from an empty account and checked end to end: each agent against each tool, the catalog, every screen and each attack scenario gave the results described below. A full `make deploy` took about 19 minutes, and `make destroy` about 8 minutes.
+Status: working in a sandbox account. After a destroy, a deploy into the account with no pattern resources left (CDK bootstrap kept) gave the same outcomes for the access matrix, the catalog find, the three agent scenarios, the screen matrix and the ticket screens. That full `make deploy` took about 18.5 minutes, once, and `make destroy` about 8 minutes, once.
 
 ## When to use it
 
@@ -86,26 +86,26 @@ What we found while building and testing this pattern in a live sandbox account.
 
 ### Policy engine
 
-3. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. One IAM condition key keeps every Gateway in ENFORCE, though an AWS page says no such key exists. Measured once. See [docs/scaling.md](docs/scaling.md).
+3. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. An IAM Deny on UpdateGateway when `bedrock-agentcore:PolicyEngineMode` is not ENFORCE refused a switch to LOG_ONLY and a detach, on one test Gateway. The enforcement-modes page says no separate action or condition key protects the mode beyond `bedrock-agentcore:UpdateGateway`. Measured once. See [docs/scaling.md](docs/scaling.md).
 
 ### Guardrail screens
 
 4. **Guardrail statements are not plain Cedar.** They must be created in the API's `policy` member, not `cedar`, and comment lines before the effect make the create fail. Evidence: [docs/guardrail-policies.md](docs/guardrail-policies.md), [tests/policies/test_policy_statement.py](tests/policies/test_policy_statement.py).
-5. **`count()` fires on any personal data.** The detector reports every category it finds, whatever the call asks for. Test each category by name. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), `scripts/screen_matrix.py`.
-6. **A screen is not a block.** The tool runs and reads the data, then the Gateway withholds its response. Keeping data out of a response is the tool's job. The screen is the backstop. Measured once.
+5. **`count()` fires on categories the screen does not name.** On two records, a screen naming only Canadian and UK health numbers matched an SSN record and an email-only record. Test each category by name. Evidence: [docs/guardrail-policies.md](docs/guardrail-policies.md), `scripts/screen_matrix.py`.
+6. **A screen is not a block.** The tool runs and reads the data, then the Gateway withholds its response. Keeping data out of a response is the tool's job. The screen is the backstop. AWS documents it, and three withheld calls here carried the tool's own span.
 
 ### Tools behind the Gateway
 
-7. **A tool behind a screen needs an error contract.** A Lambda tool that raises reaches the caller as "An internal error occurred". Only an MCP `isError` result keeps the tool's message, and a screen withholds that result because it has none of the fields the screen reads. The Gateway does not enforce the tool's `outputSchema`. Measured once. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
+7. **A tool behind a screen needs an error contract.** A Lambda tool that raises reaches the caller as "An internal error occurred". Only an MCP `isError` result keeps the tool's message, and a screen withholds that result because it has none of the fields the screen reads. The Gateway does not enforce the tool's `outputSchema`. Measured twice. See [docs/guardrail-policies.md](docs/guardrail-policies.md).
 
 ### Observability and evidence
 
-8. **A withheld response leaves no decision in the trace.** The trace shows only the request's ALLOW. The withhold, and the screen that did it, are in the call's CloudTrail event. A dashboard built on decision spans undercounts screens. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), the sample pack's `suppressedBy` fields.
+8. **A withheld response leaves no decision in the trace.** The trace shows only the request's ALLOW. The withhold, and the screen that did it, are in the call's CloudTrail event. A dashboard built on decision spans undercounts screens. AgentCore also publishes a SuppressOutputs metric, the "Number of outputs suppressed by policies using the `suppressOutput` effect", to the AWS/Bedrock-AgentCore namespace. Evidence: [docs/screen-coverage.md](docs/screen-coverage.md), the sample pack's `suppressedBy` fields.
 9. **A deny on a screened tool may not name the forbid.** It can report missing guardrail fields instead. Read the decision's determining policies, not its message. Evidence: the sample pack's [decisions.json](evidence/examples/agl-gateway-two-agents/decisions.json).
 
 ### Building with the CDK
 
-10. **The CDK Gateway construct's role can be used by any Gateway in the account** until its trust policy is replaced ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). Evidence: [tests/infra/test_gateway_role_trust.py](tests/infra/test_gateway_role_trust.py).
+10. **The role the CDK Gateway construct writes has a trust statement with no condition, and a Gateway outside this pattern's name used it, until its trust policy is replaced** ([aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780)). Evidence: [tests/infra/test_gateway_role_trust.py](tests/infra/test_gateway_role_trust.py).
 
 ## Quickstart
 
@@ -127,14 +127,14 @@ make reset
 make destroy
 ```
 
-`make seed` writes 50 synthetic claims to each claims store, 20 probe records to staging, each carrying one kind of field, and 12 support tickets to each ticket store. Identifiers come from ranges reserved so that they belong to nobody where one exists, such as Social Security area 666, which is never assigned. Licence, passport and bank account numbers have no such range and are random digits. See [`scripts/synthetic.py`](scripts/synthetic.py).
+`make seed` writes 50 synthetic claims to each claims store, 20 probe records to staging, each carrying one kind of field, and 12 support tickets to each ticket store. Social Security numbers start with 666, phone numbers are 555-0100 to 555-0199, email addresses use example.com, card numbers are published test numbers, and the routing number is 500000005. A licence number is the surname's initial and random digits. Passport and bank account numbers are random digits. See [`scripts/synthetic.py`](scripts/synthetic.py).
 
 `make deploy` runs seven steps in order:
 
 1. `deploy-base`: KMS keys, a trail of every call to the Gateway, network, claims and ticket stores, the two tool functions, and the Gateway with its policy engine. A first deploy starts the engine in LOG_ONLY. Later deploys keep the mode it runs in.
 2. `discover`: reads tool names from the live Gateway and renders the Cedar files from them.
 3. `deploy-policy`: adds the policies to the engine.
-4. `enforce`: checks in LOG_ONLY that the policies allow at least one tool, then switches the Gateway to ENFORCE.
+4. `enforce`: checks that every rendered policy exists in the engine with status ACTIVE and that a fresh tools/list policy span allows at least one tool, then switches the Gateway to ENFORCE.
 5. `deploy-agents`: the ops and support agents on AgentCore Runtime, behind their own user pool. Each runtime accepts only tokens issued to its own console client.
 6. `deploy-registry`: the catalog, with its own key. Its records are published as drafts.
 7. `approve-catalog`: approves each record that matches what is deployed, and rejects the rest with the reason.
@@ -196,7 +196,7 @@ Deploys run the same rule packs, so nothing ships without them. Each deploy also
 Where this pattern does not meet a rule, or stops short of production, the reason is below. Review each one before you build your own. [docs/design-review.md](docs/design-review.md) explains each in plain terms: what happens, why, what blocks a fix, and what a production team does. They fall into three kinds:
 
 - **Choices to change for production.** For example, the ops tool role may purge every claims store on purpose, the trail stays in one account, and no person signs in to the console.
-- **Limits from AWS and the CDK.** For example, `bedrock:InvokeGuardrailChecks` cannot be limited to one resource, and some data has no guardrail category.
+- **Limits from AWS and the CDK.** For example, the Service Authorization Reference lists no resource types for `bedrock:InvokeGuardrailChecks`, and some data has no guardrail category.
 - **Rules that do not fit.** For example, password and MFA rules on user pools that have no human users.
 
 Rules not met. `make check` fails if a rule accepted in code is missing from this table, or the table lists one that is no longer accepted.
@@ -226,7 +226,7 @@ Rules not met. `make check` fails if a rule accepted in code is missing from thi
 | An agent sees no tools after a deploy | Under ENFORCE, discovery hides tools no policy allows. A renamed tool has no policy yet | `make log-only`, then `make deploy`. Its enforce step switches the Gateway back to ENFORCE |
 | A tool call returns "Output blocked by policy" for a record that does not exist | The tool returned an error result, which has no fields for the screen to read | Answer a not-found in the tool's declared shape, every field filled. See [docs/guardrail-policies.md](docs/guardrail-policies.md) |
 | A guardrail policy fails to create with "policy effect must be `permit` or `forbid`" | Comment lines before the effect | Remove them, or create it as the `policy` member without comments |
-| The evidence pack shows a GAP on calls right after a deploy | A new trail takes several minutes to deliver to CloudWatch Logs | Collect again after a few minutes |
+| The evidence pack shows a GAP on calls right after a deploy | On a new trail, the first collection can show a GAP and a later one pass | Collect again after a few minutes |
 | CreateGateway fails naming GenesisPolicyEngineCheck | The new Gateway's role may not call AuthorizeAction on the new Gateway | Give the role AuthorizeAction on the new Gateway's ARN. See [docs/scaling.md](docs/scaling.md) |
 
 ## Cost

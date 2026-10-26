@@ -5,13 +5,13 @@ Policy in AgentCore accepts two kinds of statement, and they are sent differentl
 | Statement | Definition member | Declared with |
 |---|---|---|
 | Plain `permit` and `forbid` | `cedar` | the CDK `Policy` construct |
-| Guardrail conditions (`BedrockGuardrails::...`), the `suppressOutput` effect, temporal conditions | `policy` | `CfnPolicy`, with `definition.policy.statement` |
+| Guardrail conditions (`BedrockGuardrails::...`), the `suppressOutput` effect | `policy` | `CfnPolicy`, with `definition.policy.statement` |
 
 CreatePolicy takes a `definition` that holds either a `cedar` statement or a `policy` statement ([CreatePolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreatePolicy.html)). The `Policy` construct always writes `cedar`. The AWS sample [sample-native-guardrails-for-bedrock-agentcore](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore) sends guardrail statements as `policy`, and notes that only that member accepts a `when guardrails` block. In the account this was built in, a guardrail statement sent through `cedar` was rejected by the Cedar parser in both forms: a `when guardrails { ... }` block as ``unexpected token `guardrails` ``, and a plain `when { ... }` block as an invalid `suppressOutput` effect and an unknown `BedrockGuardrails::SensitiveInformation` function, four policies each, all rejected. So the policy stack declares guardrail policies on the resource directly, as the sample does.
 
 ## Comments are stripped before a statement is sent
 
-The service rejects a `suppressOutput` statement when `//` comment lines come before the effect, and reports it as an invalid effect: `policy effect must be permit or forbid, found suppressOutput`. The message points at the effect, not at the comments.
+The service rejects a `suppressOutput` statement when `//` comment lines come before the effect, and reports it as an invalid effect: ``policy effect must be `permit` or `forbid`, found `suppressOutput` ``. The message points at the effect, not at the comments.
 
 The policy files in `policies/cedar/` and `policies/guardrails/` keep their comment headers, because those say why each policy exists. At synth time `load_policy_statement` in [`infra/stacks/policy_stack.py`](../infra/stacks/policy_stack.py) drops every line that starts with `//`, drops leading blank lines, and refuses a file whose statement does not then start with `permit`, `forbid` or `suppressOutput`. Line breaks inside the statement are kept. Guardrail policies are sent stripped. Plain Cedar policies are sent as written, since Cedar accepts comments and the live policy then carries its reasons.
 
@@ -30,7 +30,7 @@ As a precaution, the policy stack declares a dependency on the Gateway target, s
 
 On two records tested here, the detector reported every kind of sensitive information it found in the content, whatever categories the call named. A condition such as `.count() > 0` then fires on any personal data at all, and a policy meant for one group of identifiers fires on all of them. So each screen here tests each category it covers by name, `.categories().contains("US_SOCIAL_SECURITY_NUMBER")`, joined with `||`. In one test pair, a screen written this way matched a record carrying its own group and did not match one carrying another group. When an enforced screen fires, the caller's error and the CloudTrail event for the call name it. Each call and its aggregation are kept on one line.
 
-In the decision record, the same detection scores appear once for each `||` term. That suggests each term is its own guardrail call, so a screen with four categories would check the content four times. This is inferred from the repeated scores, not measured. If it holds, a screen with many categories costs more and adds latency to every response it screens.
+Whether each `||` term is its own guardrail call is not known. If it is, a screen with many categories costs more and adds latency.
 
 ## Policies are created one at a time
 
@@ -40,7 +40,7 @@ In the account this was built in, policies created or updated together in one en
 
 A Lambda tool that raises an exception reaches the caller as "An internal error occurred. Please retry later.", whatever the exception said. Returning an MCP tool result, `{"isError": true, "content": [{"type": "text", "text": "..."}]}`, passes the tool's own message through as a tool error. The tools here do that for a claim or a store that does not exist. Neither behavior is on the Lambda target page. Both were measured here.
 
-On a tool with a screen, that error result is withheld. The screen reads named output fields, such as `context.output.policyholder`, and refuses a result without them: "request missing field(s) required for guardrail evaluation". Empty strings in screened fields can be refused too, by the detector: "Member must have length greater than or equal to 1". Measured once each: a screen reading two fields refused a result with both empty and returned one with only one empty, and a screen reading one field returned a result with that field empty. The rule behind it is not documented. So `get_claim_record` and `get_ticket` answer a not-found in their declared shape instead: every field filled with "Not found.", `status` set to `not_found`, and the message in an `error` field. The screen checks the fields, finds nothing, and the caller reads why. A real withhold is unchanged.
+On a tool with a screen, that error result is withheld. The screen reads named output fields, such as `context.output.policyholder`, and refuses a result without them: "request missing field(s) required for guardrail evaluation". Empty strings in screened fields can be refused too, with a validation error from an internal service: "Member must have length greater than or equal to 1". Measured once each: a screen reading two fields refused a result with both empty and returned one with only one empty, and a screen reading one field returned a result with that field empty. The rule behind it is not documented. So `get_claim_record` and `get_ticket` answer a not-found in their declared shape instead: every field filled with "Not found.", `status` set to `not_found`, and the message in an `error` field. The screen checks the fields, finds nothing, and the caller reads why. A real withhold is unchanged.
 
 The Gateway did not check results against a tool's `outputSchema`: a result missing a required field was passed through, and so was a number where the schema says string. The schema tells the caller what to expect. It does not enforce it.
 
@@ -57,4 +57,4 @@ A guardrail cannot withhold what it cannot detect. The control for these fields 
 
 ## IAM
 
-The Gateway's service role needs `bedrock:InvokeGuardrailChecks` to run the checks. The Service Authorization Reference lists no resource types for that action, so it is granted on `*`. The checks are defined inside each policy, and there is no guardrail resource to name.
+The Gateway's service role needs `bedrock:InvokeGuardrailChecks` to run the checks. The Service Authorization Reference lists no resource types for that action, so it is granted on `*`. The AgentCore guide's example scopes it to a guardrail ARN. The checks here are defined inside each policy and use no guardrail resource.

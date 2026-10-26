@@ -5,8 +5,8 @@ title: "agent-governance-loop"
 abstract: >-
   A deployable governance pattern for AI agents on Amazon Bedrock AgentCore.
   Cedar policy at the Gateway decides each tool call. Bedrock Guardrails in
-  policy screen what a tool returns. Decisions and withheld responses are
-  recorded in CloudWatch. An evidence pack is read from the live account to show what was enforced.
+  policy screen what a tool returns. Decisions are recorded in CloudWatch, and
+  withheld responses in a CloudTrail trail. An evidence pack is read from the live account to show what was enforced.
 authors:
   - family-names: "Siddhu"
     given-names: "Harpreet S."
