@@ -27,7 +27,7 @@ Some points are not rule findings. They are things the pattern does not do. They
 | [The tool role can purge every claims store](#the-tool-role-can-purge-every-claims-store) | Choice, on purpose | It is the gap the policy closes |
 | [The trail bucket has no access logs or copy](#the-trail-bucket-has-no-access-logs-or-copy) | Choice, sandbox | A production trail goes to a separate log archive account |
 | [Deploy-time functions run outside the network](#deploy-time-functions-run-outside-the-network) | Choice, sandbox | Moving them in needs private endpoints that cost money every hour |
-| [Trace data has no customer managed key](#trace-data-has-no-customer-managed-key) | Choice, sandbox | The setting applies to the whole account |
+| [Trace data has no customer managed key](#trace-data-has-no-customer-managed-key) | Choice, sandbox | The span log group is shared by the whole account |
 | [The trail stays in the same account](#the-trail-stays-in-the-same-account) | Choice, sandbox | A production trail goes to a separate log archive account |
 | [Everything is deleted on teardown](#everything-is-deleted-on-teardown) | Choice, sandbox | So the sandbox can be removed completely |
 | [No person signs in to the console](#no-person-signs-in-to-the-console) | Choice, sandbox | A request is tied to the console, not to a person |
@@ -84,9 +84,9 @@ This is not a rule finding. The evidence pack reports it as a failed check.
 
 What happens: trace data in `aws/spans`, where the Gateway's policy decisions land, has no customer managed key and no data masking. CloudWatch Logs encrypts it by default.
 
-Why: the setting for a customer managed key covers X-Ray for the whole account, not one application. A sandbox pattern does not change account-wide settings. Whether masking can be set on `aws/spans` has not been tested.
+Why: `aws/spans` is one log group per account and Region. X-Ray creates it when Transaction Search is turned on, and every application that sends spans writes to it. This pattern does not change log groups it does not own. AWS documents associating a customer managed key with the existing group. Masking on it has not been tested here.
 
-In production: set a customer managed key for X-Ray as part of the account baseline.
+In production: associate a customer managed key with `aws/spans`, and a data protection policy if spans can carry personal data, as part of the account baseline.
 
 ### The trail stays in the same account
 
