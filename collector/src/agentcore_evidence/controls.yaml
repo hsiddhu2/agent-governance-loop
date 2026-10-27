@@ -95,7 +95,7 @@
   sources:
     - source: EU AI Act
       section: "Art. 14(4)(e)"
-      quote: "a stop button or a similar procedure that allows the system to come to a halt in a safe state."
+      quote: "a ‘stop’ button or a similar procedure that allows the system to come to a halt in a safe state."
       url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689
     - source: MAS Guidelines on AI Risk Management
       section: "5.23(b)"
