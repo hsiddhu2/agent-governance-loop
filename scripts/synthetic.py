@@ -9,8 +9,9 @@ reserved so that it belongs to nobody, values come from it:
   - Telephone numbers use 555-0100 to 555-0199, set aside for fictional use.
   - Email addresses use example.com, reserved by RFC 2606.
   - Card numbers are the public test numbers payment processors publish.
-Driver's licence, passport and bank account numbers have no reserved range. They are
-random digits, so one could match a real number by chance. The bank routing number
+Passport and bank account numbers have no reserved range. They are random digits.
+A driver's licence number is the surname's initial and random digits. Any of them
+could match a real number by chance. The bank routing number
 starts with a prefix no bank is assigned. Names, addresses and health details are generated combinations.
 """
 import random
@@ -143,7 +144,8 @@ def probes() -> list[dict]:
     """One record per kind of field, with nothing else that a detector could flag.
 
     Each probe holds a single field from a full record, so a guardrail that fires on it
-    fired on that field. The other statement reads "No statement on file."
+    fired on that field. The other statement is stored empty, and the tool returns it as
+    "No statement on file."
     """
     full = claims()[0]
     rows = []

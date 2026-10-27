@@ -39,8 +39,8 @@ AGENT_CLIENTS = {
 def gateway_token(outs: dict, agent: str = "ops") -> str:
     # Operator tooling, run with the operator's own AWS credentials. It reads an agent's
     # client secret on purpose: the scenarios call the Gateway with the agent's
-    # credential, without the model, to show what policy decides. The agents themselves
-    # never read these secrets.
+    # credential, without the model, to show what policy decides. The agents never call
+    # Cognito for them. Each agent gets its Gateway token from AgentCore Identity.
     client_key, scopes_key = AGENT_CLIENTS[agent]
     secret = boto3.client("cognito-idp", region_name=REGION).describe_user_pool_client(
         UserPoolId=outs["UserPoolId"], ClientId=outs[client_key],

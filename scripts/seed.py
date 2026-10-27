@@ -2,7 +2,7 @@
 
 Each claim carries a policyholder statement and a health statement, the kind of
 documents a life claim file holds. Each ticket is a customer's message about one
-claim. Every value is fictional: see synthetic.py.
+claim. Every value is synthetic: see synthetic.py.
 Staging also gets one probe record per kind of field, which scripts/screen_matrix.py reads.
 """
 import boto3

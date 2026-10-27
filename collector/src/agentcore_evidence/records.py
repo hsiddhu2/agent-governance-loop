@@ -2,7 +2,8 @@
 
 Decisions come from the Gateway's spans, calls from a CloudTrail trail that records
 Gateway data events, and changes from CloudTrail management events. Tool arguments
-and results are never collected: the spans do not carry them and CloudTrail redacts them.
+and results are never collected. CloudTrail redacts them, and the collector reads only
+the decision fields of each span.
 """
 import json
 import re

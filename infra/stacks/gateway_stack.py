@@ -66,7 +66,7 @@ class GatewayStack(cdk.Stack):
         # a new id and a new secret, by changing this one value.
         self.gateway.user_pool_client.node.default_child.override_logical_id("OpsAgentClientV2")
 
-        # The ops agent's Gateway credential. The agent never sees its client secret.
+        # The ops agent's Gateway credential. The agent code never handles its client secret.
         # AgentCore Identity keeps it in the token vault and hands the agent a Gateway
         # token through its workload identity. The provider lives in this stack, beside
         # the client, so the secret passes by reference inside one template and never
@@ -130,8 +130,9 @@ class GatewayStack(cdk.Stack):
         # calls Bedrock Guardrails with forward access session credentials derived from the
         # Gateway's role, so the grant goes on that role. It has not been tested without it.
         # The Service Authorization Reference lists no resource types and no condition keys
-        # for bedrock:InvokeGuardrailChecks, so it cannot be scoped below "*". The checks
-        # are defined inline in each policy: there is no guardrail resource to name.
+        # for bedrock:InvokeGuardrailChecks, so it cannot be scoped below "*".
+        # The AgentCore guide's example scopes it to a guardrail ARN, so the two AWS pages disagree.
+        # The checks are defined inline in each policy: there is no guardrail resource to name.
         guardrail_checks = iam.ManagedPolicy(self, "GuardrailChecksPolicy", statements=[
             iam.PolicyStatement(sid="InvokeGuardrailChecks", actions=["bedrock:InvokeGuardrailChecks"],
                                 resources=["*"]),

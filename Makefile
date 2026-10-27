@@ -27,8 +27,8 @@ endef
 # Run after every change. Lint, offline tests, a clean synth reviewed by the AWS
 # Solutions and NIST 800-53 Rev 5 rule packs (unacknowledged findings and template
 # validation issues fail it), a check that every acknowledged finding is disclosed in
-# the README, and a check that the stacks do not depend on whether policies have been
-# rendered. The synth starts from an empty cdk.out so a removed stack leaves nothing behind.
+# the README, a check that no stack output reads a secret, and a check that the stacks
+# do not depend on whether policies have been rendered. The synth starts from an empty cdk.out so a removed stack leaves nothing behind.
 check: package
 	ruff check .
 	python -m pytest tests collector/tests -q
@@ -71,8 +71,9 @@ discover:
 deploy-policy: package
 	$(call deploy,AglPolicy)
 
-# Enforcement is switched on only after a LOG_ONLY check shows the policies
-# allow at least one tool. With default deny, an empty allow set hides every tool.
+# Enforcement is switched on only after a check shows every policy is ACTIVE and a
+# fresh tools/list policy span allows at least one tool. With default deny, an empty
+# allow set hides every tool.
 enforce: package
 	python scripts/policy_mode.py check
 	$(call deploy,AglGateway,-c policy_mode=ENFORCE)

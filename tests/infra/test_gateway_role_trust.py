@@ -1,4 +1,4 @@
-"""The Gateway's service role may be assumed only for this account's own Gateway.
+"""The Gateway's service role may be assumed only by this account's Gateways named agl-gateway*.
 
 Allow statements in a trust policy are combined, so one statement without conditions
 would make the conditions on any other statement meaningless.

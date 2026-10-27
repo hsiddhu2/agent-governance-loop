@@ -18,7 +18,8 @@ MAX_ATTEMPTS = 6
 TOOLS = ("list_env", "get_claims_store", "get_claim", "get_claim_record", "purge_claims")
 
 
-# The output fields each screened tool's screens read (policies/cedar/ops_screen_*).
+# The fields a screened tool's not-found keeps, including those its screens read
+# (policies/guardrails/ops_screen_*).
 SCREENED = {"get_claim_record": ("claim_id", "status", "policyholder", "health")}
 
 

@@ -15,7 +15,8 @@ PREFIX = os.environ["TABLE_PREFIX"]
 TOOLS = ("get_ticket",)
 
 
-# The output fields each screened tool's screens read (policies/cedar/support_screen_*).
+# The fields a screened tool's not-found keeps, including those its screens read
+# (policies/guardrails/support_screen_*).
 SCREENED = {"get_ticket": ("ticket_id", "claim_id", "status", "subject", "body")}
 
 

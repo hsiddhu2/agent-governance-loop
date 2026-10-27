@@ -24,8 +24,8 @@ SYSTEM = (
 )
 
 
-# AgentCore Identity fetches the Gateway token from the token vault. The agent never
-# holds the client secret.
+# AgentCore Identity fetches the Gateway token from the token vault and returns only
+# the Gateway token. The agent code never handles the client secret.
 @requires_access_token(provider_name=os.environ["GW_CREDENTIAL_PROVIDER"],
                        scopes=os.environ["GW_SCOPES"].split(), auth_flow="M2M")
 def _gateway_token(*, access_token: str) -> str:

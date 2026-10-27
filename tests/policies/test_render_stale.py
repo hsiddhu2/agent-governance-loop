@@ -1,4 +1,4 @@
-"""A rendered policy whose template is gone must not survive the next render."""
+"""A rendered policy whose template is gone is found as stale, and the next render removes it."""
 from render_policy import stale_outputs
 
 

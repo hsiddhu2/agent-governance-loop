@@ -1,4 +1,4 @@
-"""The synthetic tickets carry what the support scenarios need, and nothing real."""
+"""The synthetic tickets carry what the support scenarios need, and pasted SSNs come from area 666."""
 import re
 
 from synthetic import INJECTED, PASTED, TICKETS, claims, tickets

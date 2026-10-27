@@ -1,8 +1,7 @@
 """Read spans from CloudWatch with their attributes intact.
 
-Logs Insights is used only to find the spans. Each span is then parsed from its
-raw JSON, because Insights splits list attributes into numbered columns and drops
-an empty list. Policy spans carry lists (allowed tools, denied tools, determining
+Logs Insights is used only to find the spans. Insights can flatten list attributes,
+so each span is parsed from its raw JSON. Policy spans carry lists (allowed tools, denied tools, determining
 policies), and an empty list is often the very thing a check is looking for.
 """
 import json

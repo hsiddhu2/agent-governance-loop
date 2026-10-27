@@ -122,7 +122,7 @@ def wait_for_spans(calls: list[dict], start: int) -> dict[str, list[dict]]:
 
     A call is decided on its request and again on its response. When an ACTIVE screen
     withholds the response, only the request decision is written to the spans. The
-    withhold itself shows in the caller's error, the tool span and CloudTrail.
+    withhold itself shows in the caller's error and in CloudTrail. No span names the screen.
     """
     traces = [c["traceId"] for c in calls]
     expected = {c["traceId"]: 1 if c["withheldBy"] else 2 for c in calls}

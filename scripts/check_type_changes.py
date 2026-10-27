@@ -1,7 +1,7 @@
 """Check that a deploy does not change the type of any existing resource.
 
-CloudFormation cannot change a resource's type under the same logical id. It finds
-out only while running the update, and the stack rolls back. This compares each
+CloudFormation cannot change a resource's type under the same logical id. A type
+change under the same logical id fails the update. This compares each
 named stack's template in cdk.out with the template the live stack was deployed
 from and fails on any logical id whose type differs. A stack that does not exist
 yet passes. Run it after a synth, then deploy that same cdk.out.

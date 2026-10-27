@@ -9,7 +9,7 @@ from stacks import nag
 from stacks.keys_stack import TRAIL_NAME
 from stacks.logs import log_group
 
-# Every tools/list and tools/call that reaches a Gateway in this account and Region.
+# Every call that reaches a Gateway in this account and Region, tools/list and tools/call included.
 # Management events are left to the trail the account already has.
 GATEWAY_DATA_EVENTS = [{
     "Name": "Gateway tool calls",

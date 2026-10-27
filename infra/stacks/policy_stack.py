@@ -17,7 +17,7 @@ ENFORCEMENT_LINE = re.compile(r"^\s*//\s*enforcement:(.*)$", re.M)
 LOG_ONLY = re.compile(r"^\s*LOG_ONLY\s+because\s+\S.*$")
 # Effects that can only take access or output away. Neither grants anything.
 NARROWING = ("forbid", "suppressOutput")
-# Guardrail conditions, the suppressOutput effect and temporal conditions are not Cedar.
+# Guardrail conditions and the suppressOutput effect are not Cedar.
 # The service accepts them only as a `policy` definition, not a `cedar` one.
 GUARDRAIL = re.compile(r"\bBedrockGuardrails::|^\s*suppressOutput\s*\(|\btemporal\s*\{", re.M)
 EFFECTS = ("permit", "forbid", "suppressOutput")
@@ -101,9 +101,10 @@ class PolicyStack(cdk.Stack):
         # No files yet means no policies yet: the engine then denies everything,
         # which is why the Gateway stays in LOG_ONLY until `make enforce`.
         #
-        # One change at a time. In this account, policies created or updated together in one
-        # engine were refused for naming an action "that does not exist on the target
-        # gateway", while each was accepted on its own. The cause is not documented. Each
+        # One change at a time. In two deploys in this account, a valid permit was refused for
+        # naming an action "that does not exist on the target gateway" while other policies
+        # were being created in the same engine. The same policy was accepted on its own.
+        # AWS has not confirmed the cause. Each
         # policy waits for the one before it: permits first, then forbids, then screens.
         previous = None
         for path in sorted(rendered_policies(policies_dir), key=creation_order):
