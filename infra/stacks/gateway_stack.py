@@ -176,8 +176,8 @@ class GatewayStack(cdk.Stack):
         deploy_logs = owned_log_group(self, "DeployLogs", "/aws/lambda/agl-deploy-gateway", logs_key)
         send_function_logs(reader, deploy_logs)
         deploy_only = ("CDK's deploy-time custom resource function. It runs only while CloudFormation "
-                       "deploys this stack, is invoked synchronously by CloudFormation, and calls one "
-                       "Cognito API.")
+                       "deploys this stack, is invoked asynchronously by CloudFormation, which waits for its "
+                       "answer, and calls one Cognito API.")
         nag.acknowledge(reader, {
             "AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/"
             "AWSLambdaBasicExecutionRole]": deploy_only,

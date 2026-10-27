@@ -223,7 +223,7 @@ What blocks a fix: AWS. A dashboard built only on trace decisions will undercoun
 
 Rule: `NIST.800.53.R5-LambdaDLQ`. It asks that each function have a queue that keeps events which failed.
 
-Why it does not fit: a dead-letter queue keeps only events from calls where the caller does not wait for an answer. Every function here is called by something that waits: the Gateway calls the tools, and CloudFormation calls the deploy-time functions. A failure goes straight back to the caller and into the function's logs. A queue would never receive anything.
+Why it does not fit: a dead-letter queue keeps only events from asynchronous calls. The Gateway calls the tool functions synchronously, so a failure goes straight back to the caller and into the function's logs, and a queue would never receive anything. CloudFormation calls the deploy-time functions asynchronously and waits for their answer, so a failure fails the deploy and is in the function's logs.
 
 ### No passwords, MFA or sign-in protection on user pools
 

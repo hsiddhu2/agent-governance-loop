@@ -86,8 +86,8 @@ class AgentsStack(cdk.Stack):
         deploy_logs = owned_log_group(self, "DeployLogs", "/aws/lambda/agl-deploy-agents", logs_key)
         send_function_logs(settler, deploy_logs)
         deploy_only = ("CDK's deploy-time custom resource function. It runs only while CloudFormation "
-                       "deploys this stack, is invoked synchronously by CloudFormation, and calls three "
-                       "CloudWatch Logs APIs on each runtime's log group.")
+                       "deploys this stack, is invoked asynchronously by CloudFormation, which waits for its "
+                       "answer, and calls three CloudWatch Logs APIs on each runtime's log group.")
         nag.acknowledge(settler, {
             "AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/"
             "AWSLambdaBasicExecutionRole]": deploy_only,
