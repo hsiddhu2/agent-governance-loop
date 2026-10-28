@@ -29,7 +29,7 @@ Each folder holds the tests for one part of the pattern.
 | `tools/test_support_tools.py` | `get_ticket` returns only its declared fields, and an unknown ticket in the same shape |
 | `tools/test_synthetic_tickets.py` | The synthetic tickets carry what the support scenarios need |
 | `checks/test_attack_guard.py` | A scenario that targets the purge runs under LOG_ONLY only when confirmed, through the agent or directly |
-| `checks/test_check_outputs.py` | No stack output carries a secret |
+| `checks/test_check_outputs.py` | The output check catches an output that reads a client secret, including inside a join, and passes a secret's ARN and plain values |
 | `checks/test_deviations.py` | The README's design review table and the rules accepted in code match |
 | `checks/test_type_changes.py` | A deploy stops when a resource would change type under the same logical id |
 | `evidence/test_span_checks.py` | Decision spans are read whole, a trace passes only on a deny that names its policy, the live mode is read correctly, and enforcement is switched on only when every policy is ACTIVE and a tool is allowed |

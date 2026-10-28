@@ -2,17 +2,20 @@
 health statement for every claim, probe records that each carry one kind of field, and
 customer support tickets about the claims.
 
-Every value is generated from a fixed seed, so a run is reproducible. Where a range is
-reserved so that it belongs to nobody, values come from it:
-  - Social Security numbers use area 666, which SSA does not assign
-    (https://www.ssa.gov/employer/randomizationfaqs.html).
-  - Telephone numbers use 555-0100 to 555-0199, set aside for fictional use.
-  - Email addresses use example.com, reserved by RFC 2606.
+Every value is generated from a fixed seed, so a run is reproducible. Two values come
+from ranges a public body reserves:
+  - Telephone numbers use 555-0100 to 555-0199. NANPA keeps these fictitious,
+    non-working numbers reserved for entertainment and advertising
+    (https://nanpa.com/numbering/555-line-numbers).
+  - Email addresses use example.com, which RFC 2606 lists as reserved for use as an
+    example (https://www.rfc-editor.org/rfc/rfc2606.html).
+Other values are chosen to look non-real:
+  - Social Security numbers use area 666.
   - Card numbers are the public test numbers payment processors publish.
-Passport and bank account numbers have no reserved range. They are random digits.
-A driver's licence number is the surname's initial and random digits. Any of them
-could match a real number by chance. The bank routing number
-starts with a prefix no bank is assigned. Names, addresses and health details are generated combinations.
+  - The bank routing number starts with 50, outside the prefix ranges (see policyholder()).
+Passport and bank account numbers are random digits. A driver's licence number is the
+surname's initial and random digits. Any of them could match a real number by chance.
+Names, addresses and health details are generated combinations.
 """
 import random
 from datetime import date, timedelta
@@ -58,9 +61,9 @@ def policyholder(rng: random.Random) -> dict:
                           f"{rng.randint(1000, 9999)}",
         "passport": f"{rng.randint(100000000, 999999999)}",
         "bank_account": f"{rng.randint(10**9, 10**10 - 1)}",
-        # A routing number's first two digits must be 00-12, 21-32, 61-72 or 80
-        # (https://en.wikipedia.org/wiki/ABA_routing_transit_number). 50 is in none of them,
-        # so no bank holds this number. Its check digit is valid, so it still reads as one.
+        # A routing number's first two digits fall in 00-12, 21-32, 61-72 or 80
+        # (https://en.wikipedia.org/wiki/ABA_routing_transit_number). 50 is outside them.
+        # Its check digit is valid, so it still reads as one.
         "bank_routing": "500000005",
         "card": rng.choice(TEST_CARDS),
     }

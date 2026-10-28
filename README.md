@@ -212,7 +212,7 @@ Rules not met. `make check` fails if a rule accepted in code is missing from thi
 | `F3002` | VPC flow log, registry | Template validation findings. The flow log one is acknowledged by aws-cdk-lib itself: the flow log destination options are accepted in camelCase. The registry's encryption key property is in the live CloudFormation schema but not yet in the one aws-cdk-lib bundles. |
 | `F3003` | VPC flow log | Same acknowledgement, from aws-cdk-lib. |
 | `W3010` | Network stack | Acknowledged by aws-cdk-lib: availability zones read from the stack. |
-| `AwsSolutions-S1` | Gateway trail bucket | Server access logs. Only CloudTrail writes to the bucket, and reads of it are recorded by the account trail. A production trail delivers to a central log archive account with its own access logs. |
+| `AwsSolutions-S1` | Gateway trail bucket | Server access logs. Only CloudTrail writes to the bucket. Reads of its objects are data events, which this pattern does not record. A production trail delivers to a central log archive account with its own access logs. |
 | `NIST.800.53.R5-S3BucketLoggingEnabled` | Gateway trail bucket | Same rule as `AwsSolutions-S1`, from the NIST pack. |
 | `NIST.800.53.R5-S3BucketReplicationEnabled` | Gateway trail bucket | Sandbox. A production trail delivers to a central log archive account. |
 | `AwsSolutions-COG1` | Gateway and operator user pools | Password policy. Neither pool has human users. Their clients are services using the client-credentials flow. |

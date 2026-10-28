@@ -56,4 +56,4 @@ A control takes the status of its weakest check. A PASS supports an ask. It does
 - Tool arguments and results are never collected. CloudTrail redacts them, and the collector reads only the decision fields of each span.
 - Trails that deliver only to S3 show as a GAP for callers. This version reads trails sent to CloudWatch Logs.
 - The collector asks Logs Insights for at most 10,000 rows per query, so a busy Gateway needs a shorter window.
-- Spans name the policy behind a decision, not the caller. The caller comes from CloudTrail.
+- Spans name the policy behind a decision, not the caller. The caller comes from CloudTrail. The Gateway application log names the principal too, but the collector does not read it.

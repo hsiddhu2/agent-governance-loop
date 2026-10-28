@@ -11,6 +11,7 @@ Quotes are short and verbatim. Follow the link for context.
 - **Built**: deployed by `make deploy` and shown working in this repo.
 - **Partial**: built, with a stated limit.
 - **Planned**: in progress, not yet in the repo.
+- The evidence pack uses a different scale. Its PASS says the checks it runs passed in the account. A Partial control can PASS there, and the pack's Limits column states the part it cannot show.
 
 ## The loop
 

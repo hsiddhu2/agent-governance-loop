@@ -41,7 +41,7 @@ Two more things change at this scale. For a cross-account invocation of an agent
 
 ## Limits that shape the choice
 
-From [AgentCore quotas](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html), per account per Region:
+From [AgentCore quotas](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html), per account per Region. Quotas change, so check the page before you plan:
 
 | Limit | Value | Can be raised |
 |---|---|---|

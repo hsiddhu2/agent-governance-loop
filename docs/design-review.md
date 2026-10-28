@@ -62,7 +62,7 @@ Rules: `AwsSolutions-S1`, `NIST.800.53.R5-S3BucketLoggingEnabled`, `NIST.800.53.
 
 What happens: the bucket for the Gateway call trail has neither.
 
-Why: only CloudTrail writes to it, and reads of it are already recorded by the account's own trail. A sandbox has one account, so there is nowhere separate to copy to.
+Why: only CloudTrail writes to it. Reads of its objects are data events, which this pattern does not record. A sandbox has one account, so there is nowhere separate to copy to.
 
 In production: send the Gateway's data events to the organization trail. It delivers to a separate log archive account, which keeps its own access logs and copies.
 
@@ -175,9 +175,9 @@ What blocks a fix: the CDK. The inline grants are small and each is scoped, as t
 
 Rule: `NIST.800.53.R5-LambdaConcurrency`. It asks that each function have a limit on how many copies run at once.
 
-What happens here: two short functions that the CDK provides run during a deploy. One hands the Gateway's client secret to AgentCore Identity. The other sets the key, masking and retention on each runtime's log group. They have no limit.
+What happens here: three short functions that the CDK provides run during a deploy. One hands the Gateway's client secret to AgentCore Identity. One sets the key, masking and retention on each runtime's log group. One, in the network stack, removes the default security group's rules. None has a limit. The rule flags the first two only. The third is declared as a plain CloudFormation resource, which the rule does not inspect.
 
-Why: the CDK construct behind them, `AwsCustomResource`, has no setting for it. They run only while CloudFormation deploys a stack. The tool functions, which run all the time, do have a limit of 5.
+Why: the CDK construct behind the first two, `AwsCustomResource`, has no setting for it. All three run only while CloudFormation deploys a stack. The tool functions, which run all the time, do have a limit of 5.
 
 What blocks a fix: the CDK.
 

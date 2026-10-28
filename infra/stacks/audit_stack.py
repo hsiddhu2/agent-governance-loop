@@ -50,8 +50,8 @@ class AuditStack(cdk.Stack):
         )
         nag.acknowledge(bucket, {
             "AwsSolutions-S1":
-                "Only CloudTrail writes here. Reads of the trail files are themselves "
-                "recorded by the account trail. A production trail delivers to a central "
+                "Only CloudTrail writes here. Reads of the trail files are data events, "
+                "which this pattern does not record. A production trail delivers to a central "
                 "log archive account, which keeps its own access logs.",
             "NIST.800.53.R5-S3BucketLoggingEnabled":
                 "Same reason as AwsSolutions-S1.",

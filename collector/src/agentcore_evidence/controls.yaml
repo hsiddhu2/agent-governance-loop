@@ -102,7 +102,7 @@
       quote: "kill switches"
       url: https://www.mas.gov.sg/-/media/mas-media-library/regulation/guidelines/bd/guidelines-on-artificial-intelligence-risk-management-for-financial-institutions/guidelines-on-artificial-intelligence-risk-management.pdf
   checks: [policies.forbid_present, enforcement.enforced]
-  limits: A forbid stops a tool at the Gateway for every caller. It is not an approval step for single actions.
+  limits: A forbid stops one tool at the Gateway for every caller. There is no stop inside the agent and no approval step for single actions.
 
 - id: naic-agentic
   ask: Evidence for agentic AI, as listed in remarks to the NAIC Big Data and AI (H) Working Group (minutes pending adoption)
