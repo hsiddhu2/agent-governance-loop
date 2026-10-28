@@ -1,7 +1,5 @@
 # agent-governance-loop
 
-Independent community project. Not sponsored, endorsed, or maintained by AWS.
-
 ## Summary
 
 An AI agent can call any tool its credentials reach, and the model decides which. This pattern puts one chokepoint between agents and their tools: an Amazon Bedrock AgentCore Gateway with a policy engine. Cedar policy decides which agent may call which tool, guardrail screens in the same engine withhold responses that carry sensitive data, and every decision is recorded with the policy that made it. An evidence collector turns those records into a pack an auditor can read.
@@ -258,3 +256,5 @@ If you use or build on this pattern, cite it with the metadata in `CITATION.cff`
 ## Maintainer
 
 Maintained by Harpreet S. Siddhu.
+
+A community project built on Amazon Bedrock AgentCore and the AWS CDK. It is not an official AWS project.
