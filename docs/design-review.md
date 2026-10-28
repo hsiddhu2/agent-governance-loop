@@ -199,7 +199,7 @@ What happens: the role the Gateway uses to call the tools trusts the AgentCore s
 
 What the pattern does: it replaces the trust policy with the single statement whose condition allows only Gateways named `agl-gateway*` in this account. After the change the same test was refused.
 
-What blocks a clean fix: the CDK. The problem is [aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780). Remove the replacement once the construct is fixed.
+What blocks a clean fix: the CDK. The problem is [aws-cdk#38780](https://github.com/aws/aws-cdk/issues/38780). Fix: [aws-cdk#38781](https://github.com/aws/aws-cdk/pull/38781). Remove the replacement once the construct is fixed.
 
 ### Some data cannot be screened
 

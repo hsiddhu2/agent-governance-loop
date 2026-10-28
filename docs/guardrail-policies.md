@@ -7,7 +7,7 @@ Policy in AgentCore accepts two kinds of statement, and they are sent differentl
 | Plain `permit` and `forbid` | `cedar` | the CDK `Policy` construct |
 | Guardrail conditions (`BedrockGuardrails::...`), the `suppressOutput` effect | `policy` | `CfnPolicy`, with `definition.policy.statement` |
 
-CreatePolicy takes a `definition` that holds either a `cedar` statement or a `policy` statement ([CreatePolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreatePolicy.html)). The `Policy` construct always writes `cedar`. The AWS sample [sample-native-guardrails-for-bedrock-agentcore](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore) sends guardrail statements as `policy`, and notes that only that member accepts a `when guardrails` block. In the account this was built in, a guardrail statement sent through `cedar` was rejected by the Cedar parser in both forms: a `when guardrails { ... }` block as ``unexpected token `guardrails` ``, and a plain `when { ... }` block as an invalid `suppressOutput` effect and an unknown `BedrockGuardrails::SensitiveInformation` function, four policies each, all rejected. So the policy stack declares guardrail policies on the resource directly, as the sample does.
+CreatePolicy takes a `definition` that holds either a `cedar` statement or a `policy` statement ([CreatePolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreatePolicy.html)). The `Policy` construct always writes `cedar`. The AWS sample [sample-native-guardrails-for-bedrock-agentcore](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore) sends guardrail statements as `policy`, and notes that only that member accepts a `when guardrails` block. In the account this was built in, a guardrail statement sent through `cedar` was rejected by the Cedar parser in both forms: a `when guardrails { ... }` block as ``unexpected token `guardrails` ``, and a plain `when { ... }` block as an invalid `suppressOutput` effect and an unknown `BedrockGuardrails::SensitiveInformation` function, four policies each, all rejected. So the policy stack declares guardrail policies on the resource directly, as the sample does. Tracked in [aws-cdk#39530](https://github.com/aws/aws-cdk/issues/39530).
 
 ## Comments are stripped before a statement is sent
 
@@ -34,7 +34,7 @@ Whether each `||` term is its own guardrail call is not known. If it is, a scree
 
 ## Policies are created one at a time
 
-In the account this was built in, policies created or updated together in one engine were refused for naming an action "that does not exist on the target gateway", while each was accepted on its own. The cause is not documented. So the policy stack makes each policy wait for the one before it: permits first, then forbids, then screens.
+In the account this was built in, policies created or updated together in one engine were refused for naming an action "that does not exist on the target gateway", while each was accepted on its own. The cause is not documented. So the policy stack makes each policy wait for the one before it: permits first, then forbids, then screens. Reported to the AWS sample in [issue #5](https://github.com/aws-samples/sample-native-guardrails-for-bedrock-agentcore/issues/5).
 
 ## A screened tool reports errors in its declared shape
 
