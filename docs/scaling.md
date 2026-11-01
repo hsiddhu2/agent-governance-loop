@@ -62,15 +62,18 @@ Every Policy resource limit is fixed. AWS says the schema size grows with the nu
 
 Anyone who can call `UpdateGateway` can switch a Gateway's engine to LOG_ONLY or detach it, and then every tool call succeeds whatever the forbid policies say. AWS pages disagree on whether this can be prevented below the action level. The page on enforcement modes says "No separate action or condition key protects the `mode` field beyond `bedrock-agentcore:UpdateGateway`" ([Policy enforcement modes](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-enforcement-modes.html)). The page on Gateway condition keys lists `bedrock-agentcore:PolicyEngineMode` for `CreateGateway` and `UpdateGateway` ([condition keys](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/security-gateway-condition-keys.html)). The [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/list_bedrock-agentcore.html) defines the key, and its UpdateGateway entry lists only `aws:ResourceTag/${TagKey}`.
 
-It was tested here with a temporary role whose only Deny was the first statement below, on a temporary Gateway:
+It was tested here twice, on temporary Gateways. First with a temporary role whose only Deny was the first statement below, limited to `UpdateGateway`, as an identity policy. Then with the first statement below as a service control policy, created in the organization's management account and attached to the member account this was built in. The test SCP also matched only a temporary operator role whose own policy had no Deny, so nothing else in the account was affected. Every refusal named "an explicit deny in a service control policy".
 
-| UpdateGateway call | Result |
-|---|---|
-| Set the mode to LOG_ONLY | Refused, explicit deny. The Gateway stayed in ENFORCE |
-| Keep ENFORCE, change the description | Allowed |
-| Leave out the policy engine configuration | Refused, explicit deny. The engine stayed attached |
+| Call | Identity policy | Service control policy |
+|---|---|---|
+| CreateGateway in LOG_ONLY | Not tested | Refused |
+| CreateGateway with no policy engine | Not tested | Refused |
+| CreateGateway in ENFORCE | Not tested | Allowed |
+| UpdateGateway, set the mode to LOG_ONLY | Refused. The Gateway stayed in ENFORCE | Refused. The Gateway stayed in ENFORCE |
+| UpdateGateway, keep ENFORCE, change the description | Allowed | Allowed |
+| UpdateGateway without the policy engine configuration | Refused. The engine stayed attached | Refused. The engine stayed attached |
 
-A negated condition on a key that is absent from the request evaluates to true, so one statement covers both the switch and the detach. The test used an identity policy. IAM evaluates the Deny in a service control policy the same way, but it was not run as one, because the account this was built in is not an organization's management account.
+A negated condition on a key that is absent from the request evaluates to true, so one statement covers the switch, the detach and a create with no engine. Measured once each. The statement covers only the engine's mode on the Gateway. A policy's own enforcement mode is set through CreatePolicy and UpdatePolicy, so a new rule can still start in LOG_ONLY. If a new Gateway must start in engine LOG_ONLY, exempt only the deployment pipeline's role or non-production accounts.
 
 A platform team can hold every team's Gateway in ENFORCE by adding statements along these lines to a service control policy:
 
