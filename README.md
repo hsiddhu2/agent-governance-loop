@@ -79,7 +79,7 @@ What we found while building and testing this pattern in a live sandbox account.
 
 ### Gateway
 
-1. **Under ENFORCE, discovery hides what policy does not allow.** tools/list returns only the tools the caller may call, so the forbidden purge is invisible to every agent. Adding or renaming a tool needs LOG_ONLY first, or it disappears. Evidence: [Quickstart](#quickstart), [scripts/policy_mode.py](scripts/policy_mode.py).
+1. **Under ENFORCE, discovery hides what policy does not allow.** tools/list returns a tool only if some call to it could be allowed, so the forbidden purge is invisible to every agent. A listed tool can still be denied: AWS treats listing as a meta action, and "a tool appearing in the list does not guarantee that a subsequent call to that tool will be authorized" ([Use an AgentCore Gateway with Policy](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/use-gateway-with-policy.html)). Adding or renaming a tool needs LOG_ONLY first, or it disappears. Evidence: [Quickstart](#quickstart), [scripts/policy_mode.py](scripts/policy_mode.py).
 2. **A denied call and a withheld response look different on the wire.** A deny comes back as HTTP 200 with JSON-RPC error -32002. A withheld response comes back as HTTP 403 with the same code. A client that checks only the status code misses every deny. Evidence: the sample pack's [callers.json](evidence/examples/agl-gateway-two-agents/callers.json).
 
 ### Policy engine
