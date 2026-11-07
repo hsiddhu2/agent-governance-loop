@@ -73,7 +73,7 @@ It was tested here twice, on temporary Gateways. First with a temporary role who
 | UpdateGateway, keep ENFORCE, change the description | Allowed | Allowed |
 | UpdateGateway without the policy engine configuration | Refused. The engine stayed attached | Refused. The engine stayed attached |
 
-A negated condition on a key that is absent from the request evaluates to true, so one statement covers the switch, the detach and a create with no engine. Measured once each. The statement covers only the engine's mode on the Gateway. A policy's own enforcement mode is set through CreatePolicy and UpdatePolicy, so a new rule can still start in LOG_ONLY. If a new Gateway must start in engine LOG_ONLY, exempt only the deployment pipeline's role or non-production accounts.
+A negated condition on a key that is absent from the request evaluates to true, so one statement covers the switch, the detach and a create with no engine. Measured once each. The statement covers only the engine's mode on the Gateway. A policy's own enforcement mode is set through CreatePolicy and UpdatePolicy, so a new rule can still start in LOG_ONLY. That is the rollout to use: lock the engine to ENFORCE, and roll out each new rule as LOG_ONLY, then ACTIVE. It also means anyone with UpdatePolicy can move one existing rule, a forbid included, to LOG_ONLY. Scope UpdatePolicy as tightly as UpdateGateway, as the second statement below does. If a new Gateway must start in engine LOG_ONLY, exempt only the deployment pipeline's role or non-production accounts.
 
 A platform team can hold every team's Gateway in ENFORCE by adding statements along these lines to a service control policy:
 
@@ -102,4 +102,4 @@ A platform team can hold every team's Gateway in ENFORCE by adding statements al
 ]
 ```
 
-The first statement was measured on `UpdateGateway` as described above. On `CreateGateway` it is untested, and as written it also refuses a Gateway created without an engine, which is the intent. The second statement is a design, not tested: it limits policy changes to one pipeline role, named here as an example, using only the global `aws:PrincipalArn` key. The LOG_ONLY window this pattern uses to discover a new Gateway's tools then needs a reviewed exception, run by the pipeline and closed by it.
+The first statement was measured on `UpdateGateway` and `CreateGateway` as described above, including a Gateway created without an engine, which it refuses. The second statement is a design, not tested: it limits policy changes to one pipeline role, named here as an example, using only the global `aws:PrincipalArn` key. The LOG_ONLY window this pattern uses to discover a new Gateway's tools then needs a reviewed exception, run by the pipeline and closed by it.

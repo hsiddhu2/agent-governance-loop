@@ -84,7 +84,7 @@ What we found while building and testing this pattern in a live sandbox account.
 
 ### Policy engine
 
-3. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. A Deny on CreateGateway and UpdateGateway when `bedrock-agentcore:PolicyEngineMode` is not ENFORCE refused a switch to LOG_ONLY and a detach, as an identity policy and as a service control policy. As a service control policy it also refused a create outside ENFORCE. The enforcement-modes page says no separate action or condition key protects the mode beyond `bedrock-agentcore:UpdateGateway`. Measured once. See [docs/scaling.md](docs/scaling.md).
+3. **One policy engine can serve several Gateways, but its policies do not carry across.** A forbid written for one Gateway protects nothing on another. A Deny on CreateGateway and UpdateGateway when `bedrock-agentcore:PolicyEngineMode` is not ENFORCE refused a switch to LOG_ONLY and a detach, as an identity policy and as a service control policy. As a service control policy it also refused a create outside ENFORCE. Two AWS pages disagree on this key. The enforcement-modes page says no separate action or condition key protects the mode beyond `bedrock-agentcore:UpdateGateway`, and the Gateway condition keys page lists `bedrock-agentcore:PolicyEngineMode` for `CreateGateway` and `UpdateGateway`. Measured once. See [docs/scaling.md](docs/scaling.md).
 
 ### Guardrail screens
 
